@@ -41,7 +41,6 @@ create table player_game (
 	cardgame_id int,
     player_id varchar(25),
     
-    /**Preguntar a la profe como relacionar initial_card_id con la otra tabla | **/
     initial_card_id char(3),
     starting_points tinyint,
     ending_points tinyint,
@@ -64,7 +63,6 @@ create table playe_game_round (
     starting_round_points tinyint,
     ending_round_points tinyint,
     
-    /**Preguntar si esto es correcto para lo que quiero hacer**/
     primary key (round_num, cardgame_id, player_id),
     
     foreign key (cardgame_id) references cardgame(cardgame_id),

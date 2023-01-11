@@ -3,6 +3,7 @@ import random
 from Paquetes import datos as d
 import sqlite3
 
+
 # Aqui guardamos las funciones.
 
 
@@ -122,12 +123,95 @@ def check_conditions():
 
 def create_human_player_name():
     try:
+        os.system("clear")
+        print(d.players_banner)
         name = input("Name: ".rjust(45))
         if not name.isspace() or not name == "":
             if not name.isalnum() and not name.isalpha() and not name.isdigit():
                 raise TypeError("Incorrect name, please, enter a name not empty with only letters.".rjust(104))
+            os.system("clear")
+            print(d.players_banner)
+        print("Name:        ".rjust(52), name)
         return name
     except TypeError as error:
         print(error)
         input("Enter to continue".rjust(56))
         return create_human_player_name()
+
+
+def create_human_player_nif(name):
+    nif = input("NIF: ".rjust(44))
+    try:
+        if not len(nif) == 9:
+            raise ValueError("Invalid NIF length")
+        if not nif[0:7].isdigit() or not nif[8].isalpha():
+            raise TypeError("Invalid NIF format")
+        if not nif[8] == d.letras[int(nif[0:8]) % 23]:
+            raise ValueError("Invalid NIF letter")
+        os.system("clear")
+        print(d.players_banner)
+        print("Name:        ".rjust(52), name)
+        print("NIF:         ".rjust(52), nif)
+        return nif
+    except ValueError as error:
+        print(error)
+    except TypeError as error:
+        print(error)
+    input("Enter to continue")
+    os.system("clear")
+    print(d.players_banner)
+    print("Name:        ".rjust(52), name)
+    return create_human_player_nif(name)
+
+
+def create_human_player_profile(name, nif):
+    print((" " * 38), "Select your profile:\n",
+          (" " * 37), "1)Cautious\n",
+          (" " * 37), "2)Moderated\n",
+          (" " * 37), "3)Bold")
+    profile = input("Option: ".rjust(47))
+    try:
+        if not profile in ('1', '2', '3'):
+            raise ValueError("Invalid option")
+        if profile == '1':
+            profile = 'Cautious'
+        elif profile == '2':
+            profile = 'Moderated'
+        elif profile == '3':
+            profile = 'Bold'
+        os.system("clear")
+        print(d.players_banner, "\n", "Name:        ".rjust(51), name, "\n", "NIF:         ".rjust(51), nif,
+              "\n" + "Profile:     ".rjust(52), profile)
+        return profile
+    except ValueError as error:
+        print((' ' * 38), error)
+        input("Enter to continue".rjust(56))
+        os.system("clear")
+        print(d.players_banner, "\n", "Name:        ".rjust(51), name, "\n", "NIF:         ".rjust(51), nif)
+        return create_human_player_profile(name, nif)
+
+
+def create_human_player():
+    name = create_human_player_name()
+    nif = create_human_player_nif(name)
+    profile = create_human_player_profile(name, nif)
+    create_human_player_check(name, nif, profile)
+
+
+def create_human_player_check(name, nif, profile):
+    opt = input("Is okay? Y/n: ".rjust(53))
+    try:
+        if opt.lower() == 'y':
+            print()
+        elif opt.lower() == 'n':
+            print()
+        else:
+            raise ValueError(("=" * 61) + "Invalid Option" + ("=" * 66) + "\n")
+    except ValueError as error:
+        print(error)
+        input("Press enter to continue".rjust(79))
+    os.system("clear")
+    print(d.players_banner, "\n", "Name:        ".rjust(51), name, "\n", "NIF:         ".rjust(51), nif,
+          "\n" + "Profile:     ".rjust(52), profile)
+    return create_human_player_check(name, nif, profile)
+

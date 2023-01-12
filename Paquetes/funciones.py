@@ -177,11 +177,11 @@ def create_human_player_profile(name, nif):
         if not profile in ('1', '2', '3'):
             raise ValueError("Invalid option")
         if profile == '1':
-            profile = 40
+            profile = 'Cautious'
         elif profile == '2':
-            profile = 60
+            profile = 'Moderated'
         elif profile == '3':
-            profile = 100
+            profile = 'Bold'
         os.system("clear")
         print(d.players_banner, "\n", "Name:        ".rjust(51), name, "\n", "NIF:         ".rjust(51), nif,
               "\n" + "Profile:     ".rjust(52), profile)
@@ -199,9 +199,16 @@ def create_human_player():
     nif = create_human_player_nif(name)
     profile = create_human_player_profile(name, nif)
     save = create_human_player_check(name, nif, profile)
+    if profile == 'Cautious':
+        profile = 1
+    if profile == 'Moderated':
+        profile = 1
+    if profile == 'Bold':
+        profile = 1
     if save:
         d.players[nif] = {"name": name, "human": True, "bank": False, "initialCard": "", "priority": 0,
                 "type": 40, "bet": 4, "points": 0, "cards ": [], "roundPoints": 0}
+
 
 def create_human_player_check(name, nif, profile):
     opt = input("Is okay? Y/n: ".rjust(53))
@@ -237,3 +244,64 @@ def insert_players():
             cursorObject.executemany(query, values)
             database.commit()
     database.close()
+
+
+def get_deck(deck):
+    query = ("SELECT * FROM card WHERE deck_id = {}".format(deck))
+    cursorObject.execute(query)
+    database.commit()
+    result_raw = cursorObject.fetchall()
+    result = []
+    for x in result_raw:
+        d.mazo[x[0]] = {"literal": x[1], "value": x[5], "priority": x[4], "real value": float(x[2])}
+
+
+def random_nif():
+    nif = ""
+    for x in range(0, 8):
+        nif += str(random.randint(0, 9))
+    letter = d.letras[int(nif) % 23]
+    nif += letter
+    if not nif in d.players:
+        return nif
+    else:
+        return random_nif()
+
+
+def create_boot():
+    name = create_human_player_name()
+    nif = random_nif()
+    profile = create_human_player_profile(name, nif)
+    save = create_human_player_check(name, nif, profile)
+    if save:
+        d.players[nif] = {"name": name, "human": False, "bank": False, "initialCard": "", "priority": 0,
+                          "type": 40, "bet": 4, "points": 0, "cards ": [], "roundPoints": 0}
+
+
+def show_players():
+    print("Select players".center(140, '*'))
+    print("Boot Player".center(68) + "||" + "Human Players".center(68))
+    print('-' * 140)
+    print("ID".ljust(21) + "Name".ljust(24) + "Type".ljust(23) + "||", end="  ")
+    print("ID".ljust(21) + "Name".ljust(24) + "Type")
+    print('*' * 140)
+    bots = []
+    humans = []
+    for x in d.players:
+        if d.players[x]["human"] is False:
+            bots.append(x)
+        else:
+            humans.append(x)
+    if len(bots) > len(humans):
+        x = bots
+    else:
+        x = humans
+    for i in range(0, len(x)):
+        if i < len(bots):
+            print(d.players[bots[i]], end="  ")
+        print(d.players[humans[i]])
+
+
+
+
+show_players()

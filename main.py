@@ -37,7 +37,7 @@ while not flg_end:
         if opt == '1':
             f.create_human_player()
         if opt == '2':
-            print()
+            f.create_boot()
         if opt == '3':
             print()
         if opt == '4':
@@ -48,7 +48,8 @@ while not flg_end:
         if opt == '1':
             print()
         if opt == '2':
-            print()
+            opt = f.menu(d.menu_022, d.menu_022_opt)
+            f.get_deck(int(opt))
         if opt == '3':
             print()
         if opt == '4':

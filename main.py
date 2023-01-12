@@ -1,19 +1,7 @@
 # Programa principal
 from Paquetes import datos as d
 from Paquetes import funciones as f
-from mysql.connector import *
 
-database = connect(user="gameadmin", password="sieteymedio123$", host="sevenandhalf.mysql.database.azure.com",
-                   database="seven_half")
-cursorObject = database.cursor()
-query = "INSERT INTO card VALUES (%s, %s, %s, %s, %s, %s, %s)"
-val = [('BO2', 'Dos de Bastos', 2, 'Bastos', 1, 2, 1)]
-cursorObject.executemany(query, val)
-database.commit()
-
-result = cursorObject.fetchall()
-print(result)
-input()
 flg_0 = True
 flg_01 = False
 flg_02 = False
@@ -41,9 +29,9 @@ while not flg_end:
             flg_05 = True
             flg_0 = False
         if opt == '6':
+            f.insert_players()
             flg_0 = False
             flg_end = True
-            database.close()
     while flg_01:
         opt = f.menu(d.menu_01, d.menu_01_opt)
         if opt == '1':

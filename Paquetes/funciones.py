@@ -1,8 +1,11 @@
+from mysql.connector import *
 import os
 import random
 from Paquetes import datos as d
-import sqlite3
-
+#Conectamos con la base de datos
+database = connect(user="gameadmin", password="sieteymedio123$", host="sevenandhalf.mysql.database.azure.com",
+                   database="seven_half")
+cursorObject = database.cursor(buffered=True)
 
 # Aqui guardamos las funciones.
 
@@ -174,11 +177,11 @@ def create_human_player_profile(name, nif):
         if not profile in ('1', '2', '3'):
             raise ValueError("Invalid option")
         if profile == '1':
-            profile = 'Cautious'
+            profile = 40
         elif profile == '2':
-            profile = 'Moderated'
+            profile = 60
         elif profile == '3':
-            profile = 'Bold'
+            profile = 100
         os.system("clear")
         print(d.players_banner, "\n", "Name:        ".rjust(51), name, "\n", "NIF:         ".rjust(51), nif,
               "\n" + "Profile:     ".rjust(52), profile)
@@ -195,16 +198,18 @@ def create_human_player():
     name = create_human_player_name()
     nif = create_human_player_nif(name)
     profile = create_human_player_profile(name, nif)
-    create_human_player_check(name, nif, profile)
-
+    save = create_human_player_check(name, nif, profile)
+    if save:
+        d.players[nif] = {"name": name, "human": True, "bank": False, "initialCard": "", "priority": 0,
+                "type": 40, "bet": 4, "points": 0, "cards ": [], "roundPoints": 0}
 
 def create_human_player_check(name, nif, profile):
     opt = input("Is okay? Y/n: ".rjust(53))
     try:
         if opt.lower() == 'y':
-            print()
+            return True
         elif opt.lower() == 'n':
-            print()
+            return False
         else:
             raise ValueError(("=" * 61) + "Invalid Option" + ("=" * 66) + "\n")
     except ValueError as error:
@@ -215,3 +220,20 @@ def create_human_player_check(name, nif, profile):
           "\n" + "Profile:     ".rjust(52), profile)
     return create_human_player_check(name, nif, profile)
 
+
+def insert_players():
+    query = ("SELECT player_id FROM PLAYER")
+    cursorObject.execute(query)
+    database.commit()
+    result_raw = cursorObject.fetchall()
+    result = []
+    for x in result_raw:
+        result.append(x[0])
+    players = d.players.keys()
+    for x in players:
+        if not x in result:
+            query = ("INSERT INTO player VALUES (%s, %s, %s, %s)")
+            values = [(x, d.players[x]["name"], d.players[x]["type"], d.players[x]["human"])]
+            cursorObject.executemany(query, values)
+            database.commit()
+    database.close()

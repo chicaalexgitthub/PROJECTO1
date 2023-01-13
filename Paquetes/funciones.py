@@ -302,6 +302,19 @@ def show_players():
         print(d.players[humans[i]])
 
 
+# FUNCION REQUERIDA: EN FUNCION DE LA PERSONALIDAD DEL JUGADOR HACER UNA APUESTA U OTRA (personalidad, puntos_disponibles)
+def bet_on_risk(risk, points):
+    percentage = random.randint(1, 100)
+    print(percentage)
+    if risk == 30:
+        points = points * 0.3
+    elif risk == 40:
+        points = points * 0.5
+    elif risk == 50:
+        points = points * 1
 
+    if int(points*(percentage/100)) < 1:
+        return 1
+    else:
+        return int(points*(percentage/100))
 
-show_players()

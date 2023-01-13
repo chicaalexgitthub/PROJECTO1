@@ -9,7 +9,7 @@ players = {"11115555A":
                 "type": 40, "bet": 4, "points": 0, "cards ": [], "roundPoints": 0},
            "22225555A":
                {"name": "Pedro", "human": True, "bank": False, "initialCard": "", "priority": 0,
-                "type": 40, "bet": 4, "points": 0, "cards ": [], "roundPoints ": 0},
+                "type": 40, "bet": 4, "points": 0, "cards ": [], "roundPoints": 0},
            "21115555A":
                {"name": "Mario", "human": False, "bank": False, "initialCard": "", "priority": 0,
                 "type": 40, "bet": 4, "points": 0, "cards ": [], "roundPoints": 0}

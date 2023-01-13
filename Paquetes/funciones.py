@@ -318,3 +318,18 @@ def bet_on_risk(risk, points):
     else:
         return int(points*(percentage/100))
 
+
+# Función que elimina un jugador de la BBDD
+def delBBDDPlayer(nif):
+    query = "DELETE FROM player where player_id = %s"
+    cursorObject.execute(query,(nif,))
+    database.commit()
+
+
+# FUNCION REQUERIDA: Eliminar todos los ROUNDPOINT de los jugadores que esten en partida, en el diccionario context_game de
+# dades, dentro de game, estan los id de los jugadores de la partida
+# la variable player_list es una lista
+def reset_roundpoint (player_list):
+    for user in player_list:
+        d.players[user]["roundPoints"] = 0
+

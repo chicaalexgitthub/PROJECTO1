@@ -10,3 +10,6 @@ select * from card;
 
 /**TABLE Player**/
 select * from player;
+
+/**TABLE cardgame**/
+select * from cardgame;

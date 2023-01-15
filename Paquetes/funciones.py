@@ -333,3 +333,18 @@ def reset_roundpoint (player_list):
     for user in player_list:
         d.players[user]["roundPoints"] = 0
 
+
+# Función que devuelve un id no existente en la tabla cardgame.
+def getGameId():
+    query = "SELECT cardgame_id from cardgame"
+    cursorObject.execute(query)
+    all_id = cursorObject.fetchall()
+
+    id_list = []
+    for i in all_id:
+        id_list.append(i[0])
+
+    while True:
+        new_id = random.randint(1, 999)
+        if new_id not in id_list:
+            return new_id

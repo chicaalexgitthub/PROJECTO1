@@ -8,9 +8,12 @@ def turn(deck):
     bet_phase()
     # Recorremos la lista de jugadores ordenada por prioridad ascendente
     for x in context_game["game"]:
+        if players[x]["bank"] is True:
+            bank = x
+        # Cada jugador pide sus cartas
         card_phase(deck, given_cards, x)
-        print(given_cards)
-    recount = seven_and_half()
+    # Repartimo puntos
+    give_points(bank)
 
 
 def card_phase(deck, given_cards, nif):
@@ -79,6 +82,18 @@ def seven_and_half():
         if players[x]["roundPoints"] == 7.5:
             lista_siete_y_medio.append(x)
     return lista_siete_y_medio
+
+
+def give_points(bank):
+    contenders = seven_and_half()
+    if len(contenders) > 0:
+        if bank in contenders:
+            # La banca gana todos los puntos
+            print()
+        else:
+            # hay que hacer cambio de banca
+            print()
+
 
 
 start_game()

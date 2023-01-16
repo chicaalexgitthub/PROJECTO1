@@ -369,3 +369,4 @@ def check_valid_bet(total_points):
     return check_valid_bet(total_points)
 
 
+# FUNCION PARA QUE EN FUNCION DEL PORCENTAGE DE SACAR MAS DE 7.5 Y DE LA PERSONA, DECIDA SI COGE O NO OTRA CARTA

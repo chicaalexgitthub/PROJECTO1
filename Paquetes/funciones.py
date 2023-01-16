@@ -348,3 +348,22 @@ def getGameId():
         new_id = random.randint(1, 999)
         if new_id not in id_list:
             return new_id
+
+
+def check_valid_bet(total_points):
+    try:
+        bet = input("Set the new Bet: ")
+        if not bet.isdigit():
+            raise TypeError("Please, introduce only numbers")
+        elif int(bet) > total_points or int(bet) <= 0:
+            raise ValueError("The New Bet has to be a number between 1 and " + str(total_points))
+        else:
+            return int(bet)
+
+    except TypeError as e:
+        print(e)
+    except ValueError as e:
+        print(e)
+
+    return check_valid_bet(total_points)
+

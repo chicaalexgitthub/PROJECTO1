@@ -350,6 +350,7 @@ def getGameId():
             return new_id
 
 
+# FUNCION PARA QUE COMPRUEBE QUE LA APUESTA DE UN JUGADOR ES VALIDA, con mensaje incluido
 def check_valid_bet(total_points):
     try:
         bet = input("Set the new Bet: ")
@@ -366,4 +367,5 @@ def check_valid_bet(total_points):
         print(e)
 
     return check_valid_bet(total_points)
+
 

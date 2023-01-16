@@ -60,7 +60,7 @@ players = {"11115555A":
                {"name": "Pedro", "human": True, "bank": False, "initialCard": "", "priority": 0,
                 "type": 40, "bet": 4, "points": 0, "cards ": [], "roundPoints": 0},
            "21115555A":
-               {"name": "Mario", "human": False, "bank": False, "initialCard": "", "priority": 0,
+               {"name": "Juan", "human": False, "bank": False, "initialCard": "", "priority": 0,
                 "type": 60, "bet": 4, "points": 0, "cards ": [], "roundPoints": 0}
            }
 
@@ -71,6 +71,7 @@ player_game = {"id_game": {"id_player_1": {"initial_card_id": 0, "starting_point
 
 player_game_round = {"round": {"id_player_1": {"is_bank": 0, "bet_points": 0, "cards_value": 0,
                                                "ending_round_points": 0}}}
+rounds = 5
 
 context_game = {"game": ["21115555A", "22225555A", "11115555A"], "mazo": [], "round": []}
 

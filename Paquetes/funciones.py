@@ -100,14 +100,24 @@ def reset_points():
         d.players[i]["points"] = 20
 
 
+def reset_roundPoints():
+    for i in d.context_game["game"]:
+        d.players[i]["roundPoints"] = 0
+
+
 def check_minimum_2_player_with_points():
     # Establecemos un contador
     count = 0
+    eliminated = []
     # Se recorre la lista de jugadores de la partida actual
     for i in d.context_game["game"]:
         # En caso de que los puntos de un jugador sean mayores a 0, se suma 1 al contador
         if d.players[i]["points"] > 0:
             count += 1
+        else:
+            eliminated.append(i)
+    for x in eliminated:
+        del d.context_game["game"][d.context_game["game"].index(x)]
     # En caso de que el contador sea mayor de 1 (minimo 2), se devuelve TRUE, si no se devuelve FALSE
     if count > 1:
         return True

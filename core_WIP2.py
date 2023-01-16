@@ -3,6 +3,7 @@ from Paquetes.datos import *
 
 
 def turn(deck):
+    reset_roundPoints()
     given_cards = []
     # Se realizan las apuestas de cada jugador
     bet_phase()
@@ -11,9 +12,10 @@ def turn(deck):
         if players[x]["bank"] is True:
             bank = x
         # Cada jugador pide sus cartas
+        print(players[x]["name"], "turn:")
         card_phase(deck, given_cards, x)
     # Repartimo puntos
-    give_points(bank)
+    bank = give_points(bank)
 
 
 def card_phase(deck, given_cards, nif):
@@ -60,15 +62,21 @@ def bet_phase():
         if not players[x]["bank"]:
             # Si el jugador es humano, realiza su apuesta manualmente *crear funcion para hacer la apuesta
             if players[x]["human"]:
-                players[x]["bet"] = int(input("Whats your bet?: "))
+                print(players[x]["name"], "points:", players[x]["points"])
+                players[x]["bet"] = int(input(players[x]["name"] + " whats your bet?: "))
             # Funcion que realiza la apuesta de un bot
             else:
+                print(players[x]["name"], "points:", players[x]["points"])
                 bet_on_risk(x)
 
 
 def start_game():
     deck = game_setup()
-    turn(deck)
+    for i in range(0, rounds):
+        turn(deck)
+        s_players = check_minimum_2_player_with_points()
+        if not s_players:
+            break
 
 
 def return_cards(given_cards, deck):
@@ -86,37 +94,62 @@ def seven_and_half():
 
 def give_points(bank):
     contenders = seven_and_half()
-    points = 0
-    if len(contenders) > 0:
-        if bank in contenders:
-            for x in context_game["game"]:
-                if x != bank:
-                    points += players[x]["roundPoints"]
-                players[bank]["points"] += points
-                print("The bank ({}) wins {} points!".format(players[bank]["name"], points))
-        else:
-            highest_priority = [contenders[0]]
-            for x in contenders:
-                if players[x]["priority"] > players[highest_priority]["priority"]:
-                    highest_priority = x
-            players[highest_priority]["bank"] = True
-            bank = highest_priority
     priority_list = invert_list(context_game["game"])
     del priority_list[0]
     for x in priority_list:
-        if players[x]["roundPoints"] < 7.5:
-            if players[x]["roundPoints"] > players[bank]["roundPoints"]:
+        if bank in contenders:
+            players[x]["points"] -= players[x]["bet"]
+            players[bank]["points"] += players[x]["bet"]
+            if players[x]["points"] == 0:
+                print(players[x]["name"], "lost")
+        else:
+            if x in contenders:
                 if players[bank]["points"] > players[x]["bet"]:
                     players[x]["points"] += players[x]["bet"]
                     players[bank]["points"] -= players[x]["bet"]
+                else:
+                    players[x]["points"] += players[bank]["points"]
+                    players[bank]["points"] = 0
+            if players[x]["roundPoints"] < 7.5:
+                if players[bank]["roundPoints"] < 7.5:
+                    if players[x]["roundPoints"] > players[bank]["roundPoints"]:
+                        if players[bank]["points"] > players[x]["bet"]:
+                            players[x]["points"] += players[x]["bet"]
+                            players[bank]["points"] -= players[x]["bet"]
+                        else:
+                            players[x]["points"] += players[bank]["points"]
+                            players[bank]["points"] = 0
+                    else:
+                        players[x]["points"] -= players[x]["bet"]
+                        players[bank]["points"] += players[x]["bet"]
+                        if players[x]["points"] == 0:
+                            print(players[x]["name"], "lost")
+            if players[x]["roundPoints"] > 7.5:
+                if players[bank]["roundPoints"] < 7.5:
+                    players[x]["points"] -= players[x]["bet"]
+                    players[bank]["points"] += players[x]["bet"]
+                    if players[x]["points"] == 0:
+                        print(players[x]["name"], "lost")
+    if len(contenders) > 0 and bank not in contenders:
+        players[bank]["bank"] = False
+        players[priority_list[0]]["bank"] = True
+        bank = priority_list[0]
+        priority_adjustment(bank)
+        return bank
+
 
 def priority_adjustment(bank):
-    del context_game[context_game["game"].locate(bank)]
+    del context_game["game"][context_game["game"].index(bank)]
     for x in context_game["game"]:
         for y in context_game["game"]:
             if players[x]["priority"] > players[y]["priority"]:
-                context_game["game"][x], context_game["game"][y] = context_game["game"][y], context_game["game"][x]
+                context_game["game"][context_game["game"].index(x)], \
+                context_game["game"][context_game["game"].index(y)] = \
+                    context_game["game"][context_game["game"].index(y)], \
+                    context_game["game"][context_game["game"].index(x)]
     context_game["game"].append(bank)
+    for i in range(0, len(context_game["game"])):
+        players[context_game["game"][i]]["priority"] = i + 1
 
 
 start_game()

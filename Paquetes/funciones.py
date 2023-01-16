@@ -2,10 +2,12 @@ from mysql.connector import *
 import os
 import random
 from Paquetes import datos as d
-#Conectamos con la base de datos
+
+# Conectamos con la base de datos
 database = connect(user="gameadmin", password="sieteymedio123$", host="sevenandhalf.mysql.database.azure.com",
                    database="seven_half")
 cursorObject = database.cursor(buffered=True)
+
 
 # Aqui guardamos las funciones.
 
@@ -43,52 +45,53 @@ def barajar_mazo(mazo):
     return mazo
 
 
-def detector_mazo(mazo):
-    # Se utiliza esta pequeña funcion para determinar con que mazo estamos trabajando
-    if mazo[0] in d.mazo["mazo_default"]:
-        return "mazo_default"
-    elif mazo[0] in d.mazo["mazo_1"]:
-        return "mazo_1"
-
-
 def set_game_priority(mazo):
-    # barajamos el mazo
-    mazo = barajar_mazo(mazo)
-    # determinamos que mazo estamos usando
-    mazo_opt = detector_mazo(mazo)
+    given_cards = []
     # Le asignamos a cada jugador una carta del mazo
     for i in d.context_game["game"]:
-        d.players[i]["initialCard"] = mazo[random.randint(0, len(mazo))]
+        d.players[i]["initialCard"] = mazo[random.randint(0, len(mazo) - 1)]
+        given_cards.append(d.players[i]["initialCard"])
     # Ordenamos la lista de jugadores segun la prioridad de sus cartas
     for i in d.context_game["game"]:
         for j in d.context_game["game"]:
             # Primero se mira si la prioridad de la carta es la misma, en ese caso comparamos el valor de las cartas
-            if d.mazo[mazo_opt][d.players[i]["initialCard"]]["priority "] == \
-                    d.mazo[mazo_opt][d.players[j]["initialCard"]]["priority "]:
-                if d.mazo[mazo_opt][d.players[i]["initialCard"]]["value"] < \
-                        d.mazo[mazo_opt][d.players[j]["initialCard"]]["value"]:
+            if d.mazo[d.players[i]["initialCard"]]["priority "] == \
+                    d.mazo[d.players[j]["initialCard"]]["priority "]:
+                if d.mazo[d.players[i]["initialCard"]]["value"] > \
+                        d.mazo[d.players[j]["initialCard"]]["value"]:
                     d.context_game["game"][d.context_game["game"].index(i)], \
                     d.context_game["game"][d.context_game["game"].index(j)] = \
                         d.context_game["game"][d.context_game["game"].index(j)], \
                         d.context_game["game"][d.context_game["game"].index(i)]
             # Si la prioridad de la carta no es la misma, comparamos la prioridad
             else:
-                if d.mazo[mazo_opt][d.players[i]["initialCard"]]["priority "] < \
-                        d.mazo[mazo_opt][d.players[j]["initialCard"]]["priority "]:
+                if d.mazo[d.players[i]["initialCard"]]["priority "] > \
+                        d.mazo[d.players[j]["initialCard"]]["priority "]:
                     d.context_game["game"][d.context_game["game"].index(i)], \
                     d.context_game["game"][d.context_game["game"].index(j)] = \
                         d.context_game["game"][d.context_game["game"].index(j)], \
                         d.context_game["game"][d.context_game["game"].index(i)]
-    # Le asignamos a cada jugador su prioridad basada en su posicion en la lista de jugadores
+    establish_banca()
+    bank = None
+    for x in d.context_game["game"]:
+        if d.players[x]["bank"] is True:
+            bank = x
+    for i in range(0, len(d.context_game)):
+        d.players[d.context_game["game"][i]]["priority"] = i + 1
+    # devolvemos la variable
+    d.context_game["game"] = invert_list(d.context_game["game"])
+    return given_cards
+
+
+def establish_banca():
     for i in range(0, len(d.context_game["game"])):
-        d.players[d.context_game["game"][i]]["priority"] = len(d.context_game["game"] - 1)
+        d.players[d.context_game["game"][i]]["priority"] = len(d.context_game["game"]) - 1
         # El que tiene mas prioridad (primero de la lista) es la banca
         if i == 0:
             d.players[d.context_game["game"][i]]["bank"] = True
         else:
             d.players[d.context_game["game"][i]]["bank"] = False
-    # devolvemos la variable
-    return mazo
+    return
 
 
 def reset_points():
@@ -202,12 +205,12 @@ def create_human_player():
     if profile == 'Cautious':
         profile = 1
     if profile == 'Moderated':
-        profile = 1
+        profile = 2
     if profile == 'Bold':
-        profile = 1
+        profile = 3
     if save:
         d.players[nif] = {"name": name, "human": True, "bank": False, "initialCard": "", "priority": 0,
-                "type": 40, "bet": 4, "points": 0, "cards ": [], "roundPoints": 0}
+                          "type": 40, "bet": 4, "points": 0, "cards ": [], "roundPoints": 0}
 
 
 def create_human_player_check(name, nif, profile):
@@ -292,16 +295,29 @@ def show_players():
             bots.append(x)
         else:
             humans.append(x)
-    if len(bots) > len(humans):
-        x = bots
-    else:
-        x = humans
-    for i in range(0, len(x)):
-        if i < len(bots):
-            print(d.players[bots[i]], end="  ")
-        print(d.players[humans[i]])
+    bots = []
+    humans = []
+    order = []
+    for x in d.players:
+        if d.players[x]["human"] is False:
+            bots.append(x)
+        else:
+            humans.append(x)
 
 
+def bet_on_risk(nif):
+    if d.players[nif]["type"] == 30:
+        d.players[nif]["bet"] = d.players[nif]["points"] * 0.3
+    elif d.players[nif]["type"] == 40:
+        d.players[nif]["bet"] = d.players[nif]["points"] * 0.4
+    elif d.players[nif]["type"] == 60:
+        d.players[nif]["bet"] = d.players[nif]["points"] * 0.6
+    print(d.players[nif]["name"] + " bet is:", d.players[nif]["bet"])
 
 
-show_players()
+def invert_list(lista):
+    lista_invertida = []
+    for i in range(len(lista)):
+        lista_invertida.append(lista[-1])
+        lista = lista[:-1]
+    return lista_invertida

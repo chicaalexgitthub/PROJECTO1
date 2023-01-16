@@ -86,14 +86,37 @@ def seven_and_half():
 
 def give_points(bank):
     contenders = seven_and_half()
+    points = 0
     if len(contenders) > 0:
         if bank in contenders:
-            # La banca gana todos los puntos
-            print()
+            for x in context_game["game"]:
+                if x != bank:
+                    points += players[x]["roundPoints"]
+                players[bank]["points"] += points
+                print("The bank ({}) wins {} points!".format(players[bank]["name"], points))
         else:
-            # hay que hacer cambio de banca
-            print()
+            highest_priority = [contenders[0]]
+            for x in contenders:
+                if players[x]["priority"] > players[highest_priority]["priority"]:
+                    highest_priority = x
+            players[highest_priority]["bank"] = True
+            bank = highest_priority
+    priority_list = invert_list(context_game["game"])
+    del priority_list[0]
+    for x in priority_list:
+        if players[x]["roundPoints"] < 7.5:
+            if players[x]["roundPoints"] > players[bank]["roundPoints"]:
+                if players[bank]["points"] > players[x]["bet"]:
+                    players[x]["points"] += players[x]["bet"]
+                    players[bank]["points"] -= players[x]["bet"]
 
+def priority_adjustment(bank):
+    del context_game[context_game["game"].locate(bank)]
+    for x in context_game["game"]:
+        for y in context_game["game"]:
+            if players[x]["priority"] > players[y]["priority"]:
+                context_game["game"][x], context_game["game"][y] = context_game["game"][y], context_game["game"][x]
+    context_game["game"].append(bank)
 
 
 start_game()

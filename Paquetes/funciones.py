@@ -317,11 +317,11 @@ def show_players():
 
 def bet_on_risk(nif):
     if d.players[nif]["type"] == 30:
-        d.players[nif]["bet"] = d.players[nif]["points"] * 0.3
+        d.players[nif]["bet"] = d.players[nif]["points"] // 4
     elif d.players[nif]["type"] == 40:
-        d.players[nif]["bet"] = d.players[nif]["points"] * 0.4
+        d.players[nif]["bet"] = d.players[nif]["points"] // 2
     elif d.players[nif]["type"] == 60:
-        d.players[nif]["bet"] = d.players[nif]["points"] * 0.6
+        d.players[nif]["bet"] = d.players[nif]["points"] * 1
     print(d.players[nif]["name"] + " bet is:", d.players[nif]["bet"])
 
 
@@ -331,3 +331,20 @@ def invert_list(lista):
         lista_invertida.append(lista[-1])
         lista = lista[:-1]
     return lista_invertida
+
+
+def setMaxRounds():
+    try:
+        maxRounds = input("Max Rounds: ")
+        if maxRounds.isdigit() and int(maxRounds) in range(1, 21):
+            d.context_game.update({"maxRounds": maxRounds})
+        elif maxRounds.isdigit() and int(maxRounds) < 1:
+            raise ValueError("Please, enter only positive numbers")
+        elif maxRounds.isdigit() and int(maxRounds) > 20:
+            raise ValueError("Max Rounds Has To Be Between 0 and 20")
+        else:
+            raise ValueError("Please, enter only numbers")
+    except ValueError as error:
+        print(error)
+        setMaxRounds()
+

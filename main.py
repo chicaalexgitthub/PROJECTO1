@@ -51,7 +51,7 @@ while not flg_end:
             opt = f.menu(d.menu_022, d.menu_022_opt)
             f.get_deck(int(opt))
         if opt == '3':
-            print()
+            f.setMaxRounds()
         if opt == '4':
             flg_02 = False
             flg_0 = True

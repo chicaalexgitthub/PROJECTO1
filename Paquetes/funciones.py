@@ -322,7 +322,6 @@ def bet_on_risk(nif):
         d.players[nif]["bet"] = d.players[nif]["points"] // 2
     elif d.players[nif]["type"] == 60:
         d.players[nif]["bet"] = d.players[nif]["points"] * 1
-    print(d.players[nif]["name"] + " bet is:", d.players[nif]["bet"])
 
 
 def invert_list(lista):
@@ -365,3 +364,13 @@ def check_valid_bet(total_points):
 
     return check_valid_bet(total_points)
 
+
+# Funcion para saber el porcetage de sacar mas de 7.5
+def moreThan7_half(current_points, available_cards):
+    total = len(available_cards)
+    losing_cards = 0
+    for card in available_cards:
+        if (d.mazo[card]["realValue"] + current_points) > 7.5:
+            losing_cards += 1
+
+    return losing_cards/total

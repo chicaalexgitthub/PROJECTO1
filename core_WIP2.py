@@ -6,40 +6,66 @@ def turn(deck):
     reset_roundPoints()
     given_cards = []
     # Se realizan las apuestas de cada jugador
-    bet_phase()
     # Recorremos la lista de jugadores ordenada por prioridad ascendente
     for x in context_game["game"]:
-        # Guardamos el NIF del actual banco en una variable
         if players[x]["bank"] is True:
             bank = x
-    # Cada jugador pide sus cartas
-    card_phase(deck, given_cards)
+        bet_on_risk(x)
+        deck = barajar_mazo(deck)
+        if players[x]["human"] is False:
+            deck, given_cards = card_phase(deck, given_cards, x)
+        else:
+            head = (players[x]["name"] + "'s turn").center(140, "*")
+            head += menu_ingame + "\n"
+            opt = menu(head, menu_ingame_opt)
+            while not opt == '3':
+                if opt == '1':
+                    bet_phase(x)
+                if opt == '2':
+                    deck, given_cards = card_phase(deck, given_cards, x)
+                if opt == '4':
+                    print_automatic_play()
+                    input("Press enter to continue")
+                # Guardamos el NIF del actual banco en una variable
+                opt = menu(head, menu_ingame_opt)
+        print_automatic_play()
+        input("Press enter to continue")
     # Repartimos puntos
+    return_cards(given_cards, deck)
     bank = give_points(bank)
 
 
-def card_phase(deck, given_cards):
-    # Barjamos el mazo
-    deck = barajar_mazo(deck)
-    for x in context_game["game"]:
-        order = "Y"
-        print(players[x]["name"], "turn:")
-        # Damos cartas hasta que el jugador las rechaze
-        while order == "Y" or order == "y":
-            order = input("{} order card? Y/N".format(players[x]["name"]))
-            if order.lower() == "y":
-                # Guardamos las cartas que le salen a cada jugador
-                players[x]["cards"].append(deck[0])
-                # Añadimos el valor de la carta a los puntos de ronda dl jugador
-                players[x]["roundPoints"] += mazo[deck[0]]["realValue"]
-                # Guardamos en una lista las cartas que han salido
-                given_cards.append(deck[0])
-                print("The new card is {}".format(deck[0]))
-                # Eliminamos las cartas que salen del mazo
-                del deck[0]
-                print(players[x]["roundPoints"])
-    # Devolvemos las cartas que han salido al mazo
-    return_cards(given_cards, deck)
+def card_phase(deck, given_cards, x=""):
+    if players[x]["human"] is True:
+        if len(players[x]["cards"]) > 0:
+            chance = moreThan7_half(players[x]["roundPoints"], deck) * 100
+            print("chance of passing 7.5 is: ", chance)
+        order = input("{} order card? Y/N".format(players[x]["name"]))
+        if order.lower() == "y":
+            # Guardamos las cartas que le salen a cada jugador
+            players[x]["cards"].append(deck[0])
+            # Añadimos el valor de la carta a los puntos de ronda dl jugador
+            players[x]["roundPoints"] += mazo[deck[0]]["realValue"]
+            # Guardamos en una lista las cartas que han salido
+            given_cards.append(deck[0])
+            print("The new card is {}".format(deck[0]))
+            # Eliminamos las cartas que salen del mazo
+            del deck[0]
+            print(players[x]["roundPoints"])
+            input("Enter to continue")
+    else:
+        chance = moreThan7_half(players[x]["roundPoints"], deck)
+        while chance > players[x]["type"]:
+            players[x]["cards"].append(deck[0])
+            # Añadimos el valor de la carta a los puntos de ronda dl jugador
+            players[x]["roundPoints"] += mazo[deck[0]]["realValue"]
+            # Guardamos en una lista las cartas que han salido
+            given_cards.append(deck[0])
+            # Eliminamos las cartas que salen del mazo
+            del deck[0]
+            chance = moreThan7_half(players[x]["roundPoints"], deck)
+# Devolvemos las cartas que han salido al mazo
+    return deck, given_cards
 
 
 def game_setup():
@@ -56,18 +82,19 @@ def game_setup():
     return deck
 
 
-def bet_phase():
-    for x in context_game["game"]:
-        # La banca no apuesta
-        if not players[x]["bank"]:
-            # Si el jugador es humano, realiza su apuesta manualmente *crear funcion para hacer la apuesta
-            if players[x]["human"]:
-                print(players[x]["name"], "points:", players[x]["points"])
-                players[x]["bet"] = check_valid_bet(players[x]["points"])
-            # Funcion que realiza la apuesta de un bot
-            else:
-                print(players[x]["name"], "points:", players[x]["points"])
-                bet_on_risk(x)
+def bet_phase(x=""):
+    # La banca no apuesta
+    if not players[x]["bank"]:
+        # Si el jugador es humano, realiza su apuesta manualmente *crear funcion para hacer la apuesta
+        if players[x]["human"]:
+            print(players[x]["name"], "points:", players[x]["points"])
+            players[x]["bet"] = check_valid_bet(players[x]["points"])
+        # Funcion que realiza la apuesta de un bot
+        else:
+            print(players[x]["name"], "points:", players[x]["points"])
+            bet_on_risk(x)
+    else:
+        print("The bank doesnt bet!!!")
 
 
 def start_game():
@@ -167,6 +194,38 @@ def priority_adjustment(bank):
     # Corregimos las prioridades
     for i in range(0, len(context_game["game"])):
         players[context_game["game"][i]]["priority"] = i + 1
+
+
+def print_automatic_play():
+    context_game["game"] = list(players.keys())
+    print("Name".ljust(20), end="")
+    for i in range(len(context_game["game"])):
+        print((str(players[context_game["game"][i]]["name"])).ljust(20), end="")
+    print("\nHuman".ljust(20), end="")
+    for i in range(len(context_game["game"])):
+        print((str(players[context_game["game"][i]]["human"])).ljust(20), end="")
+    print("\nPriority".ljust(20), end="")
+    for i in range(len(context_game["game"])):
+        print((str(players[context_game["game"][i]]["priority"])).ljust(20), end="")
+    print("\nType".ljust(20), end="")
+    for i in range(len(context_game["game"])):
+        print((str(players[context_game["game"][i]]["type"])).ljust(20), end="")
+    print("\nBank".ljust(20), end="")
+    for i in range(len(context_game["game"])):
+        print((str(players[context_game["game"][i]]["bank"])).ljust(20), end="")
+    print("\nBet".ljust(20), end="")
+    for i in range(len(context_game["game"])):
+        print((str(players[context_game["game"][i]]["bet"])).ljust(20), end="")
+    print("\nPoints".ljust(20), end="")
+    for i in range(len(context_game["game"])):
+        print((str(players[context_game["game"][i]]["points"])).ljust(20), end="")
+    print("\nCards".ljust(20), end="")
+    for i in range(len(context_game["game"])):
+        print((str(players[context_game["game"][i]]["cards"])).ljust(20), end="")
+    print("\nRoundPoints".ljust(20), end="")
+    for i in range(len(context_game["game"])):
+        print((str(players[context_game["game"][i]]["roundPoints"])).ljust(20), end="")
+
 
 
 start_game()

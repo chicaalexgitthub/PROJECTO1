@@ -55,13 +55,13 @@ mazo = {
 
 players = {"11115555A":
                {"name": "Mario", "human": True, "bank": False, "initialCard": "", "priority": 0,
-                "type": 30, "bet": 4, "points": 0, "cards ": [], "roundPoints": 0},
+                "type": 30, "bet": 4, "points": 0, "cards": [], "roundPoints": 0},
            "22225555A":
                {"name": "Pedro", "human": True, "bank": False, "initialCard": "", "priority": 0,
-                "type": 40, "bet": 4, "points": 0, "cards ": [], "roundPoints": 0},
+                "type": 40, "bet": 4, "points": 0, "cards": [], "roundPoints": 0},
            "21115555A":
                {"name": "Juan", "human": False, "bank": False, "initialCard": "", "priority": 0,
-                "type": 60, "bet": 4, "points": 0, "cards ": [], "roundPoints": 0}
+                "type": 60, "bet": 4, "points": 0, "cards": [], "roundPoints": 0}
            }
 
 cardgame = {'cardgame_id': 0, 'players': 0, 'start_hour': 0,
@@ -142,3 +142,9 @@ players_banner = ("*" * 140) + "\n" + (" " * 49) + "____   __\n" + \
 menu_022 = ("*" * 140) + "\n" + ("*" * 140) + "\n" + "1) ESP - ESP\n" + \
            "2) POK - POK\n" + "0) Go back"
 menu_022_opt = ('1', '2', '0')
+
+menu_ingame = "1)set bet\n".rjust(74) + \
+              "2)order card\n".rjust(67) + \
+              "3)next turn\n".rjust(66) + \
+              "4)show stats".rjust(66)
+menu_ingame_opt = ('1', '2', '3', '4')

@@ -382,6 +382,9 @@ def turn(deck):
     # Se realizan las apuestas de cada jugador
     # Recorremos la lista de jugadores ordenada por prioridad ascendente
     opt = 'e'
+    reset_cards()
+    print_stats()
+    input("Press enter to continue")
     for x in context_game["game"]:
         if players[x]["bank"] is True:
             bank = x
@@ -407,8 +410,6 @@ def turn(deck):
                 # Guardamos el NIF del actual banco en una variable
                 if not opt == '3':
                     opt = menu(head, menu_ingame_opt)
-    print_stats()
-    input("Press enter to continue")
     # Repartimos puntos
     return_cards(given_cards, deck)
     bank = give_points(bank)
@@ -539,6 +540,9 @@ def give_points(bank):
                         players[bank]["points"] += players[x]["bet"]
                         if players[x]["points"] == 0:
                             print(players[x]["name"], "lost")
+                else:
+                    players[x]["points"] += players[x]["bet"]
+                    players[bank]["points"] -= players[x]["bet"]
             if players[x]["roundPoints"] > 7.5:
                 if players[bank]["roundPoints"] < 7.5:
                     players[x]["points"] -= players[x]["bet"]
@@ -582,4 +586,10 @@ def print_stats():
         for k in context_game["game"]:
             print(str(players[k][x]).ljust(20), end="")
         print()
+
+
+
+def reset_cards():
+    for x in context_game["game"]:
+        players[x]["cards"] = []
 

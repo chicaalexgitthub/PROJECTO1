@@ -8,7 +8,7 @@ def start_game():
     deck = barajar_mazo(list(mazo.keys()))
     given_cards = set_game_priority(deck)
     reset_points()
-    establish_banca()
+    establish_bank()
     bank = None
     for x in context_game["game"]:
         if players[x]["bank"] is True:

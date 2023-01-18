@@ -57,6 +57,7 @@ while not flg_end:
             flg_0 = True
     while flg_03:
         f.check_conditions()
+        f.start_game()
         flg_03 = False
         flg_0 = True
     while flg_04:

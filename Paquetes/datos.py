@@ -2,56 +2,7 @@
 letras = {0: "T", 1: "R", 2: "W", 3: "A", 4: "G", 5: "M", 6: "Y", 7: "F", 8: "P", 9: "D", 10: "X", 11: "B", 12: "N",
           13: "J", 14: "Z", 15: "S", 16: "Q", 17: "V", 18: "H", 19: "L", 20: "C", 21: "K", 22: "E"}
 
-mazo = {
-    "B01": {"literal ": "As de Bastos", "value": 1, "priority ": 1, "realValue": 1},
-    "B02": {"literal ": "Dos de Bastos", "value": 2, "priority ": 1, "realValue": 2},
-    "B03": {"literal ": "Tres de Bastos", "value": 3, "priority ": 1, "realValue": 3},
-    "B04": {"literal ": "Cuatro de Bastos", "value": 4, "priority ": 1, "realValue": 4},
-    "B05": {"literal ": "Cinco de Bastos", "value": 5, "priority ": 1, "realValue": 5},
-    "B06": {"literal ": "Seis de Bastos", "value": 6, "priority ": 1, "realValue": 6},
-    "B07": {"literal ": "Siete de Bastos", "value": 7, "priority ": 1, "realValue": 7},
-    "B08": {"literal ": "Ocho de Bastos", "value": 8, "priority ": 1, "realValue": 0.5},
-    "B09": {"literal ": "Nueve de Bastos", "value": 9, "priority ": 1, "realValue": 0.5},
-    "B10": {"literal ": "Diez de Bastos", "value": 10, "priority ": 1, "realValue": 0.5},
-    "B11": {"literal ": "Once de Bastos", "value": 11, "priority ": 1, "realValue": 0.5},
-    "B12": {"literal ": "Doce de Bastos", "value": 12, "priority ": 1, "realValue": 0.5},
-    "E01": {"literal ": "As de Espadas", "value": 1, "priority ": 2, "realValue": 1},
-    "E02": {"literal ": "Dos de Espadas", "value": 2, "priority ": 2, "realValue": 2},
-    "E03": {"literal ": "Tres de Espadas", "value": 3, "priority ": 2, "realValue": 3},
-    "E04": {"literal ": "Cuatro de Espadas", "value": 4, "priority ": 2, "realValue": 4},
-    "E05": {"literal ": "Cinco de Espadas", "value": 5, "priority ": 2, "realValue": 5},
-    "E06": {"literal ": "Seis de Espadas", "value": 6, "priority ": 2, "realValue": 6},
-    "E07": {"literal ": "Siete de Espadas", "value": 7, "priority ": 2, "realValue": 7},
-    "E08": {"literal ": "Ocho de Espadas", "value": 8, "priority ": 2, "realValue": 0.5},
-    "E09": {"literal ": "Nueve de Espadas", "value": 9, "priority ": 2, "realValue": 0.5},
-    "E10": {"literal ": "Diez de Espadas", "value": 10, "priority ": 2, "realValue": 0.5},
-    "E11": {"literal ": "Once de Espadas", "value": 11, "priority ": 2, "realValue": 0.5},
-    "E12": {"literal ": "Doce de Espadas", "value": 12, "priority ": 2, "realValue": 0.5},
-    "C01": {"literal ": "As de Copas", "value": 1, "priority ": 3, "realValue": 1},
-    "C02": {"literal ": "Dos de Copas", "value": 2, "priority ": 3, "realValue": 2},
-    "C03": {"literal ": "Tres de Copas", "value": 3, "priority ": 3, "realValue": 3},
-    "C04": {"literal ": "Cuatro de Copas", "value": 4, "priority ": 3, "realValue": 4},
-    "C05": {"literal ": "Cinco de Copas", "value": 5, "priority ": 3, "realValue": 5},
-    "C06": {"literal ": "Seis de Copas", "value": 6, "priority ": 3, "realValue": 6},
-    "C07": {"literal ": "Siete de Copas", "value": 7, "priority ": 3, "realValue": 7},
-    "C08": {"literal ": "Ocho de Copas", "value": 8, "priority ": 3, "realValue": 0.5},
-    "C09": {"literal ": "Nueve de Copas", "value": 9, "priority ": 3, "realValue": 0.5},
-    "C10": {"literal ": "Diez de Copas", "value": 10, "priority ": 3, "realValue": 0.5},
-    "C11": {"literal ": "Once de Copas", "value": 11, "priority ": 3, "realValue": 0.5},
-    "C12": {"literal ": "Doce de Copas", "value": 12, "priority ": 3, "realValue": 0.5},
-    "O01": {"literal ": "As de Oros", "value": 1, "priority ": 4, "realValue": 1},
-    "O02": {"literal ": "Dos de Oros", "value": 2, "priority ": 4, "realValue": 2},
-    "O03": {"literal ": "Tres de Oros", "value": 3, "priority ": 4, "realValue": 3},
-    "O04": {"literal ": "Cuatro de Oros", "value": 4, "priority ": 4, "realValue": 4},
-    "O05": {"literal ": "Cinco de Oros", "value": 5, "priority ": 4, "realValue": 5},
-    "O06": {"literal ": "Seis de Oros", "value": 6, "priority ": 4, "realValue": 6},
-    "O07": {"literal ": "Siete de Oros", "value": 7, "priority ": 4, "realValue": 7},
-    "O08": {"literal ": "Ocho de Oros", "value": 8, "priority ": 4, "realValue": 0.5},
-    "O09": {"literal ": "Nueve de Oros", "value": 9, "priority ": 4, "realValue": 0.5},
-    "O10": {"literal ": "Diez de Oros", "value": 10, "priority ": 4, "realValue": 0.5},
-    "O11": {"literal ": "Once de Oros", "value": 11, "priority ": 4, "realValue": 0.5},
-    "O12": {"literal ": "Doce de Oros", "value": 12, "priority ": 4, "realValue": 0.5}, }
-
+mazo = {}
 
 players = {"11115555A":
                {"name": "Mario", "human": True, "bank": False, "initialCard": "", "priority": 0,
@@ -143,8 +94,9 @@ menu_022 = ("*" * 140) + "\n" + ("*" * 140) + "\n" + "1) ESP - ESP\n" + \
            "2) POK - POK\n" + "0) Go back"
 menu_022_opt = ('1', '2', '0')
 
-menu_ingame = "1)set bet\n".rjust(74) + \
-              "2)order card\n".rjust(67) + \
-              "3)next turn\n".rjust(66) + \
-              "4)show stats".rjust(66)
-menu_ingame_opt = ('1', '2', '3', '4')
+menu_ingame = "1)Set bet\n".rjust(74) + \
+              "2)Order card\n".rjust(67) + \
+              "3)Next turn\n".rjust(66) + \
+              "4)Show stats\n".rjust(67) + \
+              "5)Autoplay".rjust(64)
+menu_ingame_opt = ('1', '2', '3', '4', '5')

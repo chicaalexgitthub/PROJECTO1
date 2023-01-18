@@ -1,5 +1,6 @@
 from Paquetes.funciones import *
 from Paquetes.datos import *
+from math import *
 
 
 def turn(deck):
@@ -28,8 +29,8 @@ def turn(deck):
                     input("Press enter to continue")
                 # Guardamos el NIF del actual banco en una variable
                 opt = menu(head, menu_ingame_opt)
-        print_automatic_play()
-        input("Press enter to continue")
+    print_automatic_play()
+    input("Press enter to continue")
     # Repartimos puntos
     return_cards(given_cards, deck)
     bank = give_points(bank)
@@ -38,8 +39,8 @@ def turn(deck):
 def card_phase(deck, given_cards, x=""):
     if players[x]["human"] is True:
         if len(players[x]["cards"]) > 0:
-            chance = moreThan7_half(players[x]["roundPoints"], deck) * 100
-            print("chance of passing 7.5 is: ", chance)
+            chance = floor(moreThan7_half(players[x]["roundPoints"], deck) * 100)
+            print("chance of passing 7.5 is: ", chance, "%")
         order = input("{} order card? Y/N".format(players[x]["name"]))
         if order.lower() == "y":
             # Guardamos las cartas que le salen a cada jugador

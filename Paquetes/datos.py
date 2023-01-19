@@ -38,17 +38,17 @@ menu_01 = ("*" * 140) + "\n" + (" " * 49) + "____   __\n" + \
 menu_01_opt = ('1', '2', '3', '4')
 
 menu_02 = ("*" * 140) + "\n" + "".ljust(40) + ".d8888b.          888    888    d8b\n" + \
-          "".ljust(39) + "d88P  Y88b         888    888    Y8P\n" + \
-          "".ljust(39) + "Y88b.              888    888\n" + \
-          "".ljust(39) + "  Y888b.    .d88b. 888888 888888 888 88888b.   .d88b.  .d8888b\n" + \
-          "".ljust(42) + " Y88b. d8P  Y8b 888    888    888 888  88b d88P 88b 88K\n" + \
-          "".ljust(43) + "  888 88888888 888    888    888    888 888  888 888  Y8888b.\n" + \
-          "".ljust(38) + "Y88b  d88P Y8b.     Y88b.  Y88b.  888 888  888 Y88b 888      X88\n" + \
-          "".ljust(39) + " Y8888P    Y8888    Y888   Y888 888 888   888   Y88888  88888P\n" + \
-          "".ljust(30) + "888\n" + \
-          "".ljust(30) + "Y8b d88P\n" + \
-          "".ljust(30) + "Y88P\n" + ("*" * 140) + "\n\n" + "1)Set Game Players\n".rjust(73) + \
-          "2)Set Card's Deck\n".rjust(72) + "3)Set Max Rounds(Default 5 Rounds)\n".rjust(89) + "4)Go back".rjust(63)
+        "".ljust(39) + "d88P  Y88b         888    888    Y8P\n" + \
+        "".ljust(39) + "Y88b.              888    888\n" +\
+        "".ljust(39) + "  Y888b.   .d88b.  888888 888888 888 88888b.   .d88b.  .d8888b\n" + \
+        "".ljust(42) + " Y88b. d8P  Y8b 888    888    888 888  88b d88P 88b 88K\n" + \
+        "".ljust(43) + "  888 88888888 888    888    888 888  888 888  888  Y8888b.\n" + \
+        "".ljust(38) + "Y88b  d88P Y8b.     Y88b.  Y88b.  888 888  888 Y88b 888      X88\n" + \
+        "".ljust(39) + " Y8888P    Y8888    Y888   Y888  888 888  888   Y88888  88888P\n" + \
+        "".ljust(90) + "888\n" + \
+        "".ljust(85) + "Y8b d88P\n" + \
+        "".ljust(87) + "Y88P\n\n" + ("*" * 140) + "\n\n" + "1)Set Game Players\n".rjust(73) + \
+        "2)Set Card's Deck\n".rjust(72) + "3)Set Max Rounds(Default 5 Rounds)\n".rjust(89) + "4)Go back".rjust(63)
 menu_02_opt = ('1', '2', '3', '4')
 
 menu_04 = ("*" * 140) + "\n" + ("*" * 140) + "\n\n" + "1)Players with more earnings\n".rjust(83) + \

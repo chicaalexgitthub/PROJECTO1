@@ -77,8 +77,9 @@ def set_game_priority(deck):
     for x in context_game["game"]:
         if players[x]["bank"] is True:
             bank = x
-    for i in range(0, len(context_game) - 1):
+    for i in range(0, len(context_game["game"])):
         players[context_game["game"][i]]["priority"] = len(context_game["game"][i:])
+        print(players[context_game["game"][i]]["priority"])
     # devolvemos la variable
     context_game["game"] = invert_list(context_game["game"])
     return given_cards
@@ -131,7 +132,7 @@ def check_conditions():
         if len(context_game["game"]) < 2:
             raise ValueError("Set the players that compose the game first".rjust(97))
         if len(mazo) == 0:
-            raise ValueError("Set the deck of cards first".rjust(82))
+            get_deck(1)
         return True
     except ValueError as error:
         print(error)
@@ -757,6 +758,3 @@ def winner():
         if players[x]["points"] > players[max]["points"]:
             max = x
     print("The winner is", max, "-", players[max]["name"])
-
-
-winner()

@@ -459,7 +459,7 @@ def card_phase(deck, given_cards, x="", y=""):
     if players[x]["human"] is True and y == "":
         if len(players[x]["cards"]) > 0:
             chance = floor(moreThan7_half(players[x]["roundPoints"], deck))
-            print("chance of passing 7.5 is: ", chance, "%")
+            print("".ljust(54) + "chance of passing 7.5 is: ", chance, "%")
         order = input("".ljust(54) + "{} order card? Y/N".format(players[x]["name"]))
         if order.lower() == "y":
             # Guardamos las cartas que le salen a cada jugador
@@ -535,7 +535,7 @@ def start_game():
         opt = input("Press enter start another round, exit to go back: ".rjust(97))
         if opt == "exit":
             break
-        if i == context_game["rounds"]:
+        if i == context_game["rounds"] - 1:
             winner(i)
 
 

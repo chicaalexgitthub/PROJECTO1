@@ -521,10 +521,10 @@ def bet_phase(x=""):
 
 def start_game():
     # Realizamos las configuraciones iniciales
-    deck = game_setup()
+    context_game["mazo"] = game_setup()
     # Realizamos turnos hasta que se terminan las rondas
     for i in range(0, rounds):
-        turn(deck)
+        turn(context_game["mazo"])
         # Si no hay almenos 2 jugadores con puntos, termina la partida
         s_players = check_minimum_2_player_with_points()
         if not s_players:

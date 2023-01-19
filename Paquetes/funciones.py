@@ -381,7 +381,8 @@ def setMaxRounds():
             raise ValueError("Please, enter only numbers")
         return maxRounds
     except ValueError as error:
-        print(error)
+        print("".ljust(47), error)
+        input("Enter to continue".rjust(65))
         return setMaxRounds()
 
 def check_valid_bet(total_points):

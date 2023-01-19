@@ -51,7 +51,7 @@ while not flg_end:
     while flg_02:
         opt = f.menu(d.menu_02, d.menu_01_opt)
         if opt == '1':
-            f.add_players_to_game()
+            f.add_players_to_game('1')
         if opt == '2':
             opt = f.menu(d.menu_022, d.menu_022_opt)
             f.get_deck(int(opt))

@@ -340,7 +340,7 @@ def show_players():
                 input("Press enter to continue".rjust(71))
                 show_players()
         elif opt == '-1':
-            input("Press enter to continue".rjust(71))
+            print()
         else:
             print(("=" * 66) + "Invalid Option" + ("=" * 66))
             input("Press enter to continue".rjust(71))
@@ -650,7 +650,27 @@ def get_players():
             players[x[0]]["human"] = False
 
 
-def add_players_to_game():
+def add_players_to_game(x = ""):
+    if x == '1':
+        os.system("clear")
+        print(menu_21)
+        print("\n" + "".ljust(46) + ("*" * 10) + "Actual players in game" + ("*" * 10))
+        if len(context_game["game"]) == 0:
+            print("There is no players in game".rjust(80))
+            input("Enter to continue".rjust(75))
+        else:
+            for x in context_game["game"]:
+                print(x.ljust(10), players[x]["name"].ljust(10), end="")
+                if players[x]["human"]:
+                    print("human".ljust(10), end="")
+                else:
+                    print("boot".ljust(10), end="")
+                if players[x]["type"] == 30:
+                    print("Cautious\n")
+                elif players[x]["type"] == 40:
+                    print("Moderated\n")
+                elif players[x]["type"] == 60:
+                    print("Bold\n")
     os.system("clear")
     print(menu_21)
     print("Select players".center(140, '*'))
@@ -690,19 +710,37 @@ def add_players_to_game():
         else:
             print()
     print("\n\n" + ("*" * 140))
-    opt = input("\n\n".ljust(45) + "Option ( id to add player, -id to remove player, -1 to exit): \n" + "".ljust(50))
+    opt = input("\n".ljust(39) + "Option ( id to add player, -id to remove player, -1 to exit): \n" + "".ljust(50))
     if len(opt) > 0:
         if opt in players:
             context_game["game"].append(opt)
+            print("\n" + "".ljust(46) + ("*" * 10) + "Actual players in game" + ("*" * 10))
+            if len(context_game["game"]) == 0:
+                print("There is no players in game".rjust(80))
+                input("Enter to continue".rjust(75))
+            else:
+                for x in context_game["game"]:
+                    print("".ljust(43) + x.ljust(13), players[x]["name"].ljust(15), end="")
+                    if players[x]["human"]:
+                        print("human".ljust(10), end="")
+                    else:
+                        print("boot".ljust(10), end="")
+                    if players[x]["type"] == 30:
+                        print("Cautious\n")
+                    elif players[x]["type"] == 40:
+                        print("Moderated\n")
+                    elif players[x]["type"] == 60:
+                        print("Bold\n")
             input("enter to continue".rjust(71))
             add_players_to_game()
         elif opt[0] == '-' and len(opt) == 10:
             if opt[1:] in context_game["game"]:
-                del context_game["game"][opt[1:]]
+                remove = context_game["game"].index(opt[1:])
+                del context_game["game"][remove]
                 input("Press enter to continue".rjust(71))
                 add_players_to_game()
         elif opt == '-1':
-            input("Press enter to continue".rjust(71))
+            print()
         else:
             print(("=" * 66) + "Invalid Option" + ("=" * 66))
             input("Press enter to continue".rjust(71))

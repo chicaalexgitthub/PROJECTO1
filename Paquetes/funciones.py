@@ -77,7 +77,7 @@ def set_game_priority(deck):
     for x in context_game["game"]:
         if players[x]["bank"] is True:
             bank = x
-    for i in range(0, len(context_game)):
+    for i in range(0, len(context_game) - 1):
         players[context_game["game"][i]]["priority"] = len(context_game["game"][i:])
     # devolvemos la variable
     context_game["game"] = invert_list(context_game["game"])
@@ -648,3 +648,62 @@ def get_players():
                 "type": x[2], "bet": 0, "points": 0, "cards": [], "roundPoints": 0}
         if x[3] == 0:
             players[x[0]]["human"] = False
+
+
+def add_players_to_game():
+    os.system("clear")
+    print(menu_21)
+    print("Select players".center(140, '*'))
+    print("Boot Player".center(68) + "||" + "Human Players".center(68))
+    print('-' * 140)
+    print("ID".ljust(21) + "Name".ljust(24) + "Type".ljust(23) + "||", end="  ")
+    print("ID".ljust(21) + "Name".ljust(24) + "Type")
+    print('*' * 140)
+    bots = []
+    humans = []
+    for x in players:
+        if players[x]["human"] is False:
+            bots.append(x)
+        else:
+            humans.append(x)
+    while len(humans) > 0 or len(bots) > 0:
+        if len(bots) > 0:
+            print(bots[0].ljust(20), players[bots[0]]["name"].ljust(24), end="")
+            if players[bots[0]]["type"] == 30:
+                print("Cautious".ljust(23), end="||".ljust(4))
+            elif players[bots[0]]["type"] == 40:
+                print("Moderate".ljust(23), end="||".ljust(4))
+            elif players[bots[0]]["type"] == 60:
+                print("Bold".ljust(23), end="||".ljust(4))
+            del bots[0]
+        else:
+            print("".ljust(68), end="||".ljust(4))
+        if len(humans) > 0:
+            print(humans[0].ljust(20), players[humans[0]]["name"].ljust(24), end="")
+            if players[humans[0]]["type"] == 30:
+                print("Cautious".ljust(23).ljust(8))
+            elif players[humans[0]]["type"] == 40:
+                print("Moderate".ljust(23).ljust(8))
+            elif players[humans[0]]["type"] == 60:
+                print("Bold".ljust(23).ljust(8))
+            del humans[0]
+        else:
+            print()
+    print("\n\n" + ("*" * 140))
+    opt = input("\n\n".ljust(45) + "Option ( id to add player, -id to remove player, -1 to exit): \n" + "".ljust(50))
+    if len(opt) > 0:
+        if opt in players:
+            context_game["game"].append(opt)
+            input("enter to continue".rjust(71))
+            add_players_to_game()
+        elif opt[0] == '-' and len(opt) == 10:
+            if opt[1:] in context_game["game"]:
+                del context_game["game"][opt[1:]]
+                input("Press enter to continue".rjust(71))
+                add_players_to_game()
+        elif opt == '-1':
+            input("Press enter to continue".rjust(71))
+        else:
+            print(("=" * 66) + "Invalid Option" + ("=" * 66))
+            input("Press enter to continue".rjust(71))
+            add_players_to_game()

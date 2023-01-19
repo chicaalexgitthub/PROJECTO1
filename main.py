@@ -4,6 +4,8 @@ import os
 from Paquetes import datos as d
 from Paquetes import funciones as f
 
+f.get_players()
+
 flg_0 = True
 flg_01 = False
 flg_02 = False
@@ -12,7 +14,7 @@ flg_04 = False
 flg_05 = False
 flg_06 = False
 flg_end = False
-f.insert_players()
+
 while not flg_end:
     while flg_0:
         opt = f.menu(d.menu_principal, d.menu_principal_opt)

@@ -630,8 +630,21 @@ def print_stats():
         print()
 
 
-
 def reset_cards():
     for x in context_game["game"]:
         players[x]["cards"] = []
 
+
+def get_players():
+    query = ("SELECT * FROM PLAYER")
+    cursorObject.execute(query)
+    database.commit()
+    result_raw = cursorObject.fetchall()
+    result = []
+    for x in result_raw:
+        result.append(list(x))
+    for x in result:
+        players[str(x[0])] = {"name": x[1], "human": True, "bank": False, "initialCard": "", "priority": 0,
+                "type": x[2], "bet": 0, "points": 0, "cards": [], "roundPoints": 0}
+        if x[3] == 0:
+            players[x[0]]["human"] = False

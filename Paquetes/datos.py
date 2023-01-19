@@ -4,16 +4,7 @@ letras = {0: "T", 1: "R", 2: "W", 3: "A", 4: "G", 5: "M", 6: "Y", 7: "F", 8: "P"
 
 mazo = {}
 
-players = {"11115555A":
-               {"name": "Mario", "human": True, "bank": False, "initialCard": "", "priority": 0,
-                "type": 30, "bet": 4, "points": 0, "cards": [], "roundPoints": 0},
-           "22225555A":
-               {"name": "Pedro", "human": True, "bank": False, "initialCard": "", "priority": 0,
-                "type": 40, "bet": 4, "points": 0, "cards": [], "roundPoints": 0},
-           "21115555A":
-               {"name": "Juan", "human": False, "bank": False, "initialCard": "", "priority": 0,
-                "type": 60, "bet": 4, "points": 0, "cards": [], "roundPoints": 0}
-           }
+players = {}
 
 cardgame = {'cardgame_id': 0, 'players': 0, 'start_hour': 0,
             'rounds': 0, 'end_hour': 0}

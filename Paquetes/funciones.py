@@ -378,14 +378,13 @@ def setMaxRounds():
         print(menu_23, "\n\n")
         maxRounds = input("Max Rounds: ".rjust(60))
         if maxRounds.isdigit() and int(maxRounds) in range(1, 21):
-            context_game.update({"maxRounds": maxRounds})
+            return int(maxRounds)
         elif maxRounds.isdigit() and int(maxRounds) < 1:
             raise ValueError("Please, enter only positive numbers")
         elif maxRounds.isdigit() and int(maxRounds) > 20:
             raise ValueError("Max Rounds Has To Be Between 0 and 20")
         else:
             raise ValueError("Please, enter only numbers")
-        return maxRounds
     except ValueError as error:
         print("".ljust(47), error)
         input("Enter to continue".rjust(65))
@@ -419,7 +418,7 @@ def moreThan7_half(current_points, available_cards):
 
     return losing_cards/total * 100
 
-def turn(deck):
+def turn(deck, round):
     reset_roundPoints()
     given_cards = []
     # Se realizan las apuestas de cada jugador
@@ -436,7 +435,7 @@ def turn(deck):
         if players[x]["human"] is False:
             deck, given_cards = card_phase(deck, given_cards, x)
         else:
-            head = Seven_and_half + (players[x]["name"] + "'s turn").center(140, "*")
+            head = Seven_and_half + (" Round " + str(round) + ", " + players[x]["name"] + "'s turn ").center(140, "*")
             head += menu_ingame + "\n"
             opt = menu(head, menu_ingame_opt)
             while not opt == '3':
@@ -521,15 +520,18 @@ def bet_phase(x=""):
 
 
 def start_game():
+    print(rounds)
+    input()
     # Realizamos las configuraciones iniciales
     context_game["mazo"] = game_setup()
     # Realizamos turnos hasta que se terminan las rondas
     for i in range(0, rounds):
-        turn(context_game["mazo"])
+        turn(context_game["mazo"], i)
         # Si no hay almenos 2 jugadores con puntos, termina la partida
         s_players = check_minimum_2_player_with_points()
         if not s_players:
             break
+    winner(i)
 
 
 def return_cards(given_cards, deck):
@@ -750,11 +752,12 @@ def add_players_to_game(x = ""):
             add_players_to_game()
 
 
-def winner():
+def winner(rounds):
     os.system("clear")
     print(game_over)
     max = context_game["game"][0]
     for x in context_game["game"]:
         if players[x]["points"] > players[max]["points"]:
             max = x
-    print("The winner is", max, "-", players[max]["name"])
+    print("".ljust(25) + "The winner is", max, "-", players[max]["name"], "in", rounds, "rounds")
+    input("Enter to continue".rjust(42))

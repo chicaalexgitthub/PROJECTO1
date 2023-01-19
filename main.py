@@ -57,6 +57,8 @@ while not flg_end:
             f.get_deck(int(opt))
         if opt == '3':
             d.rounds = f.setMaxRounds()
+            print(d.rounds)
+            input()
         if opt == '4':
             flg_02 = False
             flg_0 = True

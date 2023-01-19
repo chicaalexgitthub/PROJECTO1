@@ -258,7 +258,6 @@ def insert_players():
             values = [(x, players[x]["name"], players[x]["type"], players[x]["human"])]
             cursorObject.executemany(query, values)
             database.commit()
-    database.close()
 
 
 def get_deck(deck):
@@ -334,13 +333,19 @@ def show_players():
             print()
     print("\n\n" + ("*" * 140))
     opt = input("\n\n".ljust(50) + "Option (   -id to remove player, -1 to exit): ")
-    if opt[0] == '-' and len(opt) == 10:
-        if opt[1:] in players:
-            del players[opt[1:]]
+    if len(opt) > 0:
+        if opt[0] == '-' and len(opt) == 10:
+            if opt[1:] in players:
+                del players[opt[1:]]
+                input("Press enter to continue".rjust(71))
+                show_players()
+        elif opt == '-1':
+            input("Press enter to continue".rjust(71))
+        else:
+            print(("=" * 66) + "Invalid Option" + ("=" * 66))
             input("Press enter to continue".rjust(71))
             show_players()
-    elif opt == '-1':
-        input("Press enter to continue".rjust(71))
+
     else:
         print(("=" * 66) + "Invalid Option" + ("=" * 66))
         input("Press enter to continue".rjust(71))

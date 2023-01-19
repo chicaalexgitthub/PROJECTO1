@@ -426,7 +426,7 @@ def turn(deck):
     opt = 'e'
     reset_cards()
     print_stats()
-    input("Press enter to continue")
+    input("Press enter to continue".rjust(78))
     for x in context_game["game"]:
         if players[x]["bank"] is True:
             bank = x
@@ -435,7 +435,7 @@ def turn(deck):
         if players[x]["human"] is False:
             deck, given_cards = card_phase(deck, given_cards, x)
         else:
-            head = (Seven_and_half + "\n" + players[x]["name"] + "'s turn").center(140, "*")
+            head = Seven_and_half + (players[x]["name"] + "'s turn").center(140, "*")
             head += menu_ingame + "\n"
             opt = menu(head, menu_ingame_opt)
             while not opt == '3':
@@ -622,9 +622,11 @@ def priority_adjustment(bank):
 
 
 def print_stats():
+    os.system("clear")
+    print(Seven_and_half, ("*" * 140))
     j = list(players.keys())[0]
     for x in players[j]:
-        print(str(x).ljust(20), end="")
+        print("".ljust(35) + str(x).ljust(20), end="")
         for k in context_game["game"]:
             print(str(players[k][x]).ljust(20), end="")
         print()

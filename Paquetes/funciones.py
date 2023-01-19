@@ -132,10 +132,11 @@ def check_conditions():
             raise ValueError("Set the players that compose the game first".rjust(97))
         if len(mazo) == 0:
             raise ValueError("Set the deck of cards first".rjust(82))
-        return
+        return True
     except ValueError as error:
         print(error)
         input("Press enter to continue".rjust(77))
+        return False
 
 
 def create_human_player_name():
@@ -293,6 +294,8 @@ def create_boot():
 
 
 def show_players():
+    os.system("clear")
+    print(menu_13)
     print("Select players".center(140, '*'))
     print("Boot Player".center(68) + "||" + "Human Players".center(68))
     print('-' * 140)
@@ -306,14 +309,44 @@ def show_players():
             bots.append(x)
         else:
             humans.append(x)
-    bots = []
-    humans = []
-    order = []
-    for x in players:
-        if players[x]["human"] is False:
-            bots.append(x)
+    while len(humans) > 0 or len(bots) > 0:
+        if len(bots) > 0:
+            print(bots[0].ljust(20), players[bots[0]]["name"].ljust(24), end="")
+            if players[bots[0]]["type"] == 30:
+                print("Cautious".ljust(23), end="||".ljust(4))
+            elif players[bots[0]]["type"] == 40:
+                print("Moderate".ljust(23), end="||".ljust(4))
+            elif players[bots[0]]["type"] == 60:
+                print("Bold".ljust(23), end="||".ljust(4))
+            del bots[0]
         else:
-            humans.append(x)
+            print("".ljust(68), end="||".ljust(4))
+        if len(humans) > 0:
+            print(humans[0].ljust(20), players[humans[0]]["name"].ljust(24), end="")
+            if players[humans[0]]["type"] == 30:
+                print("Cautious".ljust(23).ljust(8))
+            elif players[humans[0]]["type"] == 40:
+                print("Moderate".ljust(23).ljust(8))
+            elif players[humans[0]]["type"] == 60:
+                print("Bold".ljust(23).ljust(8))
+            del humans[0]
+        else:
+            print()
+    print("\n\n" + ("*" * 140))
+    opt = input("\n\n".ljust(50) + "Option (   -id to remove player, -1 to exit): ")
+    if opt[0] == '-' and len(opt) == 10:
+        if opt[1:] in players:
+            del players[opt[1:]]
+            input("Press enter to continue".rjust(71))
+            show_players()
+    elif opt == '-1':
+        input("Press enter to continue".rjust(71))
+    else:
+        print(("=" * 66) + "Invalid Option" + ("=" * 66))
+        input("Press enter to continue".rjust(71))
+        show_players()
+
+
 
 
 def bet_on_risk(nif):
@@ -335,7 +368,9 @@ def invert_list(lista):
 
 def setMaxRounds():
     try:
-        maxRounds = input("Max Rounds: ")
+        os.system("clear")
+        print(menu_23, "\n\n")
+        maxRounds = input("Max Rounds: ".rjust(60))
         if maxRounds.isdigit() and int(maxRounds) in range(1, 21):
             context_game.update({"maxRounds": maxRounds})
         elif maxRounds.isdigit() and int(maxRounds) < 1:
@@ -344,9 +379,10 @@ def setMaxRounds():
             raise ValueError("Max Rounds Has To Be Between 0 and 20")
         else:
             raise ValueError("Please, enter only numbers")
+        return maxRounds
     except ValueError as error:
         print(error)
-        setMaxRounds()
+        return setMaxRounds()
 
 def check_valid_bet(total_points):
     try:

@@ -1,4 +1,6 @@
 # Programa principal
+import os
+
 from Paquetes import datos as d
 from Paquetes import funciones as f
 
@@ -39,7 +41,7 @@ while not flg_end:
         if opt == '2':
             f.create_boot()
         if opt == '3':
-            print()
+            f.show_players()
         if opt == '4':
             flg_01 = False
             flg_0 = True
@@ -51,13 +53,13 @@ while not flg_end:
             opt = f.menu(d.menu_022, d.menu_022_opt)
             f.get_deck(int(opt))
         if opt == '3':
-            f.setMaxRounds()
+            d.rounds = f.setMaxRounds()
         if opt == '4':
             flg_02 = False
             flg_0 = True
     while flg_03:
-        f.check_conditions()
-        f.start_game()
+        if f.check_conditions():
+            f.start_game()
         flg_03 = False
         flg_0 = True
     while flg_04:

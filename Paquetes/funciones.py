@@ -425,8 +425,6 @@ def turn(deck, round):
     # Recorremos la lista de jugadores ordenada por prioridad ascendente
     opt = 'e'
     reset_cards()
-    print_stats()
-    input("Press enter to continue".rjust(78))
     for x in context_game["game"]:
         if players[x]["bank"] is True:
             bank = x
@@ -520,18 +518,25 @@ def bet_phase(x=""):
 
 
 def start_game():
-    print(rounds)
-    input()
+    print(context_game["rounds"])
     # Realizamos las configuraciones iniciales
     context_game["mazo"] = game_setup()
     # Realizamos turnos hasta que se terminan las rondas
-    for i in range(0, rounds):
+    print_stats()
+    input("Press enter to continue".rjust(78))
+    for i in range(0, context_game["rounds"]):
         turn(context_game["mazo"], i)
         # Si no hay almenos 2 jugadores con puntos, termina la partida
         s_players = check_minimum_2_player_with_points()
         if not s_players:
+            winner(i)
             break
-    winner(i)
+        print_stats()
+        opt = input("Press enter start another round, exit to go back: ".rjust(97))
+        if opt == "exit":
+            break
+        if i == context_game["rounds"]:
+            winner(i)
 
 
 def return_cards(given_cards, deck):
@@ -731,11 +736,11 @@ def add_players_to_game(x = ""):
                     else:
                         print("boot".ljust(10), end="")
                     if players[x]["type"] == 30:
-                        print("Cautious\n")
+                        print("Cautious")
                     elif players[x]["type"] == 40:
-                        print("Moderated\n")
+                        print("Moderated")
                     elif players[x]["type"] == 60:
-                        print("Bold\n")
+                        print("Bold")
             input("enter to continue".rjust(71))
             add_players_to_game()
         elif opt[0] == '-' and len(opt) == 10:

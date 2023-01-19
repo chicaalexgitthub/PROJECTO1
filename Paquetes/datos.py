@@ -13,9 +13,8 @@ player_game = {"id_game": {"id_player_1": {"initial_card_id": 0, "starting_point
 
 player_game_round = {"round": {"id_player_1": {"is_bank": 0, "bet_points": 0, "cards_value": 0,
                                                "ending_round_points": 0}}}
-rounds = 5
 
-context_game = {"game": [], "mazo": [], "round": []}
+context_game = {"game": [], "mazo": [], "rounds": 5}
 
 menu_principal = ("*" * 140) + "\n" + (" " * 37) + \
                  "_____                         ___              __   __  __      ______" + (" " * 33) + "\n" + \

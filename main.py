@@ -56,9 +56,7 @@ while not flg_end:
             opt = f.menu(d.menu_022, d.menu_022_opt)
             f.get_deck(int(opt))
         if opt == '3':
-            d.rounds = f.setMaxRounds()
-            print(d.rounds)
-            input()
+            d.context_game["rounds"] = f.setMaxRounds()
         if opt == '4':
             flg_02 = False
             flg_0 = True

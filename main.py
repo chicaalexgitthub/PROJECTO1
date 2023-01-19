@@ -5,6 +5,7 @@ from Paquetes import datos as d
 from Paquetes import funciones as f
 
 f.get_players()
+f.get_deck(1)
 
 flg_0 = True
 flg_01 = False

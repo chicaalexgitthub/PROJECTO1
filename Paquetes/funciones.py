@@ -462,7 +462,7 @@ def card_phase(deck, given_cards, x="", y=""):
         if len(players[x]["cards"]) > 0:
             chance = floor(moreThan7_half(players[x]["roundPoints"], deck))
             print("chance of passing 7.5 is: ", chance, "%")
-        order = input("{} order card? Y/N".format(players[x]["name"]))
+        order = input("".ljust(54) + "{} order card? Y/N".format(players[x]["name"]))
         if order.lower() == "y":
             # Guardamos las cartas que le salen a cada jugador
             players[x]["cards"].append(deck[0])
@@ -470,11 +470,11 @@ def card_phase(deck, given_cards, x="", y=""):
             players[x]["roundPoints"] += mazo[deck[0]]["realValue"]
             # Guardamos en una lista las cartas que han salido
             given_cards.append(deck[0])
-            print("The new card is {}".format(mazo[deck[0]]["literal"]))
+            print("".ljust(54) + "The new card is {}".format(mazo[deck[0]]["literal"]))
             # Eliminamos las cartas que salen del mazo
             del deck[0]
-            print(players[x]["roundPoints"])
-            input("Enter to continue")
+            print("".ljust(54) + "Current points:", players[x]["roundPoints"])
+            input("Enter to continue".rjust(71))
     else:
         chance = moreThan7_half(players[x]["roundPoints"], deck)
         while chance < players[x]["type"]:

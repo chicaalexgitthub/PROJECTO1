@@ -636,7 +636,13 @@ def print_stats():
     for x in players[j]:
         print("".ljust(35) + str(x).ljust(20), end="")
         for k in context_game["game"]:
-            print(str(players[k][x]).ljust(20), end="")
+            if x == "cards":
+                res = ""
+                for z in players[k][x]:
+                    res += z + ";"
+                print(res[0:-2].ljust(20), end="")
+            else:
+                print(str(players[k][x]).ljust(20), end="")
         print()
 
 

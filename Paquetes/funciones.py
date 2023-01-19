@@ -747,3 +747,16 @@ def add_players_to_game(x = ""):
             print(("=" * 66) + "Invalid Option" + ("=" * 66))
             input("Press enter to continue".rjust(71))
             add_players_to_game()
+
+
+def winner():
+    os.system("clear")
+    print(game_over)
+    max = context_game["game"][0]
+    for x in context_game["game"]:
+        if players[x]["points"] > players[max]["points"]:
+            max = x
+    print("The winner is", max, "-", players[max]["name"])
+
+
+winner()

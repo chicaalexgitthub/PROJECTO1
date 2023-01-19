@@ -435,7 +435,7 @@ def turn(deck):
         if players[x]["human"] is False:
             deck, given_cards = card_phase(deck, given_cards, x)
         else:
-            head = (players[x]["name"] + "'s turn").center(140, "*")
+            head = (Seven_and_half + "\n" + players[x]["name"] + "'s turn").center(140, "*")
             head += menu_ingame + "\n"
             opt = menu(head, menu_ingame_opt)
             while not opt == '3':

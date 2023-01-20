@@ -223,7 +223,7 @@ def create_human_player():
         profile = 3
     if save:
         players[nif] = {"name": name, "human": True, "bank": False, "initialCard": "", "priority": 0,
-                          "type": 40, "bet": 4, "points": 0, "cards ": [], "roundPoints": 0}
+                        "type": 40, "bet": 4, "points": 0, "cards": [], "roundPoints": 0}
 
 
 def create_human_player_check(name, nif, profile):
@@ -296,7 +296,7 @@ def create_boot():
     save = create_human_player_check(name, nif, profile)
     if save:
         players[nif] = {"name": name, "human": False, "bank": False, "initialCard": "", "priority": 0,
-                          "type": profile, "bet": 4, "points": 0, "cards ": [], "roundPoints": 0}
+                        "type": profile, "bet": 4, "points": 0, "cards ": [], "roundPoints": 0}
 
 
 def show_players():
@@ -360,8 +360,6 @@ def show_players():
         show_players()
 
 
-
-
 def bet_on_risk(nif):
     if players[nif]["type"] == 30:
         players[nif]["bet"] = players[nif]["points"] // 4
@@ -369,6 +367,8 @@ def bet_on_risk(nif):
         players[nif]["bet"] = players[nif]["points"] // 2
     elif players[nif]["type"] == 60:
         players[nif]["bet"] = players[nif]["points"] * 1
+    if players[nif]["bet"] < 1:
+        players[nif]["bet"] = 1
 
 
 def invert_list(lista):
@@ -397,6 +397,7 @@ def setMaxRounds():
         input("Enter to continue".rjust(65))
         return setMaxRounds()
 
+
 def check_valid_bet(total_points):
     try:
         bet = input("Set the new Bet: ")
@@ -423,7 +424,8 @@ def moreThan7_half(current_points, available_cards):
         if (mazo[card]["realValue"] + current_points) > 7.5:
             losing_cards += 1
 
-    return losing_cards/total * 100
+    return losing_cards / total * 100
+
 
 def turn(deck, round):
     reset_roundPoints()
@@ -432,7 +434,7 @@ def turn(deck, round):
     # Recorremos la lista de jugadores ordenada por prioridad ascendente
     opt = 'e'
     reset_cards()
-    bank = context_game["game"][len(context_game["game"]) - 1]
+    bank = context_game["game"][-1]
     for x in context_game["game"]:
         bet_on_risk(x)
         deck = barajar_mazo(deck)
@@ -490,7 +492,7 @@ def card_phase(deck, given_cards, x="", y=""):
             # Eliminamos las cartas que salen del mazo
             del deck[0]
             chance = moreThan7_half(players[x]["roundPoints"], deck)
-# Devolvemos las cartas que han salido al mazo
+    # Devolvemos las cartas que han salido al mazo
     return deck, given_cards
 
 
@@ -579,7 +581,7 @@ def give_points(bank):
         else:
             if x in contenders:
                 if players[bank]["points"] > players[x]["bet"]:
-                    players[x]["points"] += players[x]["bet"]
+                    players[x]["points"] += players[x]["bet"] * 2
                     players[bank]["points"] -= players[x]["bet"]
                 else:
                     players[x]["points"] += players[bank]["points"]
@@ -608,10 +610,15 @@ def give_points(bank):
                     if players[x]["points"] == 0:
                         print(players[x]["name"], "lost")
     # En caso de haber un o varios 7.5 que no sean el banco, el que tiene mas prioridad se convierte en el banco
-    if len(contenders) > 0 and bank not in contenders:
+    if len(contenders) == 1 and bank not in contenders:
+        players[contenders[0]]["bank"] = True
+        players[bank]["bank"] = False
+        bank = contenders[0]
+        priority_adjustment(bank)
+        return bank
+    elif len(contenders) > 1 and bank not in contenders:
         players[bank]["bank"] = False
         players[priority_list[0]]["bank"] = True
-        print(players[contenders[0]]["name"], "is the new bank")
         bank = priority_list[0]
         # Ajustamos las prioridades de los jugadores de acuerdo al cambio de banco
         priority_adjustment(bank)
@@ -642,16 +649,29 @@ def print_stats():
     print(Seven_and_half, ("*" * 140))
     j = list(players.keys())[0]
     for x in players[j]:
-        print("".ljust(35) + str(x).ljust(30), end="")
-        for k in context_game["game"]:
+        print("".ljust(30) + str(x).ljust(25), end="")
+        for k in context_game["game"][0:3]:
             if x == "cards":
                 res = ""
                 for z in players[k][x]:
                     res += z + ";"
-                print(res[0:-1].ljust(30), end="")
+                print(res[0:-1].ljust(25), end="")
             else:
-                print(str(players[k][x]).ljust(30), end="")
+                print(str(players[k][x]).ljust(25), end="")
         print()
+    print()
+    if len(context_game["game"]) > 3:
+        for x in players[j]:
+            print("".ljust(30) + str(x).ljust(25), end="")
+            for k in context_game["game"][3:]:
+                if x == "cards":
+                    res = ""
+                    for z in players[k][x]:
+                        res += z + ";"
+                    print(res[0:-1].ljust(25), end="")
+                else:
+                    print(str(players[k][x]).ljust(25), end="")
+            print()
 
 
 def reset_cards():
@@ -669,12 +689,12 @@ def get_players():
         result.append(list(x))
     for x in result:
         players[str(x[0])] = {"name": x[1], "human": True, "bank": False, "initialCard": "", "priority": 0,
-                "type": x[2], "bet": 0, "points": 0, "cards": [], "roundPoints": 0}
+                              "type": x[2], "bet": 0, "points": 0, "cards": [], "roundPoints": 0}
         if x[3] == 0:
             players[x[0]]["human"] = False
 
 
-def add_players_to_game(x = ""):
+def add_players_to_game(x=""):
     if x == '1':
         os.system("clear")
         print(menu_21)
@@ -778,7 +798,7 @@ def winner(rounds):
     for x in context_game["game"]:
         if players[x]["points"] > players[max]["points"]:
             max = x
-    print("".ljust(25) + "The winner is", max, "-", players[max]["name"], "in", rounds, "rounds")
+    print("".ljust(25) + "The winner is", max, "-", players[max]["name"], "in", rounds + 1, "rounds")
     input("Enter to continue".rjust(42))
 
 

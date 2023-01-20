@@ -537,6 +537,8 @@ def start_game():
         # Si no hay almenos 2 jugadores con puntos, termina la partida
         s_players = check_minimum_2_player_with_points()
         if not s_players:
+            print_stats()
+            input("Press enter to continue".rjust(79))
             winner(i)
             reset_cards()
             break
@@ -545,6 +547,8 @@ def start_game():
         if opt == "exit":
             break
         if i == context_game["rounds"] - 1:
+            print_stats()
+            input("Press enter to continue".rjust(79))
             winner(i)
             reset_cards()
 

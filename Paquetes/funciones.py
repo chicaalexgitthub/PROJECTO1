@@ -784,6 +784,7 @@ def winner(rounds):
 
 def deleteplayer():
     for x in delete_players:
-        query = ("DEL", x, "FROM PLAYER")
-        cursorObject.execute(query)
+        player_id = [x]
+        query = ("delete from player where player_id = %s ;")
+        cursorObject.execute(query, (player_id))
         database.commit()

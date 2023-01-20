@@ -1,0 +1,831 @@
+<html>
+<head>
+<title>funciones.py</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style type="text/css">
+.s0 { color: #cc7832;}
+.s1 { color: #a9b7c6;}
+.s2 { color: #808080;}
+.s3 { color: #6a8759;}
+.s4 { color: #6897bb;}
+</style>
+</head>
+<body bgcolor="#2b2b2b">
+<table CELLSPACING=0 CELLPADDING=5 COLS=1 WIDTH="100%" BGCOLOR="#606060" >
+<tr><td><center>
+<font face="Arial, Helvetica" color="#000000">
+funciones.py</font>
+</center></td></tr></table>
+<pre><span class="s0">from </span><span class="s1">mysql.connector </span><span class="s0">import </span><span class="s1">*</span>
+<span class="s0">import </span><span class="s1">os</span>
+<span class="s0">import </span><span class="s1">random</span>
+<span class="s0">from </span><span class="s1">Paquetes.datos </span><span class="s0">import </span><span class="s1">*</span>
+<span class="s0">from </span><span class="s1">math </span><span class="s0">import </span><span class="s1">*</span>
+
+<span class="s2"># Conectamos con la base de datos</span>
+<span class="s1">database = connect(user=</span><span class="s3">&quot;gameadmin&quot;</span><span class="s0">, </span><span class="s1">password=</span><span class="s3">&quot;sieteymedio123$&quot;</span><span class="s0">, </span><span class="s1">host=</span><span class="s3">&quot;sevenandhalf.mysql.database.azure.com&quot;</span><span class="s0">,</span>
+                   <span class="s1">database=</span><span class="s3">&quot;seven_half&quot;</span><span class="s1">)</span>
+<span class="s1">cursorObject = database.cursor(buffered=</span><span class="s0">True</span><span class="s1">)</span>
+
+
+<span class="s2"># Aqui guardamos las funciones.</span>
+
+
+<span class="s0">def </span><span class="s1">menu(menu_</span><span class="s0">, </span><span class="s1">options</span><span class="s0">, </span><span class="s1">exceptions=</span><span class="s3">&quot;&quot;</span><span class="s1">):</span>
+    <span class="s1">os.system(</span><span class="s3">&quot;clear&quot;</span><span class="s1">)</span>
+    <span class="s1">print(menu_)</span>
+    <span class="s1">opt = input(</span><span class="s3">&quot;Option: &quot;</span><span class="s1">.rjust(</span><span class="s4">62</span><span class="s1">))</span>
+    <span class="s0">try</span><span class="s1">:</span>
+        <span class="s0">if not </span><span class="s1">opt.isdigit():</span>
+            <span class="s0">if not </span><span class="s1">opt </span><span class="s0">in </span><span class="s1">exceptions:</span>
+                <span class="s0">raise </span><span class="s1">TypeError((</span><span class="s3">&quot;=&quot; </span><span class="s1">* </span><span class="s4">61</span><span class="s1">) + </span><span class="s3">&quot;Invalid Option&quot; </span><span class="s1">+ (</span><span class="s3">&quot;=&quot; </span><span class="s1">* </span><span class="s4">66</span><span class="s1">))</span>
+            <span class="s0">elif </span><span class="s1">opt.isspace() </span><span class="s0">or </span><span class="s1">opt == </span><span class="s3">&quot;&quot;</span><span class="s1">:</span>
+                <span class="s0">raise </span><span class="s1">TypeError((</span><span class="s3">&quot;=&quot; </span><span class="s1">* </span><span class="s4">61</span><span class="s1">) + </span><span class="s3">&quot;Invalid Option&quot; </span><span class="s1">+ (</span><span class="s3">&quot;=&quot; </span><span class="s1">* </span><span class="s4">66</span><span class="s1">))</span>
+        <span class="s0">if </span><span class="s1">opt </span><span class="s0">not in </span><span class="s1">options:</span>
+            <span class="s0">if </span><span class="s1">opt </span><span class="s0">not in </span><span class="s1">exceptions:</span>
+                <span class="s0">raise </span><span class="s1">ValueError((</span><span class="s3">&quot;=&quot; </span><span class="s1">* </span><span class="s4">61</span><span class="s1">) + </span><span class="s3">&quot;Invalid Option&quot; </span><span class="s1">+ (</span><span class="s3">&quot;=&quot; </span><span class="s1">* </span><span class="s4">66</span><span class="s1">))</span>
+        <span class="s0">return </span><span class="s1">opt</span>
+    <span class="s0">except </span><span class="s1">TypeError </span><span class="s0">as </span><span class="s1">error:</span>
+        <span class="s1">print(</span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&quot;</span><span class="s0">, </span><span class="s1">error)</span>
+        <span class="s1">input(</span><span class="s3">&quot;Press enter to continue&quot;</span><span class="s1">.rjust(</span><span class="s4">79</span><span class="s1">))</span>
+        <span class="s0">return </span><span class="s1">menu(menu_</span><span class="s0">, </span><span class="s1">options</span><span class="s0">, </span><span class="s1">exceptions)</span>
+    <span class="s0">except </span><span class="s1">ValueError </span><span class="s0">as </span><span class="s1">error:</span>
+        <span class="s1">print(</span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&quot;</span><span class="s0">, </span><span class="s1">error)</span>
+        <span class="s1">input(</span><span class="s3">&quot;Press enter to continue&quot;</span><span class="s1">.rjust(</span><span class="s4">79</span><span class="s1">))</span>
+        <span class="s0">return </span><span class="s1">menu(menu_</span><span class="s0">, </span><span class="s1">options</span><span class="s0">, </span><span class="s1">exceptions)</span>
+
+
+<span class="s0">def </span><span class="s1">barajar_mazo(mazo):</span>
+    <span class="s2"># Se recorre cada posicion del mazo asignandole una nueva posicion a su valor,</span>
+    <span class="s2"># y intercambiando los valores de ambas posiciones</span>
+    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">0</span><span class="s0">, </span><span class="s1">len(mazo) - </span><span class="s4">1</span><span class="s1">):</span>
+        <span class="s1">new_pos = random.randint(</span><span class="s4">0</span><span class="s0">, </span><span class="s1">len(mazo) - </span><span class="s4">1</span><span class="s1">)</span>
+        <span class="s1">mazo[i]</span><span class="s0">, </span><span class="s1">mazo[new_pos] = mazo[new_pos]</span><span class="s0">, </span><span class="s1">mazo[i]</span>
+    <span class="s0">return </span><span class="s1">mazo</span>
+
+
+<span class="s0">def </span><span class="s1">set_game_priority(deck):</span>
+    <span class="s1">given_cards = []</span>
+    <span class="s2"># Le asignamos a cada jugador una carta del mazo</span>
+    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]:</span>
+        <span class="s1">players[i][</span><span class="s3">&quot;initialCard&quot;</span><span class="s1">] = deck[random.randint(</span><span class="s4">0</span><span class="s0">, </span><span class="s1">len(deck) - </span><span class="s4">1</span><span class="s1">)]</span>
+        <span class="s1">given_cards.append(players[i][</span><span class="s3">&quot;initialCard&quot;</span><span class="s1">])</span>
+    <span class="s2"># Ordenamos la lista de jugadores segun la prioridad de sus cartas</span>
+    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]:</span>
+        <span class="s0">for </span><span class="s1">j </span><span class="s0">in </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]:</span>
+            <span class="s2"># Primero se mira si la prioridad de la carta es la misma, en ese caso comparamos el valor de las cartas</span>
+            <span class="s0">if </span><span class="s1">mazo[players[i][</span><span class="s3">&quot;initialCard&quot;</span><span class="s1">]][</span><span class="s3">&quot;priority&quot;</span><span class="s1">] == \</span>
+                    <span class="s1">mazo[players[j][</span><span class="s3">&quot;initialCard&quot;</span><span class="s1">]][</span><span class="s3">&quot;priority&quot;</span><span class="s1">]:</span>
+                <span class="s0">if </span><span class="s1">mazo[players[i][</span><span class="s3">&quot;initialCard&quot;</span><span class="s1">]][</span><span class="s3">&quot;value&quot;</span><span class="s1">] &gt; \</span>
+                        <span class="s1">mazo[players[j][</span><span class="s3">&quot;initialCard&quot;</span><span class="s1">]][</span><span class="s3">&quot;value&quot;</span><span class="s1">]:</span>
+                    <span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">].index(i)]</span><span class="s0">, </span><span class="s1">\</span>
+                    <span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">].index(j)] = \</span>
+                        <span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">].index(j)]</span><span class="s0">, </span><span class="s1">\</span>
+                        <span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">].index(i)]</span>
+            <span class="s2"># Si la prioridad de la carta no es la misma, comparamos la prioridad</span>
+            <span class="s0">else</span><span class="s1">:</span>
+                <span class="s0">if </span><span class="s1">mazo[players[i][</span><span class="s3">&quot;initialCard&quot;</span><span class="s1">]][</span><span class="s3">&quot;priority&quot;</span><span class="s1">] &gt; \</span>
+                        <span class="s1">mazo[players[j][</span><span class="s3">&quot;initialCard&quot;</span><span class="s1">]][</span><span class="s3">&quot;priority&quot;</span><span class="s1">]:</span>
+                    <span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">].index(i)]</span><span class="s0">, </span><span class="s1">\</span>
+                    <span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">].index(j)] = \</span>
+                        <span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">].index(j)]</span><span class="s0">, </span><span class="s1">\</span>
+                        <span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">].index(i)]</span>
+    <span class="s1">establish_bank()</span>
+    <span class="s1">bank = </span><span class="s0">None</span>
+    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]:</span>
+        <span class="s0">if </span><span class="s1">players[x][</span><span class="s3">&quot;bank&quot;</span><span class="s1">] </span><span class="s0">is True</span><span class="s1">:</span>
+            <span class="s1">bank = x</span>
+    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">0</span><span class="s0">, </span><span class="s1">len(context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">])):</span>
+        <span class="s1">players[context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][i]][</span><span class="s3">&quot;priority&quot;</span><span class="s1">] = len(context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][i:])</span>
+        <span class="s1">print(players[context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][i]][</span><span class="s3">&quot;priority&quot;</span><span class="s1">])</span>
+    <span class="s2"># devolvemos la variable</span>
+    <span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">] = invert_list(context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">])</span>
+    <span class="s0">return </span><span class="s1">given_cards</span>
+
+
+<span class="s0">def </span><span class="s1">establish_bank():</span>
+    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">0</span><span class="s0">, </span><span class="s1">len(context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">])):</span>
+        <span class="s1">players[context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][i]][</span><span class="s3">&quot;priority&quot;</span><span class="s1">] = len(context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]) - </span><span class="s4">1</span>
+        <span class="s2"># El que tiene mas prioridad (primero de la lista) es la banca</span>
+        <span class="s0">if </span><span class="s1">i == </span><span class="s4">0</span><span class="s1">:</span>
+            <span class="s1">players[context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][i]][</span><span class="s3">&quot;bank&quot;</span><span class="s1">] = </span><span class="s0">True</span>
+        <span class="s0">else</span><span class="s1">:</span>
+            <span class="s1">players[context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][i]][</span><span class="s3">&quot;bank&quot;</span><span class="s1">] = </span><span class="s0">False</span>
+    <span class="s0">return</span>
+
+
+<span class="s0">def </span><span class="s1">reset_points():</span>
+    <span class="s2"># Establecemos en 20 los puntos de todos los jugadores</span>
+    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]:</span>
+        <span class="s1">players[i][</span><span class="s3">&quot;points&quot;</span><span class="s1">] = </span><span class="s4">20</span>
+
+
+<span class="s0">def </span><span class="s1">reset_roundPoints():</span>
+    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]:</span>
+        <span class="s1">players[i][</span><span class="s3">&quot;roundPoints&quot;</span><span class="s1">] = </span><span class="s4">0</span>
+
+
+<span class="s0">def </span><span class="s1">check_minimum_2_player_with_points():</span>
+    <span class="s2"># Establecemos un contador</span>
+    <span class="s1">count = </span><span class="s4">0</span>
+    <span class="s1">eliminated = []</span>
+    <span class="s2"># Se recorre la lista de jugadores de la partida actual</span>
+    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]:</span>
+        <span class="s2"># En caso de que los puntos de un jugador sean mayores a 0, se suma 1 al contador</span>
+        <span class="s0">if </span><span class="s1">players[i][</span><span class="s3">&quot;points&quot;</span><span class="s1">] &gt; </span><span class="s4">0</span><span class="s1">:</span>
+            <span class="s1">count += </span><span class="s4">1</span>
+        <span class="s0">else</span><span class="s1">:</span>
+            <span class="s1">eliminated.append(i)</span>
+    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">eliminated:</span>
+        <span class="s0">del </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">].index(x)]</span>
+    <span class="s2"># En caso de que el contador sea mayor de 1 (minimo 2), se devuelve TRUE, si no se devuelve FALSE</span>
+    <span class="s0">if </span><span class="s1">count &gt; </span><span class="s4">1</span><span class="s1">:</span>
+        <span class="s0">return True</span>
+    <span class="s0">else</span><span class="s1">:</span>
+        <span class="s0">return False</span>
+
+
+<span class="s0">def </span><span class="s1">check_conditions():</span>
+    <span class="s0">try</span><span class="s1">:</span>
+        <span class="s0">if </span><span class="s1">len(context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]) &lt; </span><span class="s4">2</span><span class="s1">:</span>
+            <span class="s0">raise </span><span class="s1">ValueError(</span><span class="s3">&quot;Set the players that compose the game first&quot;</span><span class="s1">.rjust(</span><span class="s4">97</span><span class="s1">))</span>
+        <span class="s0">if </span><span class="s1">len(mazo) == </span><span class="s4">0</span><span class="s1">:</span>
+            <span class="s1">get_deck(</span><span class="s4">1</span><span class="s1">)</span>
+        <span class="s0">return True</span>
+    <span class="s0">except </span><span class="s1">ValueError </span><span class="s0">as </span><span class="s1">error:</span>
+        <span class="s1">print(error)</span>
+        <span class="s1">input(</span><span class="s3">&quot;Press enter to continue&quot;</span><span class="s1">.rjust(</span><span class="s4">77</span><span class="s1">))</span>
+        <span class="s0">return False</span>
+
+
+<span class="s0">def </span><span class="s1">create_human_player_name():</span>
+    <span class="s0">try</span><span class="s1">:</span>
+        <span class="s1">os.system(</span><span class="s3">&quot;clear&quot;</span><span class="s1">)</span>
+        <span class="s1">print(players_banner)</span>
+        <span class="s1">name = input(</span><span class="s3">&quot;Name: &quot;</span><span class="s1">.rjust(</span><span class="s4">45</span><span class="s1">))</span>
+        <span class="s0">if not </span><span class="s1">name.isspace() </span><span class="s0">or not </span><span class="s1">name == </span><span class="s3">&quot;&quot;</span><span class="s1">:</span>
+            <span class="s0">if not </span><span class="s1">name.isalnum() </span><span class="s0">and not </span><span class="s1">name.isalpha() </span><span class="s0">and not </span><span class="s1">name.isdigit():</span>
+                <span class="s0">raise </span><span class="s1">TypeError(</span><span class="s3">&quot;Incorrect name, please, enter a name not empty with only letters.&quot;</span><span class="s1">.rjust(</span><span class="s4">104</span><span class="s1">))</span>
+            <span class="s1">os.system(</span><span class="s3">&quot;clear&quot;</span><span class="s1">)</span>
+            <span class="s1">print(players_banner)</span>
+        <span class="s1">print(</span><span class="s3">&quot;Name:        &quot;</span><span class="s1">.rjust(</span><span class="s4">52</span><span class="s1">)</span><span class="s0">, </span><span class="s1">name)</span>
+        <span class="s0">return </span><span class="s1">name</span>
+    <span class="s0">except </span><span class="s1">TypeError </span><span class="s0">as </span><span class="s1">error:</span>
+        <span class="s1">print(error)</span>
+        <span class="s1">input(</span><span class="s3">&quot;Enter to continue&quot;</span><span class="s1">.rjust(</span><span class="s4">56</span><span class="s1">))</span>
+        <span class="s0">return </span><span class="s1">create_human_player_name()</span>
+
+
+<span class="s0">def </span><span class="s1">create_human_player_nif(name):</span>
+    <span class="s1">nif = input(</span><span class="s3">&quot;NIF: &quot;</span><span class="s1">.rjust(</span><span class="s4">44</span><span class="s1">))</span>
+    <span class="s0">try</span><span class="s1">:</span>
+        <span class="s0">if not </span><span class="s1">len(nif) == </span><span class="s4">9</span><span class="s1">:</span>
+            <span class="s0">raise </span><span class="s1">ValueError(</span><span class="s3">&quot;Invalid NIF length&quot;</span><span class="s1">)</span>
+        <span class="s0">if not </span><span class="s1">nif[</span><span class="s4">0</span><span class="s1">:</span><span class="s4">7</span><span class="s1">].isdigit() </span><span class="s0">or not </span><span class="s1">nif[</span><span class="s4">8</span><span class="s1">].isalpha():</span>
+            <span class="s0">raise </span><span class="s1">TypeError(</span><span class="s3">&quot;Invalid NIF format&quot;</span><span class="s1">)</span>
+        <span class="s0">if not </span><span class="s1">nif[</span><span class="s4">8</span><span class="s1">] == letras[int(nif[</span><span class="s4">0</span><span class="s1">:</span><span class="s4">8</span><span class="s1">]) % </span><span class="s4">23</span><span class="s1">]:</span>
+            <span class="s0">raise </span><span class="s1">ValueError(</span><span class="s3">&quot;Invalid NIF letter&quot;</span><span class="s1">)</span>
+        <span class="s1">os.system(</span><span class="s3">&quot;clear&quot;</span><span class="s1">)</span>
+        <span class="s1">print(players_banner)</span>
+        <span class="s1">print(</span><span class="s3">&quot;Name:        &quot;</span><span class="s1">.rjust(</span><span class="s4">52</span><span class="s1">)</span><span class="s0">, </span><span class="s1">name)</span>
+        <span class="s1">print(</span><span class="s3">&quot;NIF:         &quot;</span><span class="s1">.rjust(</span><span class="s4">52</span><span class="s1">)</span><span class="s0">, </span><span class="s1">nif)</span>
+        <span class="s0">return </span><span class="s1">nif</span>
+    <span class="s0">except </span><span class="s1">ValueError </span><span class="s0">as </span><span class="s1">error:</span>
+        <span class="s1">print(error)</span>
+    <span class="s0">except </span><span class="s1">TypeError </span><span class="s0">as </span><span class="s1">error:</span>
+        <span class="s1">print(error)</span>
+    <span class="s1">input(</span><span class="s3">&quot;Enter to continue&quot;</span><span class="s1">)</span>
+    <span class="s1">os.system(</span><span class="s3">&quot;clear&quot;</span><span class="s1">)</span>
+    <span class="s1">print(players_banner)</span>
+    <span class="s1">print(</span><span class="s3">&quot;Name:        &quot;</span><span class="s1">.rjust(</span><span class="s4">52</span><span class="s1">)</span><span class="s0">, </span><span class="s1">name)</span>
+    <span class="s0">return </span><span class="s1">create_human_player_nif(name)</span>
+
+
+<span class="s0">def </span><span class="s1">create_human_player_profile(name</span><span class="s0">, </span><span class="s1">nif):</span>
+    <span class="s1">print((</span><span class="s3">&quot; &quot; </span><span class="s1">* </span><span class="s4">38</span><span class="s1">)</span><span class="s0">, </span><span class="s3">&quot;Select your profile:</span><span class="s0">\n</span><span class="s3">&quot;</span><span class="s0">,</span>
+          <span class="s1">(</span><span class="s3">&quot; &quot; </span><span class="s1">* </span><span class="s4">37</span><span class="s1">)</span><span class="s0">, </span><span class="s3">&quot;1)Cautious</span><span class="s0">\n</span><span class="s3">&quot;</span><span class="s0">,</span>
+          <span class="s1">(</span><span class="s3">&quot; &quot; </span><span class="s1">* </span><span class="s4">37</span><span class="s1">)</span><span class="s0">, </span><span class="s3">&quot;2)Moderated</span><span class="s0">\n</span><span class="s3">&quot;</span><span class="s0">,</span>
+          <span class="s1">(</span><span class="s3">&quot; &quot; </span><span class="s1">* </span><span class="s4">37</span><span class="s1">)</span><span class="s0">, </span><span class="s3">&quot;3)Bold&quot;</span><span class="s1">)</span>
+    <span class="s1">profile = input(</span><span class="s3">&quot;Option: &quot;</span><span class="s1">.rjust(</span><span class="s4">47</span><span class="s1">))</span>
+    <span class="s0">try</span><span class="s1">:</span>
+        <span class="s0">if not </span><span class="s1">profile </span><span class="s0">in </span><span class="s1">(</span><span class="s3">'1'</span><span class="s0">, </span><span class="s3">'2'</span><span class="s0">, </span><span class="s3">'3'</span><span class="s1">):</span>
+            <span class="s0">raise </span><span class="s1">ValueError(</span><span class="s3">&quot;Invalid option&quot;</span><span class="s1">)</span>
+        <span class="s0">if </span><span class="s1">profile == </span><span class="s3">'1'</span><span class="s1">:</span>
+            <span class="s1">profile = </span><span class="s3">'Cautious'</span>
+        <span class="s0">elif </span><span class="s1">profile == </span><span class="s3">'2'</span><span class="s1">:</span>
+            <span class="s1">profile = </span><span class="s3">'Moderated'</span>
+        <span class="s0">elif </span><span class="s1">profile == </span><span class="s3">'3'</span><span class="s1">:</span>
+            <span class="s1">profile = </span><span class="s3">'Bold'</span>
+        <span class="s1">os.system(</span><span class="s3">&quot;clear&quot;</span><span class="s1">)</span>
+        <span class="s1">print(players_banner</span><span class="s0">, </span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&quot;</span><span class="s0">, </span><span class="s3">&quot;Name:        &quot;</span><span class="s1">.rjust(</span><span class="s4">51</span><span class="s1">)</span><span class="s0">, </span><span class="s1">name</span><span class="s0">, </span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&quot;</span><span class="s0">, </span><span class="s3">&quot;NIF:         &quot;</span><span class="s1">.rjust(</span><span class="s4">51</span><span class="s1">)</span><span class="s0">, </span><span class="s1">nif</span><span class="s0">,</span>
+              <span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&quot; </span><span class="s1">+ </span><span class="s3">&quot;Profile:     &quot;</span><span class="s1">.rjust(</span><span class="s4">52</span><span class="s1">)</span><span class="s0">, </span><span class="s1">profile)</span>
+        <span class="s0">return </span><span class="s1">profile</span>
+    <span class="s0">except </span><span class="s1">ValueError </span><span class="s0">as </span><span class="s1">error:</span>
+        <span class="s1">print((</span><span class="s3">' ' </span><span class="s1">* </span><span class="s4">38</span><span class="s1">)</span><span class="s0">, </span><span class="s1">error)</span>
+        <span class="s1">input(</span><span class="s3">&quot;Enter to continue&quot;</span><span class="s1">.rjust(</span><span class="s4">56</span><span class="s1">))</span>
+        <span class="s1">os.system(</span><span class="s3">&quot;clear&quot;</span><span class="s1">)</span>
+        <span class="s1">print(players_banner</span><span class="s0">, </span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&quot;</span><span class="s0">, </span><span class="s3">&quot;Name:        &quot;</span><span class="s1">.rjust(</span><span class="s4">51</span><span class="s1">)</span><span class="s0">, </span><span class="s1">name</span><span class="s0">, </span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&quot;</span><span class="s0">, </span><span class="s3">&quot;NIF:         &quot;</span><span class="s1">.rjust(</span><span class="s4">51</span><span class="s1">)</span><span class="s0">, </span><span class="s1">nif)</span>
+        <span class="s0">return </span><span class="s1">create_human_player_profile(name</span><span class="s0">, </span><span class="s1">nif)</span>
+
+
+<span class="s0">def </span><span class="s1">create_human_player():</span>
+    <span class="s1">name = create_human_player_name()</span>
+    <span class="s1">nif = create_human_player_nif(name)</span>
+    <span class="s1">profile = create_human_player_profile(name</span><span class="s0">, </span><span class="s1">nif)</span>
+    <span class="s1">save = create_human_player_check(name</span><span class="s0">, </span><span class="s1">nif</span><span class="s0">, </span><span class="s1">profile)</span>
+    <span class="s0">if </span><span class="s1">profile == </span><span class="s3">'Cautious'</span><span class="s1">:</span>
+        <span class="s1">profile = </span><span class="s4">1</span>
+    <span class="s0">if </span><span class="s1">profile == </span><span class="s3">'Moderated'</span><span class="s1">:</span>
+        <span class="s1">profile = </span><span class="s4">2</span>
+    <span class="s0">if </span><span class="s1">profile == </span><span class="s3">'Bold'</span><span class="s1">:</span>
+        <span class="s1">profile = </span><span class="s4">3</span>
+    <span class="s0">if </span><span class="s1">save:</span>
+        <span class="s1">players[nif] = {</span><span class="s3">&quot;name&quot;</span><span class="s1">: name</span><span class="s0">, </span><span class="s3">&quot;human&quot;</span><span class="s1">: </span><span class="s0">True, </span><span class="s3">&quot;bank&quot;</span><span class="s1">: </span><span class="s0">False, </span><span class="s3">&quot;initialCard&quot;</span><span class="s1">: </span><span class="s3">&quot;&quot;</span><span class="s0">, </span><span class="s3">&quot;priority&quot;</span><span class="s1">: </span><span class="s4">0</span><span class="s0">,</span>
+                        <span class="s3">&quot;type&quot;</span><span class="s1">: </span><span class="s4">40</span><span class="s0">, </span><span class="s3">&quot;bet&quot;</span><span class="s1">: </span><span class="s4">4</span><span class="s0">, </span><span class="s3">&quot;points&quot;</span><span class="s1">: </span><span class="s4">0</span><span class="s0">, </span><span class="s3">&quot;cards&quot;</span><span class="s1">: []</span><span class="s0">, </span><span class="s3">&quot;roundPoints&quot;</span><span class="s1">: </span><span class="s4">0</span><span class="s1">}</span>
+
+
+<span class="s0">def </span><span class="s1">create_human_player_check(name</span><span class="s0">, </span><span class="s1">nif</span><span class="s0">, </span><span class="s1">profile):</span>
+    <span class="s1">opt = input(</span><span class="s3">&quot;Is okay? Y/n: &quot;</span><span class="s1">.rjust(</span><span class="s4">53</span><span class="s1">))</span>
+    <span class="s0">try</span><span class="s1">:</span>
+        <span class="s0">if </span><span class="s1">opt.lower() == </span><span class="s3">'y'</span><span class="s1">:</span>
+            <span class="s0">return True</span>
+        <span class="s0">elif </span><span class="s1">opt.lower() == </span><span class="s3">'n'</span><span class="s1">:</span>
+            <span class="s0">return False</span>
+        <span class="s0">else</span><span class="s1">:</span>
+            <span class="s0">raise </span><span class="s1">ValueError((</span><span class="s3">&quot;=&quot; </span><span class="s1">* </span><span class="s4">61</span><span class="s1">) + </span><span class="s3">&quot;Invalid Option&quot; </span><span class="s1">+ (</span><span class="s3">&quot;=&quot; </span><span class="s1">* </span><span class="s4">66</span><span class="s1">) + </span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&quot;</span><span class="s1">)</span>
+    <span class="s0">except </span><span class="s1">ValueError </span><span class="s0">as </span><span class="s1">error:</span>
+        <span class="s1">print(error)</span>
+        <span class="s1">input(</span><span class="s3">&quot;Press enter to continue&quot;</span><span class="s1">.rjust(</span><span class="s4">79</span><span class="s1">))</span>
+    <span class="s1">os.system(</span><span class="s3">&quot;clear&quot;</span><span class="s1">)</span>
+    <span class="s1">print(players_banner</span><span class="s0">, </span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&quot;</span><span class="s0">, </span><span class="s3">&quot;Name:        &quot;</span><span class="s1">.rjust(</span><span class="s4">51</span><span class="s1">)</span><span class="s0">, </span><span class="s1">name</span><span class="s0">, </span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&quot;</span><span class="s0">, </span><span class="s3">&quot;NIF:         &quot;</span><span class="s1">.rjust(</span><span class="s4">51</span><span class="s1">)</span><span class="s0">, </span><span class="s1">nif</span><span class="s0">,</span>
+          <span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&quot; </span><span class="s1">+ </span><span class="s3">&quot;Profile:     &quot;</span><span class="s1">.rjust(</span><span class="s4">52</span><span class="s1">)</span><span class="s0">, </span><span class="s1">profile)</span>
+    <span class="s0">return </span><span class="s1">create_human_player_check(name</span><span class="s0">, </span><span class="s1">nif</span><span class="s0">, </span><span class="s1">profile)</span>
+
+
+<span class="s0">def </span><span class="s1">insert_players():</span>
+    <span class="s1">query = (</span><span class="s3">&quot;SELECT player_id FROM PLAYER&quot;</span><span class="s1">)</span>
+    <span class="s1">cursorObject.execute(query)</span>
+    <span class="s1">database.commit()</span>
+    <span class="s1">result_raw = cursorObject.fetchall()</span>
+    <span class="s1">result = []</span>
+    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">result_raw:</span>
+        <span class="s1">result.append(x[</span><span class="s4">0</span><span class="s1">])</span>
+    <span class="s1">player_list = players.keys()</span>
+    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">player_list:</span>
+        <span class="s0">if not </span><span class="s1">x </span><span class="s0">in </span><span class="s1">result:</span>
+            <span class="s1">query = (</span><span class="s3">&quot;INSERT INTO player VALUES (%s, %s, %s, %s)&quot;</span><span class="s1">)</span>
+            <span class="s1">values = [(x</span><span class="s0">, </span><span class="s1">players[x][</span><span class="s3">&quot;name&quot;</span><span class="s1">]</span><span class="s0">, </span><span class="s1">players[x][</span><span class="s3">&quot;type&quot;</span><span class="s1">]</span><span class="s0">, </span><span class="s1">players[x][</span><span class="s3">&quot;human&quot;</span><span class="s1">])]</span>
+            <span class="s1">cursorObject.executemany(query</span><span class="s0">, </span><span class="s1">values)</span>
+            <span class="s1">database.commit()</span>
+
+
+<span class="s0">def </span><span class="s1">get_deck(deck):</span>
+    <span class="s1">query = (</span><span class="s3">&quot;SELECT * FROM card WHERE deck_id = {}&quot;</span><span class="s1">.format(deck))</span>
+    <span class="s1">cursorObject.execute(query)</span>
+    <span class="s1">database.commit()</span>
+    <span class="s1">result_raw = cursorObject.fetchall()</span>
+    <span class="s1">result = []</span>
+    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">result_raw:</span>
+        <span class="s1">mazo[x[</span><span class="s4">0</span><span class="s1">]] = {</span><span class="s3">&quot;literal&quot;</span><span class="s1">: x[</span><span class="s4">1</span><span class="s1">]</span><span class="s0">, </span><span class="s3">&quot;value&quot;</span><span class="s1">: x[</span><span class="s4">5</span><span class="s1">]</span><span class="s0">, </span><span class="s3">&quot;priority&quot;</span><span class="s1">: x[</span><span class="s4">4</span><span class="s1">]</span><span class="s0">, </span><span class="s3">&quot;realValue&quot;</span><span class="s1">: float(x[</span><span class="s4">2</span><span class="s1">])}</span>
+
+
+<span class="s0">def </span><span class="s1">random_nif():</span>
+    <span class="s1">nif = </span><span class="s3">&quot;&quot;</span>
+    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">0</span><span class="s0">, </span><span class="s4">8</span><span class="s1">):</span>
+        <span class="s1">nif += str(random.randint(</span><span class="s4">0</span><span class="s0">, </span><span class="s4">9</span><span class="s1">))</span>
+    <span class="s1">letter = letras[int(nif) % </span><span class="s4">23</span><span class="s1">]</span>
+    <span class="s1">nif += letter</span>
+    <span class="s0">if not </span><span class="s1">nif </span><span class="s0">in </span><span class="s1">players:</span>
+        <span class="s0">return </span><span class="s1">nif</span>
+    <span class="s0">else</span><span class="s1">:</span>
+        <span class="s0">return </span><span class="s1">random_nif()</span>
+
+
+<span class="s0">def </span><span class="s1">create_boot():</span>
+    <span class="s1">name = create_human_player_name()</span>
+    <span class="s1">nif = random_nif()</span>
+    <span class="s1">profile = create_human_player_profile(name</span><span class="s0">, </span><span class="s1">nif)</span>
+    <span class="s0">if </span><span class="s1">profile == </span><span class="s3">'Cautious'</span><span class="s1">:</span>
+        <span class="s1">profile = </span><span class="s4">30</span>
+    <span class="s0">elif </span><span class="s1">profile == </span><span class="s3">'Moderated'</span><span class="s1">:</span>
+        <span class="s1">profile = </span><span class="s4">40</span>
+    <span class="s0">elif </span><span class="s1">profile == </span><span class="s3">'Bold'</span><span class="s1">:</span>
+        <span class="s1">profile = </span><span class="s4">60</span>
+    <span class="s1">save = create_human_player_check(name</span><span class="s0">, </span><span class="s1">nif</span><span class="s0">, </span><span class="s1">profile)</span>
+    <span class="s0">if </span><span class="s1">save:</span>
+        <span class="s1">players[nif] = {</span><span class="s3">&quot;name&quot;</span><span class="s1">: name</span><span class="s0">, </span><span class="s3">&quot;human&quot;</span><span class="s1">: </span><span class="s0">False, </span><span class="s3">&quot;bank&quot;</span><span class="s1">: </span><span class="s0">False, </span><span class="s3">&quot;initialCard&quot;</span><span class="s1">: </span><span class="s3">&quot;&quot;</span><span class="s0">, </span><span class="s3">&quot;priority&quot;</span><span class="s1">: </span><span class="s4">0</span><span class="s0">,</span>
+                        <span class="s3">&quot;type&quot;</span><span class="s1">: profile</span><span class="s0">, </span><span class="s3">&quot;bet&quot;</span><span class="s1">: </span><span class="s4">4</span><span class="s0">, </span><span class="s3">&quot;points&quot;</span><span class="s1">: </span><span class="s4">0</span><span class="s0">, </span><span class="s3">&quot;cards &quot;</span><span class="s1">: []</span><span class="s0">, </span><span class="s3">&quot;roundPoints&quot;</span><span class="s1">: </span><span class="s4">0</span><span class="s1">}</span>
+
+
+<span class="s0">def </span><span class="s1">show_players():</span>
+    <span class="s1">os.system(</span><span class="s3">&quot;clear&quot;</span><span class="s1">)</span>
+    <span class="s1">print(menu_13)</span>
+    <span class="s1">print(</span><span class="s3">&quot;Select players&quot;</span><span class="s1">.center(</span><span class="s4">140</span><span class="s0">, </span><span class="s3">'*'</span><span class="s1">))</span>
+    <span class="s1">print(</span><span class="s3">&quot;Boot Player&quot;</span><span class="s1">.center(</span><span class="s4">68</span><span class="s1">) + </span><span class="s3">&quot;||&quot; </span><span class="s1">+ </span><span class="s3">&quot;Human Players&quot;</span><span class="s1">.center(</span><span class="s4">68</span><span class="s1">))</span>
+    <span class="s1">print(</span><span class="s3">'-' </span><span class="s1">* </span><span class="s4">140</span><span class="s1">)</span>
+    <span class="s1">print(</span><span class="s3">&quot;ID&quot;</span><span class="s1">.ljust(</span><span class="s4">21</span><span class="s1">) + </span><span class="s3">&quot;Name&quot;</span><span class="s1">.ljust(</span><span class="s4">24</span><span class="s1">) + </span><span class="s3">&quot;Type&quot;</span><span class="s1">.ljust(</span><span class="s4">23</span><span class="s1">) + </span><span class="s3">&quot;||&quot;</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;  &quot;</span><span class="s1">)</span>
+    <span class="s1">print(</span><span class="s3">&quot;ID&quot;</span><span class="s1">.ljust(</span><span class="s4">21</span><span class="s1">) + </span><span class="s3">&quot;Name&quot;</span><span class="s1">.ljust(</span><span class="s4">24</span><span class="s1">) + </span><span class="s3">&quot;Type&quot;</span><span class="s1">)</span>
+    <span class="s1">print(</span><span class="s3">'*' </span><span class="s1">* </span><span class="s4">140</span><span class="s1">)</span>
+    <span class="s1">bots = []</span>
+    <span class="s1">humans = []</span>
+    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">players:</span>
+        <span class="s0">if </span><span class="s1">players[x][</span><span class="s3">&quot;human&quot;</span><span class="s1">] </span><span class="s0">is False</span><span class="s1">:</span>
+            <span class="s1">bots.append(x)</span>
+        <span class="s0">else</span><span class="s1">:</span>
+            <span class="s1">humans.append(x)</span>
+    <span class="s0">while </span><span class="s1">len(humans) &gt; </span><span class="s4">0 </span><span class="s0">or </span><span class="s1">len(bots) &gt; </span><span class="s4">0</span><span class="s1">:</span>
+        <span class="s0">if </span><span class="s1">len(bots) &gt; </span><span class="s4">0</span><span class="s1">:</span>
+            <span class="s1">print(bots[</span><span class="s4">0</span><span class="s1">].ljust(</span><span class="s4">20</span><span class="s1">)</span><span class="s0">, </span><span class="s1">players[bots[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;name&quot;</span><span class="s1">].ljust(</span><span class="s4">24</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;&quot;</span><span class="s1">)</span>
+            <span class="s0">if </span><span class="s1">players[bots[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">30</span><span class="s1">:</span>
+                <span class="s1">print(</span><span class="s3">&quot;Cautious&quot;</span><span class="s1">.ljust(</span><span class="s4">23</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;||&quot;</span><span class="s1">.ljust(</span><span class="s4">4</span><span class="s1">))</span>
+            <span class="s0">elif </span><span class="s1">players[bots[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">40</span><span class="s1">:</span>
+                <span class="s1">print(</span><span class="s3">&quot;Moderate&quot;</span><span class="s1">.ljust(</span><span class="s4">23</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;||&quot;</span><span class="s1">.ljust(</span><span class="s4">4</span><span class="s1">))</span>
+            <span class="s0">elif </span><span class="s1">players[bots[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">60</span><span class="s1">:</span>
+                <span class="s1">print(</span><span class="s3">&quot;Bold&quot;</span><span class="s1">.ljust(</span><span class="s4">23</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;||&quot;</span><span class="s1">.ljust(</span><span class="s4">4</span><span class="s1">))</span>
+            <span class="s0">del </span><span class="s1">bots[</span><span class="s4">0</span><span class="s1">]</span>
+        <span class="s0">else</span><span class="s1">:</span>
+            <span class="s1">print(</span><span class="s3">&quot;&quot;</span><span class="s1">.ljust(</span><span class="s4">68</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;||&quot;</span><span class="s1">.ljust(</span><span class="s4">4</span><span class="s1">))</span>
+        <span class="s0">if </span><span class="s1">len(humans) &gt; </span><span class="s4">0</span><span class="s1">:</span>
+            <span class="s1">print(humans[</span><span class="s4">0</span><span class="s1">].ljust(</span><span class="s4">20</span><span class="s1">)</span><span class="s0">, </span><span class="s1">players[humans[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;name&quot;</span><span class="s1">].ljust(</span><span class="s4">24</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;&quot;</span><span class="s1">)</span>
+            <span class="s0">if </span><span class="s1">players[humans[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">30</span><span class="s1">:</span>
+                <span class="s1">print(</span><span class="s3">&quot;Cautious&quot;</span><span class="s1">.ljust(</span><span class="s4">23</span><span class="s1">).ljust(</span><span class="s4">8</span><span class="s1">))</span>
+            <span class="s0">elif </span><span class="s1">players[humans[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">40</span><span class="s1">:</span>
+                <span class="s1">print(</span><span class="s3">&quot;Moderate&quot;</span><span class="s1">.ljust(</span><span class="s4">23</span><span class="s1">).ljust(</span><span class="s4">8</span><span class="s1">))</span>
+            <span class="s0">elif </span><span class="s1">players[humans[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">60</span><span class="s1">:</span>
+                <span class="s1">print(</span><span class="s3">&quot;Bold&quot;</span><span class="s1">.ljust(</span><span class="s4">23</span><span class="s1">).ljust(</span><span class="s4">8</span><span class="s1">))</span>
+            <span class="s0">del </span><span class="s1">humans[</span><span class="s4">0</span><span class="s1">]</span>
+        <span class="s0">else</span><span class="s1">:</span>
+            <span class="s1">print()</span>
+    <span class="s1">print(</span><span class="s3">&quot;</span><span class="s0">\n\n</span><span class="s3">&quot; </span><span class="s1">+ (</span><span class="s3">&quot;*&quot; </span><span class="s1">* </span><span class="s4">140</span><span class="s1">))</span>
+    <span class="s1">opt = input(</span><span class="s3">&quot;</span><span class="s0">\n\n</span><span class="s3">&quot;</span><span class="s1">.ljust(</span><span class="s4">50</span><span class="s1">) + </span><span class="s3">&quot;Option (   -id to remove player, -1 to exit): &quot;</span><span class="s1">)</span>
+    <span class="s0">if </span><span class="s1">len(opt) &gt; </span><span class="s4">0</span><span class="s1">:</span>
+        <span class="s0">if </span><span class="s1">opt[</span><span class="s4">0</span><span class="s1">] == </span><span class="s3">'-' </span><span class="s0">and </span><span class="s1">len(opt) == </span><span class="s4">10</span><span class="s1">:</span>
+            <span class="s0">if </span><span class="s1">opt[</span><span class="s4">1</span><span class="s1">:] </span><span class="s0">in </span><span class="s1">players:</span>
+                <span class="s1">delete_players[opt[</span><span class="s4">1</span><span class="s1">:]] = opt[</span><span class="s4">1</span><span class="s1">:]</span>
+                <span class="s0">del </span><span class="s1">players[opt[</span><span class="s4">1</span><span class="s1">:]]</span>
+                <span class="s1">input(</span><span class="s3">&quot;Press enter to continue&quot;</span><span class="s1">.rjust(</span><span class="s4">71</span><span class="s1">))</span>
+                <span class="s1">show_players()</span>
+        <span class="s0">elif </span><span class="s1">opt == </span><span class="s3">'-1'</span><span class="s1">:</span>
+            <span class="s1">print()</span>
+        <span class="s0">else</span><span class="s1">:</span>
+            <span class="s1">print((</span><span class="s3">&quot;=&quot; </span><span class="s1">* </span><span class="s4">66</span><span class="s1">) + </span><span class="s3">&quot;Invalid Option&quot; </span><span class="s1">+ (</span><span class="s3">&quot;=&quot; </span><span class="s1">* </span><span class="s4">66</span><span class="s1">))</span>
+            <span class="s1">input(</span><span class="s3">&quot;Press enter to continue&quot;</span><span class="s1">.rjust(</span><span class="s4">71</span><span class="s1">))</span>
+            <span class="s1">show_players()</span>
+
+    <span class="s0">else</span><span class="s1">:</span>
+        <span class="s1">print((</span><span class="s3">&quot;=&quot; </span><span class="s1">* </span><span class="s4">66</span><span class="s1">) + </span><span class="s3">&quot;Invalid Option&quot; </span><span class="s1">+ (</span><span class="s3">&quot;=&quot; </span><span class="s1">* </span><span class="s4">66</span><span class="s1">))</span>
+        <span class="s1">input(</span><span class="s3">&quot;Press enter to continue&quot;</span><span class="s1">.rjust(</span><span class="s4">71</span><span class="s1">))</span>
+        <span class="s1">show_players()</span>
+
+
+<span class="s0">def </span><span class="s1">bet_on_risk(nif):</span>
+    <span class="s0">if </span><span class="s1">players[nif][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">30</span><span class="s1">:</span>
+        <span class="s1">players[nif][</span><span class="s3">&quot;bet&quot;</span><span class="s1">] = players[nif][</span><span class="s3">&quot;points&quot;</span><span class="s1">] // </span><span class="s4">4</span>
+    <span class="s0">elif </span><span class="s1">players[nif][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">40</span><span class="s1">:</span>
+        <span class="s1">players[nif][</span><span class="s3">&quot;bet&quot;</span><span class="s1">] = players[nif][</span><span class="s3">&quot;points&quot;</span><span class="s1">] // </span><span class="s4">2</span>
+    <span class="s0">elif </span><span class="s1">players[nif][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">60</span><span class="s1">:</span>
+        <span class="s1">players[nif][</span><span class="s3">&quot;bet&quot;</span><span class="s1">] = players[nif][</span><span class="s3">&quot;points&quot;</span><span class="s1">] * </span><span class="s4">1</span>
+    <span class="s0">if </span><span class="s1">players[nif][</span><span class="s3">&quot;bet&quot;</span><span class="s1">] &lt; </span><span class="s4">1</span><span class="s1">:</span>
+        <span class="s1">players[nif][</span><span class="s3">&quot;bet&quot;</span><span class="s1">] = </span><span class="s4">1</span>
+
+
+<span class="s0">def </span><span class="s1">invert_list(lista):</span>
+    <span class="s1">lista_invertida = []</span>
+    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(len(lista)):</span>
+        <span class="s1">lista_invertida.append(lista[-</span><span class="s4">1</span><span class="s1">])</span>
+        <span class="s1">lista = lista[:-</span><span class="s4">1</span><span class="s1">]</span>
+    <span class="s0">return </span><span class="s1">lista_invertida</span>
+
+
+<span class="s0">def </span><span class="s1">setMaxRounds():</span>
+    <span class="s0">try</span><span class="s1">:</span>
+        <span class="s1">os.system(</span><span class="s3">&quot;clear&quot;</span><span class="s1">)</span>
+        <span class="s1">print(menu_23</span><span class="s0">, </span><span class="s3">&quot;</span><span class="s0">\n\n</span><span class="s3">&quot;</span><span class="s1">)</span>
+        <span class="s1">maxRounds = input(</span><span class="s3">&quot;Max Rounds: &quot;</span><span class="s1">.rjust(</span><span class="s4">60</span><span class="s1">))</span>
+        <span class="s0">if </span><span class="s1">maxRounds.isdigit() </span><span class="s0">and </span><span class="s1">int(maxRounds) </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">1</span><span class="s0">, </span><span class="s4">21</span><span class="s1">):</span>
+            <span class="s0">return </span><span class="s1">int(maxRounds)</span>
+        <span class="s0">elif </span><span class="s1">maxRounds.isdigit() </span><span class="s0">and </span><span class="s1">int(maxRounds) &lt; </span><span class="s4">1</span><span class="s1">:</span>
+            <span class="s0">raise </span><span class="s1">ValueError(</span><span class="s3">&quot;Please, enter only positive numbers&quot;</span><span class="s1">)</span>
+        <span class="s0">elif </span><span class="s1">maxRounds.isdigit() </span><span class="s0">and </span><span class="s1">int(maxRounds) &gt; </span><span class="s4">20</span><span class="s1">:</span>
+            <span class="s0">raise </span><span class="s1">ValueError(</span><span class="s3">&quot;Max Rounds Has To Be Between 0 and 20&quot;</span><span class="s1">)</span>
+        <span class="s0">else</span><span class="s1">:</span>
+            <span class="s0">raise </span><span class="s1">ValueError(</span><span class="s3">&quot;Please, enter only numbers&quot;</span><span class="s1">)</span>
+    <span class="s0">except </span><span class="s1">ValueError </span><span class="s0">as </span><span class="s1">error:</span>
+        <span class="s1">print(</span><span class="s3">&quot;&quot;</span><span class="s1">.ljust(</span><span class="s4">47</span><span class="s1">)</span><span class="s0">, </span><span class="s1">error)</span>
+        <span class="s1">input(</span><span class="s3">&quot;Enter to continue&quot;</span><span class="s1">.rjust(</span><span class="s4">65</span><span class="s1">))</span>
+        <span class="s0">return </span><span class="s1">setMaxRounds()</span>
+
+
+<span class="s0">def </span><span class="s1">check_valid_bet(total_points):</span>
+    <span class="s0">try</span><span class="s1">:</span>
+        <span class="s1">bet = input(</span><span class="s3">&quot;Set the new Bet: &quot;</span><span class="s1">)</span>
+        <span class="s0">if not </span><span class="s1">bet.isdigit():</span>
+            <span class="s0">raise </span><span class="s1">TypeError(</span><span class="s3">&quot;Please, introduce only numbers&quot;</span><span class="s1">)</span>
+        <span class="s0">elif </span><span class="s1">int(bet) &gt; total_points </span><span class="s0">or </span><span class="s1">int(bet) &lt;= </span><span class="s4">0</span><span class="s1">:</span>
+            <span class="s0">raise </span><span class="s1">ValueError(</span><span class="s3">&quot;The New Bet has to be a number between 1 and &quot; </span><span class="s1">+ str(total_points))</span>
+        <span class="s0">else</span><span class="s1">:</span>
+            <span class="s0">return </span><span class="s1">int(bet)</span>
+
+    <span class="s0">except </span><span class="s1">TypeError </span><span class="s0">as </span><span class="s1">e:</span>
+        <span class="s1">print(e)</span>
+    <span class="s0">except </span><span class="s1">ValueError </span><span class="s0">as </span><span class="s1">e:</span>
+        <span class="s1">print(e)</span>
+
+    <span class="s0">return </span><span class="s1">check_valid_bet(total_points)</span>
+
+
+<span class="s2"># Funcion para saber el porcetage de sacar mas de 7.5</span>
+<span class="s0">def </span><span class="s1">moreThan7_half(current_points</span><span class="s0">, </span><span class="s1">available_cards):</span>
+    <span class="s1">total = len(available_cards)</span>
+    <span class="s1">losing_cards = </span><span class="s4">0</span>
+    <span class="s0">for </span><span class="s1">card </span><span class="s0">in </span><span class="s1">available_cards:</span>
+        <span class="s0">if </span><span class="s1">(mazo[card][</span><span class="s3">&quot;realValue&quot;</span><span class="s1">] + current_points) &gt; </span><span class="s4">7.5</span><span class="s1">:</span>
+            <span class="s1">losing_cards += </span><span class="s4">1</span>
+
+    <span class="s0">return </span><span class="s1">losing_cards / total * </span><span class="s4">100</span>
+
+
+<span class="s0">def </span><span class="s1">turn(deck</span><span class="s0">, </span><span class="s1">round):</span>
+    <span class="s1">reset_roundPoints()</span>
+    <span class="s1">given_cards = []</span>
+    <span class="s2"># Se realizan las apuestas de cada jugador</span>
+    <span class="s2"># Recorremos la lista de jugadores ordenada por prioridad ascendente</span>
+    <span class="s1">opt = </span><span class="s3">'e'</span>
+    <span class="s1">reset_cards()</span>
+    <span class="s1">bank = context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][-</span><span class="s4">1</span><span class="s1">]</span>
+    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]:</span>
+        <span class="s1">bet_on_risk(x)</span>
+        <span class="s1">deck = barajar_mazo(deck)</span>
+        <span class="s0">if </span><span class="s1">players[x][</span><span class="s3">&quot;human&quot;</span><span class="s1">] </span><span class="s0">is False</span><span class="s1">:</span>
+            <span class="s1">deck</span><span class="s0">, </span><span class="s1">given_cards = card_phase(deck</span><span class="s0">, </span><span class="s1">given_cards</span><span class="s0">, </span><span class="s1">x)</span>
+        <span class="s0">else</span><span class="s1">:</span>
+            <span class="s1">head = Seven_and_half + (</span><span class="s3">&quot; Round &quot; </span><span class="s1">+ str(round) + </span><span class="s3">&quot;, &quot; </span><span class="s1">+ players[x][</span><span class="s3">&quot;name&quot;</span><span class="s1">] + </span><span class="s3">&quot;'s turn &quot;</span><span class="s1">).center(</span><span class="s4">140</span><span class="s0">, </span><span class="s3">&quot;*&quot;</span><span class="s1">)</span>
+            <span class="s1">head += menu_ingame + </span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&quot;</span>
+            <span class="s1">opt = menu(head</span><span class="s0">, </span><span class="s1">menu_ingame_opt)</span>
+            <span class="s0">while not </span><span class="s1">opt == </span><span class="s3">'3'</span><span class="s1">:</span>
+                <span class="s0">if </span><span class="s1">opt == </span><span class="s3">'1'</span><span class="s1">:</span>
+                    <span class="s1">bet_phase(x)</span>
+                <span class="s0">if </span><span class="s1">opt == </span><span class="s3">'2'</span><span class="s1">:</span>
+                    <span class="s1">deck</span><span class="s0">, </span><span class="s1">given_cards = card_phase(deck</span><span class="s0">, </span><span class="s1">given_cards</span><span class="s0">, </span><span class="s1">x)</span>
+                <span class="s0">if </span><span class="s1">opt == </span><span class="s3">'4'</span><span class="s1">:</span>
+                    <span class="s1">print_stats()</span>
+                    <span class="s1">input(</span><span class="s3">&quot;Press enter to continue&quot;</span><span class="s1">)</span>
+                <span class="s0">if </span><span class="s1">opt == </span><span class="s3">'5'</span><span class="s1">:</span>
+                    <span class="s1">deck</span><span class="s0">, </span><span class="s1">given_cards = card_phase(deck</span><span class="s0">, </span><span class="s1">given_cards</span><span class="s0">, </span><span class="s1">x</span><span class="s0">, </span><span class="s1">y=</span><span class="s3">&quot;2&quot;</span><span class="s1">)</span>
+                    <span class="s1">opt = </span><span class="s3">'3'</span>
+                <span class="s2"># Guardamos el NIF del actual banco en una variable</span>
+                <span class="s0">if not </span><span class="s1">opt == </span><span class="s3">'3'</span><span class="s1">:</span>
+                    <span class="s1">opt = menu(head</span><span class="s0">, </span><span class="s1">menu_ingame_opt)</span>
+    <span class="s2"># Repartimos puntos</span>
+    <span class="s1">return_cards(given_cards</span><span class="s0">, </span><span class="s1">deck)</span>
+    <span class="s1">bank = give_points(bank)</span>
+
+
+<span class="s0">def </span><span class="s1">card_phase(deck</span><span class="s0">, </span><span class="s1">given_cards</span><span class="s0">, </span><span class="s1">x=</span><span class="s3">&quot;&quot;</span><span class="s0">, </span><span class="s1">y=</span><span class="s3">&quot;&quot;</span><span class="s1">):</span>
+    <span class="s0">if </span><span class="s1">players[x][</span><span class="s3">&quot;human&quot;</span><span class="s1">] </span><span class="s0">is True and </span><span class="s1">y == </span><span class="s3">&quot;&quot;</span><span class="s1">:</span>
+        <span class="s0">if </span><span class="s1">len(players[x][</span><span class="s3">&quot;cards&quot;</span><span class="s1">]) &gt; </span><span class="s4">0</span><span class="s1">:</span>
+            <span class="s1">chance = floor(moreThan7_half(players[x][</span><span class="s3">&quot;roundPoints&quot;</span><span class="s1">]</span><span class="s0">, </span><span class="s1">deck))</span>
+            <span class="s1">print(</span><span class="s3">&quot;&quot;</span><span class="s1">.ljust(</span><span class="s4">54</span><span class="s1">) + </span><span class="s3">&quot;chance of passing 7.5 is: &quot;</span><span class="s0">, </span><span class="s1">chance</span><span class="s0">, </span><span class="s3">&quot;%&quot;</span><span class="s1">)</span>
+        <span class="s1">order = input(</span><span class="s3">&quot;&quot;</span><span class="s1">.ljust(</span><span class="s4">54</span><span class="s1">) + </span><span class="s3">&quot;{} order card? Y/N&quot;</span><span class="s1">.format(players[x][</span><span class="s3">&quot;name&quot;</span><span class="s1">]))</span>
+        <span class="s0">if </span><span class="s1">order.lower() == </span><span class="s3">&quot;y&quot;</span><span class="s1">:</span>
+            <span class="s2"># Guardamos las cartas que le salen a cada jugador</span>
+            <span class="s1">players[x][</span><span class="s3">&quot;cards&quot;</span><span class="s1">].append(deck[</span><span class="s4">0</span><span class="s1">])</span>
+            <span class="s2"># Añadimos el valor de la carta a los puntos de ronda dl jugador</span>
+            <span class="s1">players[x][</span><span class="s3">&quot;roundPoints&quot;</span><span class="s1">] += mazo[deck[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;realValue&quot;</span><span class="s1">]</span>
+            <span class="s2"># Guardamos en una lista las cartas que han salido</span>
+            <span class="s1">given_cards.append(deck[</span><span class="s4">0</span><span class="s1">])</span>
+            <span class="s1">print(</span><span class="s3">&quot;&quot;</span><span class="s1">.ljust(</span><span class="s4">54</span><span class="s1">) + </span><span class="s3">&quot;The new card is {}&quot;</span><span class="s1">.format(mazo[deck[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;literal&quot;</span><span class="s1">]))</span>
+            <span class="s2"># Eliminamos las cartas que salen del mazo</span>
+            <span class="s0">del </span><span class="s1">deck[</span><span class="s4">0</span><span class="s1">]</span>
+            <span class="s1">print(</span><span class="s3">&quot;&quot;</span><span class="s1">.ljust(</span><span class="s4">54</span><span class="s1">) + </span><span class="s3">&quot;Current points:&quot;</span><span class="s0">, </span><span class="s1">players[x][</span><span class="s3">&quot;roundPoints&quot;</span><span class="s1">])</span>
+            <span class="s1">input(</span><span class="s3">&quot;Enter to continue&quot;</span><span class="s1">.rjust(</span><span class="s4">71</span><span class="s1">))</span>
+    <span class="s0">else</span><span class="s1">:</span>
+        <span class="s1">chance = moreThan7_half(players[x][</span><span class="s3">&quot;roundPoints&quot;</span><span class="s1">]</span><span class="s0">, </span><span class="s1">deck)</span>
+        <span class="s0">while </span><span class="s1">chance &lt; players[x][</span><span class="s3">&quot;type&quot;</span><span class="s1">]:</span>
+            <span class="s1">players[x][</span><span class="s3">&quot;cards&quot;</span><span class="s1">].append(deck[</span><span class="s4">0</span><span class="s1">])</span>
+            <span class="s2"># Añadimos el valor de la carta a los puntos de ronda dl jugador</span>
+            <span class="s1">players[x][</span><span class="s3">&quot;roundPoints&quot;</span><span class="s1">] += mazo[deck[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;realValue&quot;</span><span class="s1">]</span>
+            <span class="s2"># Guardamos en una lista las cartas que han salido</span>
+            <span class="s1">given_cards.append(deck[</span><span class="s4">0</span><span class="s1">])</span>
+            <span class="s2"># Eliminamos las cartas que salen del mazo</span>
+            <span class="s0">del </span><span class="s1">deck[</span><span class="s4">0</span><span class="s1">]</span>
+            <span class="s1">chance = moreThan7_half(players[x][</span><span class="s3">&quot;roundPoints&quot;</span><span class="s1">]</span><span class="s0">, </span><span class="s1">deck)</span>
+    <span class="s2"># Devolvemos las cartas que han salido al mazo</span>
+    <span class="s0">return </span><span class="s1">deck</span><span class="s0">, </span><span class="s1">given_cards</span>
+
+
+<span class="s0">def </span><span class="s1">game_setup():</span>
+    <span class="s2"># Reseteamos los puntos de los jugadores a 20</span>
+    <span class="s1">reset_points()</span>
+    <span class="s2"># Barjamos el mazo antes de establecer prioridades</span>
+    <span class="s1">deck = barajar_mazo(list(mazo.keys()))</span>
+    <span class="s2"># Establecemos las prioridades de los jugadores</span>
+    <span class="s1">given_cards = set_game_priority(deck)</span>
+    <span class="s2"># Devolvemos las cartas al mazo</span>
+    <span class="s1">given_cards = []</span>
+    <span class="s2"># Volvemos a barajar el mazo</span>
+    <span class="s1">deck = barajar_mazo(deck)</span>
+    <span class="s0">return </span><span class="s1">deck</span>
+
+
+<span class="s0">def </span><span class="s1">bet_phase(x=</span><span class="s3">&quot;&quot;</span><span class="s1">):</span>
+    <span class="s2"># La banca no apuesta</span>
+    <span class="s0">if not </span><span class="s1">players[x][</span><span class="s3">&quot;bank&quot;</span><span class="s1">]:</span>
+        <span class="s2"># Si el jugador es humano, realiza su apuesta manualmente *crear funcion para hacer la apuesta</span>
+        <span class="s0">if </span><span class="s1">players[x][</span><span class="s3">&quot;human&quot;</span><span class="s1">]:</span>
+            <span class="s1">print(players[x][</span><span class="s3">&quot;name&quot;</span><span class="s1">]</span><span class="s0">, </span><span class="s3">&quot;points:&quot;</span><span class="s0">, </span><span class="s1">players[x][</span><span class="s3">&quot;points&quot;</span><span class="s1">])</span>
+            <span class="s1">players[x][</span><span class="s3">&quot;bet&quot;</span><span class="s1">] = check_valid_bet(players[x][</span><span class="s3">&quot;points&quot;</span><span class="s1">])</span>
+        <span class="s2"># Funcion que realiza la apuesta de un bot</span>
+        <span class="s0">else</span><span class="s1">:</span>
+            <span class="s1">print(players[x][</span><span class="s3">&quot;name&quot;</span><span class="s1">]</span><span class="s0">, </span><span class="s3">&quot;points:&quot;</span><span class="s0">, </span><span class="s1">players[x][</span><span class="s3">&quot;points&quot;</span><span class="s1">])</span>
+            <span class="s1">bet_on_risk(x)</span>
+    <span class="s0">else</span><span class="s1">:</span>
+        <span class="s1">print(</span><span class="s3">&quot;The bank doesnt bet!!!&quot;</span><span class="s1">)</span>
+
+
+<span class="s0">def </span><span class="s1">start_game():</span>
+    <span class="s1">print(context_game[</span><span class="s3">&quot;rounds&quot;</span><span class="s1">])</span>
+    <span class="s2"># Realizamos las configuraciones iniciales</span>
+    <span class="s1">context_game[</span><span class="s3">&quot;mazo&quot;</span><span class="s1">] = game_setup()</span>
+    <span class="s2"># Realizamos turnos hasta que se terminan las rondas</span>
+    <span class="s1">print_stats()</span>
+    <span class="s1">input(</span><span class="s3">&quot;Press enter to continue&quot;</span><span class="s1">.rjust(</span><span class="s4">78</span><span class="s1">))</span>
+    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">0</span><span class="s0">, </span><span class="s1">context_game[</span><span class="s3">&quot;rounds&quot;</span><span class="s1">]):</span>
+        <span class="s1">turn(context_game[</span><span class="s3">&quot;mazo&quot;</span><span class="s1">]</span><span class="s0">, </span><span class="s1">i)</span>
+        <span class="s2"># Si no hay almenos 2 jugadores con puntos, termina la partida</span>
+        <span class="s1">s_players = check_minimum_2_player_with_points()</span>
+        <span class="s0">if not </span><span class="s1">s_players:</span>
+            <span class="s1">winner(i)</span>
+            <span class="s1">reset_cards()</span>
+            <span class="s0">break</span>
+        <span class="s1">print_stats()</span>
+        <span class="s1">opt = input(</span><span class="s3">&quot;Press enter start another round, exit to go back: &quot;</span><span class="s1">.rjust(</span><span class="s4">97</span><span class="s1">))</span>
+        <span class="s0">if </span><span class="s1">opt == </span><span class="s3">&quot;exit&quot;</span><span class="s1">:</span>
+            <span class="s0">break</span>
+        <span class="s0">if </span><span class="s1">i == context_game[</span><span class="s3">&quot;rounds&quot;</span><span class="s1">] - </span><span class="s4">1</span><span class="s1">:</span>
+            <span class="s1">winner(i)</span>
+            <span class="s1">reset_cards()</span>
+
+
+<span class="s0">def </span><span class="s1">return_cards(given_cards</span><span class="s0">, </span><span class="s1">deck):</span>
+    <span class="s2"># Añadimos las cartas que han salido devuelta al mazo</span>
+    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">given_cards:</span>
+        <span class="s1">deck.append(x)</span>
+
+
+<span class="s0">def </span><span class="s1">seven_and_half():</span>
+    <span class="s2"># Funcion que devuleve una lista con los jugadores que tengan 7.5</span>
+    <span class="s1">lista_siete_y_medio = []</span>
+    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]:</span>
+        <span class="s0">if </span><span class="s1">players[x][</span><span class="s3">&quot;roundPoints&quot;</span><span class="s1">] == </span><span class="s4">7.5</span><span class="s1">:</span>
+            <span class="s1">lista_siete_y_medio.append(x)</span>
+    <span class="s0">return </span><span class="s1">lista_siete_y_medio</span>
+
+
+<span class="s0">def </span><span class="s1">give_points(bank):</span>
+    <span class="s2"># Guardamos los 7.5 en una lista</span>
+    <span class="s1">contenders = seven_and_half()</span>
+    <span class="s2"># Creamos una copia invertida de la lista de jugadores para repartir por prioridad</span>
+    <span class="s1">priority_list = invert_list(context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">])</span>
+    <span class="s2"># Eliminamos al banco de la lista (ya que este es que da los puntos)</span>
+    <span class="s0">del </span><span class="s1">priority_list[</span><span class="s4">0</span><span class="s1">]</span>
+    <span class="s2"># En funcion de las puntuaciones asignamos los puntos en orden de prioridad</span>
+    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">priority_list:</span>
+        <span class="s0">if </span><span class="s1">bank </span><span class="s0">in </span><span class="s1">contenders:</span>
+            <span class="s1">players[x][</span><span class="s3">&quot;points&quot;</span><span class="s1">] -= players[x][</span><span class="s3">&quot;bet&quot;</span><span class="s1">]</span>
+            <span class="s1">players[bank][</span><span class="s3">&quot;points&quot;</span><span class="s1">] += players[x][</span><span class="s3">&quot;bet&quot;</span><span class="s1">]</span>
+            <span class="s0">if </span><span class="s1">players[x][</span><span class="s3">&quot;points&quot;</span><span class="s1">] == </span><span class="s4">0</span><span class="s1">:</span>
+                <span class="s1">print(players[x][</span><span class="s3">&quot;name&quot;</span><span class="s1">]</span><span class="s0">, </span><span class="s3">&quot;lost&quot;</span><span class="s1">)</span>
+        <span class="s0">else</span><span class="s1">:</span>
+            <span class="s0">if </span><span class="s1">x </span><span class="s0">in </span><span class="s1">contenders:</span>
+                <span class="s0">if </span><span class="s1">players[bank][</span><span class="s3">&quot;points&quot;</span><span class="s1">] &gt; players[x][</span><span class="s3">&quot;bet&quot;</span><span class="s1">]:</span>
+                    <span class="s1">players[x][</span><span class="s3">&quot;points&quot;</span><span class="s1">] += players[x][</span><span class="s3">&quot;bet&quot;</span><span class="s1">] * </span><span class="s4">2</span>
+                    <span class="s1">players[bank][</span><span class="s3">&quot;points&quot;</span><span class="s1">] -= players[x][</span><span class="s3">&quot;bet&quot;</span><span class="s1">]</span>
+                <span class="s0">else</span><span class="s1">:</span>
+                    <span class="s1">players[x][</span><span class="s3">&quot;points&quot;</span><span class="s1">] += players[bank][</span><span class="s3">&quot;points&quot;</span><span class="s1">]</span>
+                    <span class="s1">players[bank][</span><span class="s3">&quot;points&quot;</span><span class="s1">] = </span><span class="s4">0</span>
+            <span class="s0">if </span><span class="s1">players[x][</span><span class="s3">&quot;roundPoints&quot;</span><span class="s1">] &lt; </span><span class="s4">7.5</span><span class="s1">:</span>
+                <span class="s0">if </span><span class="s1">players[bank][</span><span class="s3">&quot;roundPoints&quot;</span><span class="s1">] &lt; </span><span class="s4">7.5</span><span class="s1">:</span>
+                    <span class="s0">if </span><span class="s1">players[x][</span><span class="s3">&quot;roundPoints&quot;</span><span class="s1">] &gt; players[bank][</span><span class="s3">&quot;roundPoints&quot;</span><span class="s1">]:</span>
+                        <span class="s0">if </span><span class="s1">players[bank][</span><span class="s3">&quot;points&quot;</span><span class="s1">] &gt; players[x][</span><span class="s3">&quot;bet&quot;</span><span class="s1">]:</span>
+                            <span class="s1">players[x][</span><span class="s3">&quot;points&quot;</span><span class="s1">] += players[x][</span><span class="s3">&quot;bet&quot;</span><span class="s1">]</span>
+                            <span class="s1">players[bank][</span><span class="s3">&quot;points&quot;</span><span class="s1">] -= players[x][</span><span class="s3">&quot;bet&quot;</span><span class="s1">]</span>
+                        <span class="s0">else</span><span class="s1">:</span>
+                            <span class="s1">players[x][</span><span class="s3">&quot;points&quot;</span><span class="s1">] += players[bank][</span><span class="s3">&quot;points&quot;</span><span class="s1">]</span>
+                            <span class="s1">players[bank][</span><span class="s3">&quot;points&quot;</span><span class="s1">] = </span><span class="s4">0</span>
+                    <span class="s0">else</span><span class="s1">:</span>
+                        <span class="s1">players[x][</span><span class="s3">&quot;points&quot;</span><span class="s1">] -= players[x][</span><span class="s3">&quot;bet&quot;</span><span class="s1">]</span>
+                        <span class="s1">players[bank][</span><span class="s3">&quot;points&quot;</span><span class="s1">] += players[x][</span><span class="s3">&quot;bet&quot;</span><span class="s1">]</span>
+                        <span class="s0">if </span><span class="s1">players[x][</span><span class="s3">&quot;points&quot;</span><span class="s1">] == </span><span class="s4">0</span><span class="s1">:</span>
+                            <span class="s1">print(players[x][</span><span class="s3">&quot;name&quot;</span><span class="s1">]</span><span class="s0">, </span><span class="s3">&quot;lost&quot;</span><span class="s1">)</span>
+                <span class="s0">else</span><span class="s1">:</span>
+                    <span class="s1">players[x][</span><span class="s3">&quot;points&quot;</span><span class="s1">] += players[x][</span><span class="s3">&quot;bet&quot;</span><span class="s1">]</span>
+                    <span class="s1">players[bank][</span><span class="s3">&quot;points&quot;</span><span class="s1">] -= players[x][</span><span class="s3">&quot;bet&quot;</span><span class="s1">]</span>
+            <span class="s0">if </span><span class="s1">players[x][</span><span class="s3">&quot;roundPoints&quot;</span><span class="s1">] &gt; </span><span class="s4">7.5</span><span class="s1">:</span>
+                <span class="s0">if </span><span class="s1">players[bank][</span><span class="s3">&quot;roundPoints&quot;</span><span class="s1">] &lt; </span><span class="s4">7.5</span><span class="s1">:</span>
+                    <span class="s1">players[x][</span><span class="s3">&quot;points&quot;</span><span class="s1">] -= players[x][</span><span class="s3">&quot;bet&quot;</span><span class="s1">]</span>
+                    <span class="s1">players[bank][</span><span class="s3">&quot;points&quot;</span><span class="s1">] += players[x][</span><span class="s3">&quot;bet&quot;</span><span class="s1">]</span>
+                    <span class="s0">if </span><span class="s1">players[x][</span><span class="s3">&quot;points&quot;</span><span class="s1">] == </span><span class="s4">0</span><span class="s1">:</span>
+                        <span class="s1">print(players[x][</span><span class="s3">&quot;name&quot;</span><span class="s1">]</span><span class="s0">, </span><span class="s3">&quot;lost&quot;</span><span class="s1">)</span>
+    <span class="s2"># En caso de haber un o varios 7.5 que no sean el banco, el que tiene mas prioridad se convierte en el banco</span>
+    <span class="s0">if </span><span class="s1">len(contenders) == </span><span class="s4">1 </span><span class="s0">and </span><span class="s1">bank </span><span class="s0">not in </span><span class="s1">contenders:</span>
+        <span class="s1">players[contenders[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;bank&quot;</span><span class="s1">] = </span><span class="s0">True</span>
+        <span class="s1">players[bank][</span><span class="s3">&quot;bank&quot;</span><span class="s1">] = </span><span class="s0">False</span>
+        <span class="s1">bank = contenders[</span><span class="s4">0</span><span class="s1">]</span>
+        <span class="s1">priority_adjustment(bank)</span>
+        <span class="s0">return </span><span class="s1">bank</span>
+    <span class="s0">elif </span><span class="s1">len(contenders) &gt; </span><span class="s4">1 </span><span class="s0">and </span><span class="s1">bank </span><span class="s0">not in </span><span class="s1">contenders:</span>
+        <span class="s1">players[bank][</span><span class="s3">&quot;bank&quot;</span><span class="s1">] = </span><span class="s0">False</span>
+        <span class="s1">players[priority_list[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;bank&quot;</span><span class="s1">] = </span><span class="s0">True</span>
+        <span class="s1">bank = priority_list[</span><span class="s4">0</span><span class="s1">]</span>
+        <span class="s2"># Ajustamos las prioridades de los jugadores de acuerdo al cambio de banco</span>
+        <span class="s1">priority_adjustment(bank)</span>
+        <span class="s2"># Devolvemos el nif del banco</span>
+        <span class="s0">return </span><span class="s1">bank</span>
+
+
+<span class="s0">def </span><span class="s1">priority_adjustment(bank):</span>
+    <span class="s2"># Eliminamos al banco de la lista, ya que tiene que ser el ultimo independientemente de su prioridad actual</span>
+    <span class="s0">del </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">].index(bank)]</span>
+    <span class="s2"># Ordenamos a los jugadores por prioridad</span>
+    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]:</span>
+        <span class="s0">for </span><span class="s1">y </span><span class="s0">in </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]:</span>
+            <span class="s0">if </span><span class="s1">players[x][</span><span class="s3">&quot;priority&quot;</span><span class="s1">] &gt; players[y][</span><span class="s3">&quot;priority&quot;</span><span class="s1">]:</span>
+                <span class="s1">(context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">].index(x)]</span><span class="s0">,</span>
+                 <span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">].index(y)]) = \</span>
+                    <span class="s1">(context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">].index(y)]</span><span class="s0">,</span>
+                     <span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">].index(x)])</span>
+    <span class="s2"># Añadimos al banco en la ultima posicion</span>
+    <span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">].append(bank)</span>
+    <span class="s2"># Corregimos las prioridades</span>
+    <span class="s0">for </span><span class="s1">i </span><span class="s0">in </span><span class="s1">range(</span><span class="s4">0</span><span class="s0">, </span><span class="s1">len(context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">])):</span>
+        <span class="s1">players[context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][i]][</span><span class="s3">&quot;priority&quot;</span><span class="s1">] = i + </span><span class="s4">1</span>
+
+
+<span class="s0">def </span><span class="s1">print_stats():</span>
+    <span class="s1">os.system(</span><span class="s3">&quot;clear&quot;</span><span class="s1">)</span>
+    <span class="s1">print(Seven_and_half</span><span class="s0">, </span><span class="s1">(</span><span class="s3">&quot;*&quot; </span><span class="s1">* </span><span class="s4">140</span><span class="s1">))</span>
+    <span class="s1">j = list(players.keys())[</span><span class="s4">0</span><span class="s1">]</span>
+    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">players[j]:</span>
+        <span class="s1">print(</span><span class="s3">&quot;&quot;</span><span class="s1">.ljust(</span><span class="s4">30</span><span class="s1">) + str(x).ljust(</span><span class="s4">25</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;&quot;</span><span class="s1">)</span>
+        <span class="s0">for </span><span class="s1">k </span><span class="s0">in </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][</span><span class="s4">0</span><span class="s1">:</span><span class="s4">3</span><span class="s1">]:</span>
+            <span class="s0">if </span><span class="s1">x == </span><span class="s3">&quot;cards&quot;</span><span class="s1">:</span>
+                <span class="s1">res = </span><span class="s3">&quot;&quot;</span>
+                <span class="s0">for </span><span class="s1">z </span><span class="s0">in </span><span class="s1">players[k][x]:</span>
+                    <span class="s1">res += z + </span><span class="s3">&quot;;&quot;</span>
+                <span class="s1">print(res[</span><span class="s4">0</span><span class="s1">:-</span><span class="s4">1</span><span class="s1">].ljust(</span><span class="s4">25</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;&quot;</span><span class="s1">)</span>
+            <span class="s0">else</span><span class="s1">:</span>
+                <span class="s1">print(str(players[k][x]).ljust(</span><span class="s4">25</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;&quot;</span><span class="s1">)</span>
+        <span class="s1">print()</span>
+    <span class="s1">print()</span>
+    <span class="s0">if </span><span class="s1">len(context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]) &gt; </span><span class="s4">3</span><span class="s1">:</span>
+        <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">players[j]:</span>
+            <span class="s1">print(</span><span class="s3">&quot;&quot;</span><span class="s1">.ljust(</span><span class="s4">30</span><span class="s1">) + str(x).ljust(</span><span class="s4">25</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;&quot;</span><span class="s1">)</span>
+            <span class="s0">for </span><span class="s1">k </span><span class="s0">in </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][</span><span class="s4">3</span><span class="s1">:]:</span>
+                <span class="s0">if </span><span class="s1">x == </span><span class="s3">&quot;cards&quot;</span><span class="s1">:</span>
+                    <span class="s1">res = </span><span class="s3">&quot;&quot;</span>
+                    <span class="s0">for </span><span class="s1">z </span><span class="s0">in </span><span class="s1">players[k][x]:</span>
+                        <span class="s1">res += z + </span><span class="s3">&quot;;&quot;</span>
+                    <span class="s1">print(res[</span><span class="s4">0</span><span class="s1">:-</span><span class="s4">1</span><span class="s1">].ljust(</span><span class="s4">25</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;&quot;</span><span class="s1">)</span>
+                <span class="s0">else</span><span class="s1">:</span>
+                    <span class="s1">print(str(players[k][x]).ljust(</span><span class="s4">25</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;&quot;</span><span class="s1">)</span>
+            <span class="s1">print()</span>
+
+
+<span class="s0">def </span><span class="s1">reset_cards():</span>
+    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]:</span>
+        <span class="s1">players[x][</span><span class="s3">&quot;cards&quot;</span><span class="s1">] = []</span>
+
+
+<span class="s0">def </span><span class="s1">get_players():</span>
+    <span class="s1">query = (</span><span class="s3">&quot;SELECT * FROM PLAYER&quot;</span><span class="s1">)</span>
+    <span class="s1">cursorObject.execute(query)</span>
+    <span class="s1">database.commit()</span>
+    <span class="s1">result_raw = cursorObject.fetchall()</span>
+    <span class="s1">result = []</span>
+    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">result_raw:</span>
+        <span class="s1">result.append(list(x))</span>
+    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">result:</span>
+        <span class="s1">players[str(x[</span><span class="s4">0</span><span class="s1">])] = {</span><span class="s3">&quot;name&quot;</span><span class="s1">: x[</span><span class="s4">1</span><span class="s1">]</span><span class="s0">, </span><span class="s3">&quot;human&quot;</span><span class="s1">: </span><span class="s0">True, </span><span class="s3">&quot;bank&quot;</span><span class="s1">: </span><span class="s0">False, </span><span class="s3">&quot;initialCard&quot;</span><span class="s1">: </span><span class="s3">&quot;&quot;</span><span class="s0">, </span><span class="s3">&quot;priority&quot;</span><span class="s1">: </span><span class="s4">0</span><span class="s0">,</span>
+                              <span class="s3">&quot;type&quot;</span><span class="s1">: x[</span><span class="s4">2</span><span class="s1">]</span><span class="s0">, </span><span class="s3">&quot;bet&quot;</span><span class="s1">: </span><span class="s4">0</span><span class="s0">, </span><span class="s3">&quot;points&quot;</span><span class="s1">: </span><span class="s4">0</span><span class="s0">, </span><span class="s3">&quot;cards&quot;</span><span class="s1">: []</span><span class="s0">, </span><span class="s3">&quot;roundPoints&quot;</span><span class="s1">: </span><span class="s4">0</span><span class="s1">}</span>
+        <span class="s0">if </span><span class="s1">x[</span><span class="s4">3</span><span class="s1">] == </span><span class="s4">0</span><span class="s1">:</span>
+            <span class="s1">players[x[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;human&quot;</span><span class="s1">] = </span><span class="s0">False</span>
+
+
+<span class="s0">def </span><span class="s1">add_players_to_game(x=</span><span class="s3">&quot;&quot;</span><span class="s1">):</span>
+    <span class="s0">if </span><span class="s1">x == </span><span class="s3">'1'</span><span class="s1">:</span>
+        <span class="s1">os.system(</span><span class="s3">&quot;clear&quot;</span><span class="s1">)</span>
+        <span class="s1">print(menu_21)</span>
+        <span class="s1">print(</span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&quot; </span><span class="s1">+ </span><span class="s3">&quot;&quot;</span><span class="s1">.ljust(</span><span class="s4">46</span><span class="s1">) + (</span><span class="s3">&quot;*&quot; </span><span class="s1">* </span><span class="s4">10</span><span class="s1">) + </span><span class="s3">&quot;Actual players in game&quot; </span><span class="s1">+ (</span><span class="s3">&quot;*&quot; </span><span class="s1">* </span><span class="s4">10</span><span class="s1">))</span>
+        <span class="s0">if </span><span class="s1">len(context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]) == </span><span class="s4">0</span><span class="s1">:</span>
+            <span class="s1">print(</span><span class="s3">&quot;There is no players in game&quot;</span><span class="s1">.rjust(</span><span class="s4">80</span><span class="s1">))</span>
+            <span class="s1">input(</span><span class="s3">&quot;Enter to continue&quot;</span><span class="s1">.rjust(</span><span class="s4">75</span><span class="s1">))</span>
+        <span class="s0">else</span><span class="s1">:</span>
+            <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]:</span>
+                <span class="s1">print(x.ljust(</span><span class="s4">10</span><span class="s1">)</span><span class="s0">, </span><span class="s1">players[x][</span><span class="s3">&quot;name&quot;</span><span class="s1">].ljust(</span><span class="s4">10</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;&quot;</span><span class="s1">)</span>
+                <span class="s0">if </span><span class="s1">players[x][</span><span class="s3">&quot;human&quot;</span><span class="s1">]:</span>
+                    <span class="s1">print(</span><span class="s3">&quot;human&quot;</span><span class="s1">.ljust(</span><span class="s4">10</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;&quot;</span><span class="s1">)</span>
+                <span class="s0">else</span><span class="s1">:</span>
+                    <span class="s1">print(</span><span class="s3">&quot;boot&quot;</span><span class="s1">.ljust(</span><span class="s4">10</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;&quot;</span><span class="s1">)</span>
+                <span class="s0">if </span><span class="s1">players[x][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">30</span><span class="s1">:</span>
+                    <span class="s1">print(</span><span class="s3">&quot;Cautious</span><span class="s0">\n</span><span class="s3">&quot;</span><span class="s1">)</span>
+                <span class="s0">elif </span><span class="s1">players[x][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">40</span><span class="s1">:</span>
+                    <span class="s1">print(</span><span class="s3">&quot;Moderated</span><span class="s0">\n</span><span class="s3">&quot;</span><span class="s1">)</span>
+                <span class="s0">elif </span><span class="s1">players[x][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">60</span><span class="s1">:</span>
+                    <span class="s1">print(</span><span class="s3">&quot;Bold</span><span class="s0">\n</span><span class="s3">&quot;</span><span class="s1">)</span>
+    <span class="s1">os.system(</span><span class="s3">&quot;clear&quot;</span><span class="s1">)</span>
+    <span class="s1">print(menu_21)</span>
+    <span class="s1">print(</span><span class="s3">&quot;Select players&quot;</span><span class="s1">.center(</span><span class="s4">140</span><span class="s0">, </span><span class="s3">'*'</span><span class="s1">))</span>
+    <span class="s1">print(</span><span class="s3">&quot;Boot Player&quot;</span><span class="s1">.center(</span><span class="s4">68</span><span class="s1">) + </span><span class="s3">&quot;||&quot; </span><span class="s1">+ </span><span class="s3">&quot;Human Players&quot;</span><span class="s1">.center(</span><span class="s4">68</span><span class="s1">))</span>
+    <span class="s1">print(</span><span class="s3">'-' </span><span class="s1">* </span><span class="s4">140</span><span class="s1">)</span>
+    <span class="s1">print(</span><span class="s3">&quot;ID&quot;</span><span class="s1">.ljust(</span><span class="s4">21</span><span class="s1">) + </span><span class="s3">&quot;Name&quot;</span><span class="s1">.ljust(</span><span class="s4">24</span><span class="s1">) + </span><span class="s3">&quot;Type&quot;</span><span class="s1">.ljust(</span><span class="s4">23</span><span class="s1">) + </span><span class="s3">&quot;||&quot;</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;  &quot;</span><span class="s1">)</span>
+    <span class="s1">print(</span><span class="s3">&quot;ID&quot;</span><span class="s1">.ljust(</span><span class="s4">21</span><span class="s1">) + </span><span class="s3">&quot;Name&quot;</span><span class="s1">.ljust(</span><span class="s4">24</span><span class="s1">) + </span><span class="s3">&quot;Type&quot;</span><span class="s1">)</span>
+    <span class="s1">print(</span><span class="s3">'*' </span><span class="s1">* </span><span class="s4">140</span><span class="s1">)</span>
+    <span class="s1">bots = []</span>
+    <span class="s1">humans = []</span>
+    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">players:</span>
+        <span class="s0">if </span><span class="s1">players[x][</span><span class="s3">&quot;human&quot;</span><span class="s1">] </span><span class="s0">is False</span><span class="s1">:</span>
+            <span class="s1">bots.append(x)</span>
+        <span class="s0">else</span><span class="s1">:</span>
+            <span class="s1">humans.append(x)</span>
+    <span class="s0">while </span><span class="s1">len(humans) &gt; </span><span class="s4">0 </span><span class="s0">or </span><span class="s1">len(bots) &gt; </span><span class="s4">0</span><span class="s1">:</span>
+        <span class="s0">if </span><span class="s1">len(bots) &gt; </span><span class="s4">0</span><span class="s1">:</span>
+            <span class="s1">print(bots[</span><span class="s4">0</span><span class="s1">].ljust(</span><span class="s4">20</span><span class="s1">)</span><span class="s0">, </span><span class="s1">players[bots[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;name&quot;</span><span class="s1">].ljust(</span><span class="s4">24</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;&quot;</span><span class="s1">)</span>
+            <span class="s0">if </span><span class="s1">players[bots[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">30</span><span class="s1">:</span>
+                <span class="s1">print(</span><span class="s3">&quot;Cautious&quot;</span><span class="s1">.ljust(</span><span class="s4">23</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;||&quot;</span><span class="s1">.ljust(</span><span class="s4">4</span><span class="s1">))</span>
+            <span class="s0">elif </span><span class="s1">players[bots[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">40</span><span class="s1">:</span>
+                <span class="s1">print(</span><span class="s3">&quot;Moderate&quot;</span><span class="s1">.ljust(</span><span class="s4">23</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;||&quot;</span><span class="s1">.ljust(</span><span class="s4">4</span><span class="s1">))</span>
+            <span class="s0">elif </span><span class="s1">players[bots[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">60</span><span class="s1">:</span>
+                <span class="s1">print(</span><span class="s3">&quot;Bold&quot;</span><span class="s1">.ljust(</span><span class="s4">23</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;||&quot;</span><span class="s1">.ljust(</span><span class="s4">4</span><span class="s1">))</span>
+            <span class="s0">del </span><span class="s1">bots[</span><span class="s4">0</span><span class="s1">]</span>
+        <span class="s0">else</span><span class="s1">:</span>
+            <span class="s1">print(</span><span class="s3">&quot;&quot;</span><span class="s1">.ljust(</span><span class="s4">68</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;||&quot;</span><span class="s1">.ljust(</span><span class="s4">4</span><span class="s1">))</span>
+        <span class="s0">if </span><span class="s1">len(humans) &gt; </span><span class="s4">0</span><span class="s1">:</span>
+            <span class="s1">print(humans[</span><span class="s4">0</span><span class="s1">].ljust(</span><span class="s4">20</span><span class="s1">)</span><span class="s0">, </span><span class="s1">players[humans[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;name&quot;</span><span class="s1">].ljust(</span><span class="s4">24</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;&quot;</span><span class="s1">)</span>
+            <span class="s0">if </span><span class="s1">players[humans[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">30</span><span class="s1">:</span>
+                <span class="s1">print(</span><span class="s3">&quot;Cautious&quot;</span><span class="s1">.ljust(</span><span class="s4">23</span><span class="s1">).ljust(</span><span class="s4">8</span><span class="s1">))</span>
+            <span class="s0">elif </span><span class="s1">players[humans[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">40</span><span class="s1">:</span>
+                <span class="s1">print(</span><span class="s3">&quot;Moderate&quot;</span><span class="s1">.ljust(</span><span class="s4">23</span><span class="s1">).ljust(</span><span class="s4">8</span><span class="s1">))</span>
+            <span class="s0">elif </span><span class="s1">players[humans[</span><span class="s4">0</span><span class="s1">]][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">60</span><span class="s1">:</span>
+                <span class="s1">print(</span><span class="s3">&quot;Bold&quot;</span><span class="s1">.ljust(</span><span class="s4">23</span><span class="s1">).ljust(</span><span class="s4">8</span><span class="s1">))</span>
+            <span class="s0">del </span><span class="s1">humans[</span><span class="s4">0</span><span class="s1">]</span>
+        <span class="s0">else</span><span class="s1">:</span>
+            <span class="s1">print()</span>
+    <span class="s1">print(</span><span class="s3">&quot;</span><span class="s0">\n\n</span><span class="s3">&quot; </span><span class="s1">+ (</span><span class="s3">&quot;*&quot; </span><span class="s1">* </span><span class="s4">140</span><span class="s1">))</span>
+    <span class="s1">opt = input(</span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&quot;</span><span class="s1">.ljust(</span><span class="s4">39</span><span class="s1">) + </span><span class="s3">&quot;Option ( id to add player, -id to remove player, -1 to exit): </span><span class="s0">\n</span><span class="s3">&quot; </span><span class="s1">+ </span><span class="s3">&quot;&quot;</span><span class="s1">.ljust(</span><span class="s4">50</span><span class="s1">))</span>
+    <span class="s0">if </span><span class="s1">len(opt) &gt; </span><span class="s4">0</span><span class="s1">:</span>
+        <span class="s0">if </span><span class="s1">opt </span><span class="s0">in </span><span class="s1">players:</span>
+            <span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">].append(opt)</span>
+            <span class="s1">print(</span><span class="s3">&quot;</span><span class="s0">\n</span><span class="s3">&quot; </span><span class="s1">+ </span><span class="s3">&quot;&quot;</span><span class="s1">.ljust(</span><span class="s4">46</span><span class="s1">) + (</span><span class="s3">&quot;*&quot; </span><span class="s1">* </span><span class="s4">10</span><span class="s1">) + </span><span class="s3">&quot;Actual players in game&quot; </span><span class="s1">+ (</span><span class="s3">&quot;*&quot; </span><span class="s1">* </span><span class="s4">10</span><span class="s1">))</span>
+            <span class="s0">if </span><span class="s1">len(context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]) == </span><span class="s4">0</span><span class="s1">:</span>
+                <span class="s1">print(</span><span class="s3">&quot;There is no players in game&quot;</span><span class="s1">.rjust(</span><span class="s4">80</span><span class="s1">))</span>
+                <span class="s1">input(</span><span class="s3">&quot;Enter to continue&quot;</span><span class="s1">.rjust(</span><span class="s4">75</span><span class="s1">))</span>
+            <span class="s0">else</span><span class="s1">:</span>
+                <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]:</span>
+                    <span class="s1">print(</span><span class="s3">&quot;&quot;</span><span class="s1">.ljust(</span><span class="s4">43</span><span class="s1">) + x.ljust(</span><span class="s4">13</span><span class="s1">)</span><span class="s0">, </span><span class="s1">players[x][</span><span class="s3">&quot;name&quot;</span><span class="s1">].ljust(</span><span class="s4">15</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;&quot;</span><span class="s1">)</span>
+                    <span class="s0">if </span><span class="s1">players[x][</span><span class="s3">&quot;human&quot;</span><span class="s1">]:</span>
+                        <span class="s1">print(</span><span class="s3">&quot;human&quot;</span><span class="s1">.ljust(</span><span class="s4">10</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;&quot;</span><span class="s1">)</span>
+                    <span class="s0">else</span><span class="s1">:</span>
+                        <span class="s1">print(</span><span class="s3">&quot;boot&quot;</span><span class="s1">.ljust(</span><span class="s4">10</span><span class="s1">)</span><span class="s0">, </span><span class="s1">end=</span><span class="s3">&quot;&quot;</span><span class="s1">)</span>
+                    <span class="s0">if </span><span class="s1">players[x][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">30</span><span class="s1">:</span>
+                        <span class="s1">print(</span><span class="s3">&quot;Cautious&quot;</span><span class="s1">)</span>
+                    <span class="s0">elif </span><span class="s1">players[x][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">40</span><span class="s1">:</span>
+                        <span class="s1">print(</span><span class="s3">&quot;Moderated&quot;</span><span class="s1">)</span>
+                    <span class="s0">elif </span><span class="s1">players[x][</span><span class="s3">&quot;type&quot;</span><span class="s1">] == </span><span class="s4">60</span><span class="s1">:</span>
+                        <span class="s1">print(</span><span class="s3">&quot;Bold&quot;</span><span class="s1">)</span>
+            <span class="s1">input(</span><span class="s3">&quot;enter to continue&quot;</span><span class="s1">.rjust(</span><span class="s4">71</span><span class="s1">))</span>
+            <span class="s1">add_players_to_game()</span>
+        <span class="s0">elif </span><span class="s1">opt[</span><span class="s4">0</span><span class="s1">] == </span><span class="s3">'-' </span><span class="s0">and </span><span class="s1">len(opt) == </span><span class="s4">10</span><span class="s1">:</span>
+            <span class="s0">if </span><span class="s1">opt[</span><span class="s4">1</span><span class="s1">:] </span><span class="s0">in </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]:</span>
+                <span class="s1">remove = context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">].index(opt[</span><span class="s4">1</span><span class="s1">:])</span>
+                <span class="s0">del </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][remove]</span>
+                <span class="s1">input(</span><span class="s3">&quot;Press enter to continue&quot;</span><span class="s1">.rjust(</span><span class="s4">71</span><span class="s1">))</span>
+                <span class="s1">add_players_to_game()</span>
+        <span class="s0">elif </span><span class="s1">opt == </span><span class="s3">'-1'</span><span class="s1">:</span>
+            <span class="s1">print()</span>
+        <span class="s0">else</span><span class="s1">:</span>
+            <span class="s1">print((</span><span class="s3">&quot;=&quot; </span><span class="s1">* </span><span class="s4">66</span><span class="s1">) + </span><span class="s3">&quot;Invalid Option&quot; </span><span class="s1">+ (</span><span class="s3">&quot;=&quot; </span><span class="s1">* </span><span class="s4">66</span><span class="s1">))</span>
+            <span class="s1">input(</span><span class="s3">&quot;Press enter to continue&quot;</span><span class="s1">.rjust(</span><span class="s4">71</span><span class="s1">))</span>
+            <span class="s1">add_players_to_game()</span>
+
+
+<span class="s0">def </span><span class="s1">winner(rounds):</span>
+    <span class="s1">os.system(</span><span class="s3">&quot;clear&quot;</span><span class="s1">)</span>
+    <span class="s1">print(game_over)</span>
+    <span class="s1">max = context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">][</span><span class="s4">0</span><span class="s1">]</span>
+    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">context_game[</span><span class="s3">&quot;game&quot;</span><span class="s1">]:</span>
+        <span class="s0">if </span><span class="s1">players[x][</span><span class="s3">&quot;points&quot;</span><span class="s1">] &gt; players[max][</span><span class="s3">&quot;points&quot;</span><span class="s1">]:</span>
+            <span class="s1">max = x</span>
+    <span class="s1">print(</span><span class="s3">&quot;&quot;</span><span class="s1">.ljust(</span><span class="s4">25</span><span class="s1">) + </span><span class="s3">&quot;The winner is&quot;</span><span class="s0">, </span><span class="s1">max</span><span class="s0">, </span><span class="s3">&quot;-&quot;</span><span class="s0">, </span><span class="s1">players[max][</span><span class="s3">&quot;name&quot;</span><span class="s1">]</span><span class="s0">, </span><span class="s3">&quot;in&quot;</span><span class="s0">, </span><span class="s1">rounds + </span><span class="s4">1</span><span class="s0">, </span><span class="s3">&quot;rounds&quot;</span><span class="s1">)</span>
+    <span class="s1">input(</span><span class="s3">&quot;Enter to continue&quot;</span><span class="s1">.rjust(</span><span class="s4">42</span><span class="s1">))</span>
+
+
+<span class="s0">def </span><span class="s1">deleteplayer():</span>
+    <span class="s0">for </span><span class="s1">x </span><span class="s0">in </span><span class="s1">delete_players:</span>
+        <span class="s1">player_id = [x]</span>
+        <span class="s1">query = (</span><span class="s3">&quot;delete from player where player_id = %s ;&quot;</span><span class="s1">)</span>
+        <span class="s1">cursorObject.execute(query</span><span class="s0">, </span><span class="s1">(player_id))</span>
+        <span class="s1">database.commit()</span>
+</pre>
+</body>
+</html>

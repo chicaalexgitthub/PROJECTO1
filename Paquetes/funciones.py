@@ -762,6 +762,8 @@ def add_players_to_game(x=""):
             if len(context_game["game"]) == 0:
                 print("There is no players in game".rjust(80))
                 input("Enter to continue".rjust(75))
+            elif len(context_game["game"]) == 6:
+                print("Cant add more players".rjust(71))
             else:
                 for x in context_game["game"]:
                     print("".ljust(43) + x.ljust(13), players[x]["name"].ljust(15), end="")

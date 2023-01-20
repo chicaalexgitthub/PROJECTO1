@@ -6,6 +6,8 @@ mazo = {}
 
 players = {}
 
+delete_players = {}
+
 cardgame = {'cardgame_id': 0, 'players': 0, 'start_hour': 0,
             'rounds': 0, 'end_hour': 0}
 

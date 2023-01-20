@@ -343,6 +343,7 @@ def show_players():
     if len(opt) > 0:
         if opt[0] == '-' and len(opt) == 10:
             if opt[1:] in players:
+                delete_players[opt[1:]] = opt[1:]
                 del players[opt[1:]]
                 input("Press enter to continue".rjust(71))
                 show_players()
@@ -779,3 +780,10 @@ def winner(rounds):
             max = x
     print("".ljust(25) + "The winner is", max, "-", players[max]["name"], "in", rounds, "rounds")
     input("Enter to continue".rjust(42))
+
+
+def deleteplayer():
+    for x in delete_players:
+        query = ("DEL", x, "FROM PLAYER")
+        cursorObject.execute(query)
+        database.commit()

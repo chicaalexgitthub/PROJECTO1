@@ -35,6 +35,7 @@ while not flg_end:
             flg_0 = False
         if opt == '6':
             f.insert_players()
+            f.deleteplayer()
             flg_0 = False
             flg_end = True
     while flg_01:

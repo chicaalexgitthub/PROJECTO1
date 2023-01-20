@@ -287,10 +287,16 @@ def create_boot():
     name = create_human_player_name()
     nif = random_nif()
     profile = create_human_player_profile(name, nif)
+    if profile == 'Cautious':
+        profile = 30
+    elif profile == 'Moderated':
+        profile = 40
+    elif profile == 'Bold':
+        profile = 60
     save = create_human_player_check(name, nif, profile)
     if save:
         players[nif] = {"name": name, "human": False, "bank": False, "initialCard": "", "priority": 0,
-                          "type": 40, "bet": 4, "points": 0, "cards ": [], "roundPoints": 0}
+                          "type": profile, "bet": 4, "points": 0, "cards ": [], "roundPoints": 0}
 
 
 def show_players():
@@ -425,9 +431,8 @@ def turn(deck, round):
     # Recorremos la lista de jugadores ordenada por prioridad ascendente
     opt = 'e'
     reset_cards()
+    bank = context_game["game"][len(context_game["game"]) - 1]
     for x in context_game["game"]:
-        if players[x]["bank"] is True:
-            bank = x
         bet_on_risk(x)
         deck = barajar_mazo(deck)
         if players[x]["human"] is False:
@@ -530,6 +535,7 @@ def start_game():
         s_players = check_minimum_2_player_with_points()
         if not s_players:
             winner(i)
+            reset_cards()
             break
         print_stats()
         opt = input("Press enter start another round, exit to go back: ".rjust(97))
@@ -537,6 +543,7 @@ def start_game():
             break
         if i == context_game["rounds"] - 1:
             winner(i)
+            reset_cards()
 
 
 def return_cards(given_cards, deck):
@@ -634,15 +641,15 @@ def print_stats():
     print(Seven_and_half, ("*" * 140))
     j = list(players.keys())[0]
     for x in players[j]:
-        print("".ljust(35) + str(x).ljust(20), end="")
+        print("".ljust(35) + str(x).ljust(30), end="")
         for k in context_game["game"]:
             if x == "cards":
                 res = ""
                 for z in players[k][x]:
                     res += z + ";"
-                print(res[0:-2].ljust(20), end="")
+                print(res[0:-1].ljust(30), end="")
             else:
-                print(str(players[k][x]).ljust(20), end="")
+                print(str(players[k][x]).ljust(30), end="")
         print()
 
 

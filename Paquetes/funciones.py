@@ -809,6 +809,87 @@ def add_players_to_game(x=""):
             input("Press enter to continue".rjust(71))
             add_players_to_game()
 
+# Funcion para crear un id para cardgame_id que no este repetido
+def getGameId():
+    query = "SELECT cardgame_id from cardgame"
+    cursorObject.execute(query)
+    all_id = cursorObject.fetchall()
+
+    id_list = []
+    for i in all_id:
+        id_list.append(i[0])
+
+    while True:
+        new_id = random.randint(1, 999)
+        if new_id not in id_list:
+            return new_id
+
+
+# Para añadir toda la info que ira a la DB de cardgame, menos la hora de acabada la partida y el cardgame_id.
+def cardgameDB1():
+    cardgame["players"] = len(context_game["game"])
+    # CURRENT DATE
+    present_time = datetime.now()
+    mysql_date = present_time.strftime('%Y-%m-%d %H:%M:%S')
+
+    cardgame["start_hour"] = mysql_date
+    cardgame["rounds"] = context_game["rounds"]
+    if deck_on_game == 0:
+        cardgame["deck_id"] = 1
+    else:
+        cardgame["deck_id"] = deck_on_game
+
+
+def cardgameDB2(id):
+    present_time = datetime.now()
+    mysql_date = present_time.strftime('%Y-%m-%d %H:%M:%S')
+    cardgame["end_hour"] = mysql_date
+    cardgame["cardgame_id"] = id
+    # ENVIAR TABLA cardgame id a BD
+    query = ("INSERT INTO cardgame VALUES (%s, %s, %s, %s, %s, %s)")
+    values = (cardgame['cardgame_id'], cardgame['players'], cardgame['rounds'], cardgame['start_hour'],
+              cardgame['end_hour'], cardgame['deck_id'])
+    # for i in values:
+    #     print(i)
+    #     print(type(i))
+    cursorObject.executemany(query, (values,))
+    database.commit()
+
+
+# Para añadir la informacion a player_game, primer funcion hace lo general, la segunda pone los puntes finles y la ultima
+# los id de cardgame_id
+def player_gameDB1():
+    for player_nif in context_game["game"]:
+        player_game_toDB[player_nif] = {}
+        player_game_toDB[player_nif]["initial_card_id"] = players[player_nif]["initialCard"]
+        player_game_toDB[player_nif]["starting_points"] = 20
+
+
+# nif es una lista de DNI
+def player_gameEndingPoints(nif, lost):
+    for dni in nif:
+        if lost:
+            player_game_toDB[dni]["ending_points"] = 0
+        else:
+            player_game_toDB[dni]["ending_points"] = players[dni]["points"]
+
+
+def send_player_game_toDB(id):
+    query = ("INSERT INTO player_game VALUES (%s, %s, %s, %s, %s)")
+    for nif in player_game_toDB:
+        values = (id, nif, player_game_toDB[nif]["initial_card_id"], player_game_toDB[nif]["starting_points"],
+                  player_game_toDB[nif]["ending_points"])
+        cursorObject.executemany(query, (values,))
+        database.commit()
+
+
+#Funcion para añadir por primera vez player_game_round
+# def create_player_game_round():
+#     for nif in context_game
+
+def sendplayer_game_roundDB(id):
+    query = ("INSERT INTO player_game_round VALUES (%s, %s, %s, %s, %s, %s, %s, %s)")
+
 
 def winner(rounds):
     os.system("clear")

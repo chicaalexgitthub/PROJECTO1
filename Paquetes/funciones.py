@@ -216,15 +216,18 @@ def create_human_player():
     profile = create_human_player_profile(name, nif)
     save = create_human_player_check(name, nif, profile)
     if profile == 'Cautious':
-        profile = 1
+        profile = 30
     if profile == 'Moderated':
-        profile = 2
+        profile = 40
     if profile == 'Bold':
-        profile = 3
+        profile = 60
     if save:
         players[nif] = {"name": name, "human": True, "bank": False, "initialCard": "", "priority": 0,
-                        "type": 40, "bet": 4, "points": 0, "cards": [], "roundPoints": 0}
-
+                        "type": profile, "bet": 4, "points": 0, "cards": [], "roundPoints": 0}
+        query = ("INSERT INTO player VALUES (%s, %s, %s, %s)")
+        values = (nif, name, profile, True)
+        cursorObject.executemany(query, (values,))
+        database.commit()
 
 def create_human_player_check(name, nif, profile):
     opt = input("Is okay? Y/n: ".rjust(53))
@@ -297,7 +300,10 @@ def create_boot():
     if save:
         players[nif] = {"name": name, "human": False, "bank": False, "initialCard": "", "priority": 0,
                         "type": profile, "bet": 4, "points": 0, "cards ": [], "roundPoints": 0}
-
+        query = ("INSERT INTO player VALUES (%s, %s, %s, %s)")
+        values = (nif, name, profile, False)
+        cursorObject.executemany(query, (values,))
+        database.commit()
 
 def show_players():
     os.system("clear")
@@ -343,8 +349,15 @@ def show_players():
     if len(opt) > 0:
         if opt[0] == '-' and len(opt) == 10:
             if opt[1:] in players:
+                player_delete = opt[1:]
                 delete_players[opt[1:]] = opt[1:]
                 del players[opt[1:]]
+
+                # DELETE de base de datos
+                query = ("DELETE FROM player WHERE player_id = %s")
+                cursorObject.execute(query, (player_delete,))
+                database.commit()
+
                 input("Press enter to continue".rjust(71))
                 show_players()
         elif opt == '-1':

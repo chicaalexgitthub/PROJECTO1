@@ -7,14 +7,17 @@ mazo = {}
 players = {}
 
 cardgame = {'cardgame_id': 0, 'players': 0, 'start_hour': 0,
-            'rounds': 0, 'end_hour': 0}
+            'rounds': 0, 'end_hour': 0, 'deck_id': 0}
 
-player_game = {"id_game": {"id_player_1": {"initial_card_id": 0, "starting_points": 0, "ending_points": 0}}}
+# player_game = {"id_game": {"id_player_1": {"initial_card_id": 0, "starting_points": 0, "ending_points": 0}}}
 
-player_game_round = {"round": {"id_player_1": {"is_bank": 0, "bet_points": 0, "cards_value": 0,
-                                               "ending_round_points": 0}}}
+player_game_toDB = {}
+
+player_game_round = {}
 
 context_game = {"game": [], "mazo": [], "rounds": 5}
+
+deck_on_game = 0
 
 menu_principal = ("*" * 140) + "\n" + (" " * 37) + \
                  "_____                         ___              __   __  __      ______" + (" " * 33) + "\n" + \

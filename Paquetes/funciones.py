@@ -3,6 +3,7 @@ import os
 import random
 from Paquetes.datos import *
 from math import *
+from datetime import datetime
 
 # Conectamos con la base de datos
 database = connect(user="gameadmin", password="sieteymedio123$", host="sevenandhalf.mysql.database.azure.com",
@@ -52,6 +53,9 @@ def set_game_priority(deck):
     for i in context_game["game"]:
         players[i]["initialCard"] = deck[random.randint(0, len(deck) - 1)]
         given_cards.append(players[i]["initialCard"])
+
+    # Primera funcion para
+    player_gameDB1()
     # Ordenamos la lista de jugadores segun la prioridad de sus cartas
     for i in context_game["game"]:
         for j in context_game["game"]:
@@ -262,6 +266,7 @@ def insert_players():
 
 
 def get_deck(deck):
+    deck_on_game = deck
     query = ("SELECT * FROM card WHERE deck_id = {}".format(deck))
     cursorObject.execute(query)
     database.commit()
@@ -525,6 +530,10 @@ def start_game():
     print_stats()
     input("Press enter to continue".rjust(78))
     for i in range(0, context_game["rounds"]):
+        # Primera insercion al diccionario destinado a DB de cardgame
+        if i == 0:
+            cardgameDB1()
+
         turn(context_game["mazo"], i)
         # Si no hay almenos 2 jugadores con puntos, termina la partida
         s_players = check_minimum_2_player_with_points()
@@ -534,6 +543,10 @@ def start_game():
         print_stats()
         opt = input("Press enter start another round, exit to go back: ".rjust(97))
         if opt == "exit":
+            cardgame = {'cardgame_id': 0, 'players': 0, 'start_hour': 0,
+                        'rounds': 0, 'end_hour': 0, 'deck_id': 0}
+            player_game_toDB = {}
+            player_game_round = {}
             break
         if i == context_game["rounds"] - 1:
             winner(i)
@@ -567,6 +580,7 @@ def give_points(bank):
             players[x]["points"] -= players[x]["bet"]
             players[bank]["points"] += players[x]["bet"]
             if players[x]["points"] == 0:
+
                 print(players[x]["name"], "lost")
         else:
             if x in contenders:
@@ -589,6 +603,7 @@ def give_points(bank):
                         players[x]["points"] -= players[x]["bet"]
                         players[bank]["points"] += players[x]["bet"]
                         if players[x]["points"] == 0:
+
                             print(players[x]["name"], "lost")
                 else:
                     players[x]["points"] += players[x]["bet"]
@@ -598,6 +613,7 @@ def give_points(bank):
                     players[x]["points"] -= players[x]["bet"]
                     players[bank]["points"] += players[x]["bet"]
                     if players[x]["points"] == 0:
+
                         print(players[x]["name"], "lost")
     # En caso de haber un o varios 7.5 que no sean el banco, el que tiene mas prioridad se convierte en el banco
     if len(contenders) > 0 and bank not in contenders:
@@ -762,13 +778,107 @@ def add_players_to_game(x = ""):
             input("Press enter to continue".rjust(71))
             add_players_to_game()
 
+# Funcion para crear un id para cardgame_id que no este repetido
+def getGameId():
+    query = "SELECT cardgame_id from cardgame"
+    cursorObject.execute(query)
+    all_id = cursorObject.fetchall()
+
+    id_list = []
+    for i in all_id:
+        id_list.append(i[0])
+
+    while True:
+        new_id = random.randint(1, 999)
+        if new_id not in id_list:
+            return new_id
+
+
+# Para añadir toda la info que ira a la DB de cardgame, menos la hora de acabada la partida y el cardgame_id.
+def cardgameDB1():
+    cardgame["players"] = len(context_game["game"])
+    # CURRENT DATE
+    present_time = datetime.now()
+    mysql_date = present_time.strftime('%Y-%m-%d %H:%M:%S')
+
+    cardgame["start_hour"] = mysql_date
+    cardgame["rounds"] = context_game["rounds"]
+    if deck_on_game == 0:
+        cardgame["deck_id"] = 1
+    else:
+        cardgame["deck_id"] = deck_on_game
+
+
+def cardgameDB2(id):
+    present_time = datetime.now()
+    mysql_date = present_time.strftime('%Y-%m-%d %H:%M:%S')
+    cardgame["end_hour"] = mysql_date
+    cardgame["cardgame_id"] = id
+    # ENVIAR TABLA cardgame id a BD
+    query = ("INSERT INTO cardgame VALUES (%s, %s, %s, %s, %s, %s)")
+    values = (cardgame['cardgame_id'], cardgame['players'], cardgame['rounds'], cardgame['start_hour'],
+              cardgame['end_hour'], cardgame['deck_id'])
+    # for i in values:
+    #     print(i)
+    #     print(type(i))
+    cursorObject.executemany(query, (values,))
+    database.commit()
+
+
+# Para añadir la informacion a player_game, primer funcion hace lo general, la segunda pone los puntes finles y la ultima
+# los id de cardgame_id
+def player_gameDB1():
+    for player_nif in context_game["game"]:
+        player_game_toDB[player_nif] = {}
+        player_game_toDB[player_nif]["initial_card_id"] = players[player_nif]["initialCard"]
+        player_game_toDB[player_nif]["starting_points"] = 20
+
+
+# nif es una lista de DNI
+def player_gameEndingPoints(nif, lost):
+    for dni in nif:
+        if lost:
+            player_game_toDB[dni]["ending_points"] = 0
+        else:
+            player_game_toDB[dni]["ending_points"] = players[dni]["points"]
+
+
+def send_player_game_toDB(id):
+    query = ("INSERT INTO player_game VALUES (%s, %s, %s, %s, %s)")
+    for nif in player_game_toDB:
+        values = (id, nif, player_game_toDB[nif]["initial_card_id"], player_game_toDB[nif]["starting_points"],
+                  player_game_toDB[nif]["ending_points"])
+        cursorObject.executemany(query, (values,))
+        database.commit()
+
+
+#Funcion para añadir por primera vez player_game_round
+# def create_player_game_round():
+#     for nif in context_game
+
+def sendplayer_game_roundDB(id):
+    query = ("INSERT INTO player_game_round VALUES (%s, %s, %s, %s, %s, %s, %s, %s)")
 
 def winner(rounds):
     os.system("clear")
     print(game_over)
     max = context_game["game"][0]
+
+    # Lista para añadir los ultimos puntos de la ronda final a los players en player_game
+    lista_gente_sin_eliminar = []
+    for dni in context_game["game"]:
+        lista_gente_sin_eliminar.append(dni)
+    player_gameEndingPoints(lista_gente_sin_eliminar, False)
+
     for x in context_game["game"]:
         if players[x]["points"] > players[max]["points"]:
             max = x
     print("".ljust(25) + "The winner is", max, "-", players[max]["name"], "in", rounds, "rounds")
+    # Toca acabar de rellenar la info para la BD y enviar los datos.
+    game_id = getGameId()
+    cardgameDB2(game_id)
+
     input("Enter to continue".rjust(42))
+
+#:)
+#ChangesSendDB

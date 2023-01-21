@@ -265,6 +265,7 @@ def insert_players():
 
 
 def get_deck(deck):
+    deck_on_game = deck
     query = ("SELECT * FROM card WHERE deck_id = {}".format(deck))
     cursorObject.execute(query)
     database.commit()

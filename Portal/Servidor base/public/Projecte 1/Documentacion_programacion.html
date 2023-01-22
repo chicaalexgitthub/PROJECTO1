@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Documentación programación</title>
+    <script src="shadowPartial.js"></script>
+    <link rel="stylesheet" href="Documentacion_programacion.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&display=swap" rel="stylesheet">
+</head>
+<body>
+    <shadow-partial data-html="menu.part.html" data-css="menu.part.css"></shadow-partial>
+    <div class="documentacion">
+        <div class="box">
+            <h2>Lógica de juego de la banca</h2>
+            <p>Al empezar la partida  (funcion start_game()), antes de dar comienzo al primer turno, se establece el orden de prioridad de jugadores, mediante la función set_game_priority(deck). Aprovechamos esta función para establecer la banca inicial, que será el jugador con la carta de mayor prioridad. Una vez establecidas las prioridades y la banca, empieza el primer turno.</p>
+            <p>Al comienzo de cada turno guardamos en la variable “bank” a la banca actual, la cual es siempre el último jugador de la lista context_game[“game”]. Hacemos esto para facilitarnos la vida más adelante.</p>
+            <p>Cada turno, a la hora de establecer las apuestas, si es el turno de la banca, esta no puede realizar apuesta, ya que en la función “bet_phase(x)” distinguimos entre si quien intenta realizar una apuesta es la banca o no.</p>
+            <p>A la hora de pedir cartas la banca las pide como cualquier otro jugador.</p>
+            <p>Respecto al reparto de puntos, en caso de que uno o mas jugadores que no sean la banca tengan 7.5, se usa la función “establish_bank()” para convertir al jugador con 7.5 con mayor prioridad en la nueva banca.</p>
+            <img src="start_game.PNG" style="margin-top: 1%; margin-right: 5%; width: 47%;">
+            <img src="set_game_priority.PNG" style="margin-top: 1%; width: 47%;">
+            <img src="bet_phase.PNG" style="margin-top: 3%; margin-right: 5%; width: 47%;">
+            <img src="establish_bank.PNG" style="width: 47%;">
+        </div>
+        <div class="box">
+            <h2>Lógica del juego de un boot</h2>
+            <p>
+                Cuando se está realizando la partida, antes de que empiece el turno de cada jugador, se revisa si el jugador está definido como humano o no en el diccionario players. En caso de no ser humano, la apuesta del jugador se realizará de forma automática en función del tipo de jugador que sea usando la función bet_on_risk, la cual toma como parámetro el nif del jugador. En esta situación, existen tres alternativas:
+            </p>
+            <ul>
+                <li><b>Boot de tipo cautious (30) --> </b>El boot apostará una cuarta parte de sus puntos.</li>
+                <li><b>Boot de tipo moderate (40) --> </b>El boot apostará la mitad de sus puntos.</li>
+                <li><b>Boot de tipo bold (60) --> </b>El boot apostará todos sus puntos.</li>
+            </ul>
+            <p>
+                El valor de la apuesta se guardará en el diccionario players.
+            </p>
+            <p>
+                A la hora de pedir cartas, dentro de la función card_phase que usa los parámetros deck (lista con los ids de las cartas), given_cards (lista con las cartas que ya han salido) y x (id del jugador). Dentro de esta función, si el jugador no está definido como humano pedirá cartas mientras el porcentaje de pasarse de siete y medio sea menor al número asignado al tipo del jugador. Dicho porcentaje se calcula con la función moreThan7_half que tiene como parámetros los puntos de la ronda del jugador y las cartas disponibles.
+            </p>
+            <p>
+                La función guarda en una variable la cantidad de cartas que hay en la lista deck y por cada carta cuyo valor haría pasarse al jugador del siete y medio suma 1 y devuelve la división de las cartas perdedoras entre el total de cartas, lo cual es el porcentaje.
+            </p>
+            <div class="boot_img">
+                <img src="card_phase.PNG" style="margin-top: 1%; width: 38%;">
+                <div class="boot_imgs">
+                    <img src="bet_on_risk.PNG" style="margin-top: 2%; margin-left: 3%; width: 96%;">
+                    <img src="moreThan7_half.PNG" style="margin-top: 2.5%; margin-left: 3%; width: 96%;">
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <h2>Establecimiento de la prioridad inicial de los jugadores</h2>
+            <p>
+                La prioridad de los jugadores se establece, principalmente, apoyándonos de dos diccionarios:
+            </p>
+            <ul>
+                <li>
+                    <b>players --> </b>Guarda toda la información de los jugadores. Las llaves de este diccionario son los DNIs y sus valores son algunos datos importantes de los jugadores (su nombre, si es o no es humano, si es o no es la banca, la carta con la que empieza, la prioridad, el tipo, la apuesta, los puntos que tiene, sus cartas y los puntos que ha ganado en la ronda).
+                </li>
+            </ul>
+            <ul>
+                <li>
+                    <b>context_game --> </b>Guarda información sobre la partida, entre la que se destaca los id de los jugadores de la partida actual, los cuales se almacenan en la llave “game”.
+                </li>
+            </ul>
+            <p>
+                Una vez que empieza la partida, hay una función llamada set_game_priority que toma un parámetro “mazo”, el cual es una lista que tiene los id de las cartas del mazo que se van a usar. El funcionamiento de la función consiste en iterar todos los id que hay en context_game [game] y asignarle una de las cartas del mazo, la cual servirá para saber su prioridad.
+            </p>
+            <p>
+                Una vez tenemos esto, lo que hacemos es ordenar la lista de jugadores de context_game [game] en función del valor de la carta que les ha tocado. Ordenamos utilizando el método de la burbuja, primero comparando la prioridad de la carta y, en caso de ser iguales, el valor de la carta. Además, aprovechamos que la lista está ordenada por prioridad de mayor a menor para determinar la banca inicial, que será el jugador en la posición 0 de la lista, usando la función establish_bank.
+            </p>
+            <div class="prioridad_img">
+                <img src="set_game_priority.PNG" style="margin-top: 2%; margin-right: 4%; width: 40%;">
+                <div>
+                    <img src="players.PNG" style="margin-top: 16.5%; width: 23%;">
+                    <img src="context_game.PNG" style="margin-top: 5%; width: 90%;">
+                    <img src="establish_bank.PNG" style="margin-top: 5%; width: 90%;">
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <h2> Inserción en BBDD de las tablas cardgame, player_round, player_round_game</h2>
+            <p>
+                Una vez creada la estructura del juego, y que además fuese funcional, el siguiente paso fue hacer que los datos de las partidas fuesen almacenados en la Base de Datos en Azure.
+            </p>
+            <p>
+                Para hacer posible la conexión juego-BD, utilizamos el módulo mysql en Python, de esta forma, la conexión era cuestión de poner cuatro parámetros i hacer las query correctas.
+            </p>
+            <p>
+                Primero de todo, antes de enviar algún tipo de información es necesario almacenarla correctamente y hacerla accesible. Por este motivo, declaramos unos diccionarios dónde las keys y valores podían ser los elementos que formarían una fila de información a cada tabla. Como se puede ver en las imágenes, se han diseñado diversas funciones para cumplir con esta tarea. Algunas tiene parámetros para decidir si una función está posicionada antes o después de otra acción, como por ejemplo el comienzo o final de un turno.
+            </p>
+            <p>
+                Una vez acabada la partida y los datos almacenados, es momento de enviarlos. Como únicamente queremos enviar datos una vez que la partida concluya, esta acción se encuentra al lado del mensaje de Ganador.
+            </p>
+            <p>
+                Finalmente, con la información proporcionada se harán los rankings, informes, lista de jugadores...
+            </p>
+            <div>
+                <img src="Captura_desde_2023-01-21_21-54-35.png" style="margin-top: 2%; margin-right: 1.75%; width:47%;">
+                <img src="Captura_desde_2023-01-21_21-55-46.png" style="margin-top: 2%; width:50.5%;">
+            </div>
+            <div>
+                <img src="Captura_desde_2023-01-21_21-56-42.png" style="margin-top: 1.75%; margin-right: 1.75%; width:47.7%;">
+                <img src="Captura_desde_2023-01-21_21-57-51.png" style="margin-top: 1.75%; width:49.7%;">
+            </div>
+        </div>
+        <shadow-partial data-html="footer.html" data-css="footer.css"></shadow-partial>
+    </div>
+</body>
+</html>

@@ -1,0 +1,47 @@
+body{
+    display: contents;
+}
+h2{
+    font-family: 'Kdam Thmor Pro', sans-serif;
+    margin-top: 0;
+}
+
+p{
+    font-family: 'Kdam Thmor Pro', sans-serif;
+}
+
+li{
+    font-family: 'Kdam Thmor Pro', sans-serif;
+}
+.documentacion{
+    background-image: url(https://rare-gallery.com/uploads/posts/302544-Synthwave-Retrowave-Digital-Art-Abstract-Landscape-4K.jpg);
+    background-attachment: fixed;
+    background-size: 100%;
+    padding-top: 10%;
+}
+.box{
+    background-color: white;
+    text-align: justify;
+    border-radius: 20px;
+    padding: 30px;
+    margin: 60px;
+}
+.prioridad_img{
+    flex-direction: row;
+    display: flex;
+}
+.boot_img{
+    flex-direction: row;
+    display: flex;
+}
+
+@media screen and (max-width: 800px){
+    h2{
+        text-align: center;
+    }
+    .documentacion{
+        background-image: url(https://1.bp.blogspot.com/-7Vjs5YXFQso/YOdS4Ou3vsI/AAAAAAAAips/34GVbydyN98LJXVo2ENFxCgx7doir4qbgCLcBGAsYHQ/s2535/08072021-RETRO-SUN-HD.png);
+        background-size: 86%;
+        padding-top: 18%;
+    }
+}

@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tutorial</title>
+    <script src="shadowPartial.js"></script>
+    <link rel="stylesheet" href="tutorial.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Kdam+Thmor+Pro&display=swap" rel="stylesheet">
+</head>
+<body>
+    <shadow-partial data-html="menu.part.html" data-css="menu.part.css"></shadow-partial>
+    <div class="tutorial">
+        <div class="box">
+            <h2>Menú 0</h2>
+            <div class="menu">
+                <div class="menu0_list">
+                    <p>El juego se presentará con un sencillo menú en el que tendremos hasta 6 opciones para elegir:</p>
+                    <ul>
+                        <li>
+                            <b>Add/Remove/Show Players --> </b>Nos permitirá crear jugadores (humanos o «bots») y añadir o eliminar jugadores que ya han sido creados, es decir, que estén en la Base de datos.
+                        </li>
+                        <li>
+                            <b>Settings --> </b>Nos llevará a un menú donde podremos establecer: Los jugadores participantes en la partida, la baraja de cartas que se va a utilizar (en función de las que tengamos en la Base de datos) y el máximo de rondas.
+                        </li>
+                        <li>
+                            <b>Play Game --> </b>Hará que empiece la partida, siempre y cuando haya al menos 2 jugadores y se haya establecido la baraja con la que se va a jugar.
+                        </li>
+                        <li>
+                            <b>Ranking --> </b>Nos llevará a un menú donde podremos ver el ránking de jugadores según la opción que escojamos.
+                        </li>
+                        <li>
+                            <b>Reports --> </b>Podremos ver una serie de reportes que conllevarán consultas a la Base de datos.
+                        </li>
+                        <li>
+                            <b>Exit --> </b>Hará que el programa termine.
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu0_img">
+                    <img src="menu_0.PNG" class="menu_0">
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <h2>Menú 1</h2>
+            <div class="menu">
+                <div class="menu1_list">
+                    <p>Al seleccionar la primera opción, aparecerá un menú con 4 opciones que nos dará a elegir entre:</p>
+                    <ul>
+                        <li>Crear un jugador humano.</li>
+                        <li>Crear un jugador boot.</li>
+                        <li>Mostrar o eliminar jugadores.</li>
+                        <li>Volver al menú principal.</li>
+                    </ul>
+                </div>
+                <div class="menu1_img">
+                    <img src="menu_1.PNG" class="menu_1">
+                </div>
+            </div>
+            <div class="box_1">
+                <h2>New (Human / Boot) Player</h2>
+                <div class="menu">
+                    <div class="menu_new_player_list">
+                        <p>Para poder crear un jugador humano o boot tendremos que escribir:</p>
+                        <ul>
+                            <li>
+                                Un nombre que no debe estar vacío ni contener espacios.
+                            </li>
+                            <li>
+                                Un NIF que debe tener un formato adecuado y no existir en la Base de datos.
+                            </li>
+                            <li>
+                                Un tipo de perfil que deberemos seleccionar a través de un menú que nos da a elegir entre ser cautelosos, moderados o atrevidos.
+                            </li>
+                        </ul>
+                        <p>Una vez hecho todo esto, el programa nos preguntará si queremos guardar el nuevo jugador que hayamos creado.</p>
+                    </div>
+                    <div class="menu_new_player_img">
+                        <p>Ejemplo:</p>
+                        <img src="menu_1.1.1.PNG" style="width:115%">
+                    </div>
+                </div>
+            </div>
+            <div class="box_1">
+                <h2>Show / Remove Player</h2>
+                <div class="menu_show_player_list">
+                    <p>Al acceder a la tercera opción, nos aparecerá un cuadro que muestra, a la izquierda, la información (ID, nombre y tipo) de todos los jugadores boot, y a la derecha la de los jugadores humanos.</p>
+                    <p>Si nos desplazamos hasta la parte inferior del cuadro, veremos como el programa nos dará la posibilidad de eliminar a un jugador si escribimos el símbolo - acompañado de un id que se encuentre en la tabla. En caso de querer dejar la cantidad de jugadores intacta, tan solo deberemos escribir "-1", y el programa volverá al menú 1.</p>
+                </div>
+                <div class="menu_show_player_img">
+                    <img src="menu_1.3(I).PNG" style="width:49%; margin-top:1%; margin-right:2%">
+                    <img src="menu_1.3(II).PNG" style="width:49%; margin-top:1%">
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <h2>Menú 2</h2>
+            <div class="menu">
+                <div class="menu2_list">
+                    <p>Al seleccionar la segunda opción, aparecerá un menú con 4 opciones que nos dará la posibilidad de:</p>
+                    <ul>
+                        <li>Establecer los jugadores.</li>
+                        <li>Establecer la baraja de cartas.</li>
+                        <li>Establecer el máximo de rondas.</li>
+                        <li>Volver al menú principal.</li>
+                    </ul>
+                </div>
+                <div class="menu2_img">
+                    <img src="menu_2.PNG" class="menu_2">
+                </div>
+            </div>
+            <div class="box_1">
+                <h2>Set Game Players</h2>
+                <div class="menu_show_player_list">
+                    <p>Al acceder a la primera opción, el programa nos indicará cuantos jugadores hay asignados en el juego y nos pedirá que presionemos la tecla Enter para continuar.</p>
+                    <p>Al continuar, nos aparecerá un cuadro que muestra, a la izquierda, la información (ID, nombre y tipo) de todos los jugadores boot, y a la derecha la de los jugadores humanos.</p>
+                    <p>Si nos desplazamos hasta la parte inferior del cuadro, veremos como el programa nos dará la posibilidad de añadir a un jugador escribiendo un id que se encuentre en la tabla, eliminarlo si escribimos el símbolo - acompañado de un id. En caso de querer dejar la cantidad de jugadores intacta, tan solo deberemos escribir "-1", y el programa volverá al menú 2.</p>
+                </div>
+                <div class="menu_show_player_img">
+                    <img src="menu_1.2.1(I).PNG" style="width:49%; margin-top:1%; margin-right:2%">
+                    <img src="menu_1.2.1(II).PNG" style="width:49%; margin-top:1%">
+                </div>
+            </div>
+            <div class="box_1">
+                <h2>Set Card's Deck</h2>
+                <div class="menu_show_player_list">
+                    <p>Al acceder a la segunda opción, nos aparecerá un menú que nos permitirá escojer entre dos tipo de barajas: la española o la del póker; además de permitirnos volver al menú 2.</p>
+                </div>
+                <div class="menu_show_player_img">
+                    <img src="menu_2.2(I).PNG" style="width:49%; margin-top:1%; margin-right:2%">
+                    <img src="menu_2.2(II).PNG" style="width:49%; margin-top:1%">
+                </div>
+            </div>
+            <div class="box_1">
+                <h2>Set Max Rounds</h2>
+                <div class="menu_show_player_list">
+                    <p>Al acceder a la tercera opción, el programa nos pedirá que escribamos la cantidad de rondas que queremos que tenga la partida.</p>
+                    <p>Esta cantidad no puede ser ni un número menor que 2 ni uno mayor que 20, ya que de lo contrario el programa nos volverá a pedir el número de rondas.</p>
+                </div>
+                <div class="menu_show_player_img">
+                    <img src="menu_2.3(I).PNG" style="width:49%; margin-top:1%; margin-right:2%">
+                    <img src="menu_2.3(II).PNG" style="width:49%; margin-top:1%">
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <h2>Menú 3</h2>
+            <div class="menu">
+                <div class="menu3_list">
+                    <p>Al seleccionar la tercera opción, aparecerá un menú con 6 opciones que nos dará la posibilidad de:</p>
+                    <ul>
+                        <li>
+                            Ver las estadísticas de un jugador.
+                        </li>
+                        <li>
+                            Ver las estadísticas de la partida.
+                        </li>
+                        <li>
+                            Establecer una apuesta.
+                        </li>
+                        <li>
+                            Pedir una carta.
+                        </li>
+                        <li>
+                            Dejar que el programa juegue una ronda por nosotros.
+                        </li>
+                        <li>
+                            Plantarse en medio de una ronda.
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu3_img">
+                    <img src="menu_3.PNG" class="menu_3">
+                </div>
+            </div>
+            <div class="boxes">
+                <div class="box_a">
+                    <h2>View Stats</h2>
+                    <div>
+                        <p>Al acceder a la primera opción, nos aparecerán las estadísticas del jugador que esté jugando la ronda actual.</p>
+                    </div>
+                    <div class="menu_show_player_img">
+                        <img src="menu_3.1.PNG" style="width:100%; margin-top:1%; margin-right:2%">
+                    </div>
+                </div>
+                <div class="box_b">
+                    <h2>View Game Stats</h2>
+                    <div>
+                        <p>Al acceder a la segunda opción, nos aparecerán las estadísticas de todos los jugadores.</p>
+                    </div>
+                    <div class="menu_show_player_img">
+                        <img src="menu_3.2.PNG" style="width:100%; margin-top:1%; margin-right:2%">
+                    </div>
+                </div>
+            </div>
+            <div class="boxes">
+                <div class="box_a">
+                    <h2>Set Bet</h2>
+                    <div>
+                        <p>Al acceder a la tercera opción, el programa nos pedirá que introduzcamos la apuesta que queramos hacer. En caso de que escribamos un número que no esté entre el 0 y el 20, o que directamente no hayamos escrito un número, el programa nos volverá a pedir nuestra apuesta.</p>
+                    </div>
+                    <div class="menu_show_player_img">
+                        <img src="menu_3.3.PNG" style="width:100%; margin-top:1%; margin-right:2%">
+                    </div>
+                </div>
+                <div class="box_b">
+                    <h2>Order Card</h2>
+                    <div>
+                        <p>Al acceder a la cuarta opción, estaremos indicándole al programa que queremos una carta, la cual aparecerá imprimida por pantalla junto con los puntos totales que tenemos gracias a ella.</p>
+                    </div>
+                    <div class="menu_show_player_img">
+                        <img src="menu_3.4.PNG" style="width:100%; margin-top:1.5%; margin-right:2%">
+                    </div>
+                </div>
+            </div>
+            <div class="boxes">
+                <div class="box_a">
+                    <h2>Automatic Play</h2>
+                    <div>
+                        <p>Al acceder a la quinta opción, haremos que el programa juegue por nosotros hasta que la ronda del jugador actual termine.</p>
+                    </div>
+                    <div class="menu_show_player_img">
+                        <img src="menu_3.5.PNG" style="width:100%; margin-top:1%; margin-right:2%">
+                    </div>
+                </div>
+                <div class="box_b">
+                    <h2>Stand</h2>
+                    <div>
+                        <p>Al acceder a la sexta opción, le estaremos diciendo al programa que no queremos seguir jugando una ronda, de forma que saltará automáticamente al próximo jugador.</p>
+                        <p>Si se selecciona esta opción en el turno del último jugador, la ronda actual terminará, el programa mostrará las estadísticas de los jugadores y pasará a la siguiente ronda.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <h2>Menú 4</h2>
+            <p>Al seleccionar la cuarta opción, aparecerá un menú con 4 opciones que nos dará la posibilidad de:</p>
+            <div class="menu">
+                <div class="menu4_list">
+                    <ul>
+                        <li>Ver a los jugadores que hayan obtenido más beneficios.</li>
+                        <li>Ver a los jugadores que han jugado al juego más veces.</li>
+                        <li>Ver a los jugadores que han jugado durante más minutos.</li>
+                        <li>Volver al menú principal.</li>
+                    </ul>
+                </div>
+                <div class="menu4_img">
+                    <img src="menu_4.PNG" class="menu_4">
+                </div>
+            </div>
+            <div class="boxes">
+                <div class="box_a">
+                    <h2>Players With More Earnings</h2>
+                    <div>
+                        <p>Al seleccionar la primera opción, nos aparecerán las estadísticas de los jugadores que hayan obtenido más beneficios.</p>
+                    </div>
+                    <div class="menu_show_player_img">
+                        <img src="menu_4.1.PNG" style="width:100%; margin-top:1%; margin-right:2%">
+                    </div>
+                </div>
+                <div class="box_b">
+                    <h2>Players With More Games Played</h2>
+                    <div>
+                        <p>Al seleccionar la segunda opción, nos aparecerán las estadísticas de los jugadores que han jugado al juego más veces.</p>
+                    </div>
+                    <div class="menu_show_player_img">
+                        <img src="menu_4.2.PNG" style="width:100%; margin-top:1%; margin-right:2%">
+                    </div>
+                </div>
+            </div>
+            <div>
+                <div class="box_c">
+                    <h2>Players With More Minutes Played</h2>
+                    <div>
+                        <p>Al seleccionar la tercera opción, nos aparecerán las estadísticas de los jugadores que han jugado durante más minutos.</p>
+                    </div>
+                    <div class="menu_show_player_img">
+                        <img src="menu_4.3.PNG" style="width:100%; margin-top:2.5%; margin-right:2%">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="box">
+            <h2>Menú 5</h2>
+            <p>Al seleccionar la quinta opción, aparecerá un menú con 11 opciones que nos dará la posibilidad de:</p>
+            <div class="menu">
+                <div class="menu5_list">
+                    <ul>
+                        <li>
+                            Mostrar la carta inicial más repetida por cada usuario que haya jugado un mínimo de tres rondas.
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            Mostrar los jugadores que hacen las apuestas más altas por cada partida que juegan.
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            Mostrar los jugadores que hacen las apuestas más bajas por cada partida que juegan.
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            Mostrar el porcentaje de rondas ganadas por cada usuario en cada ronda y su apuesta promedio para el juego.
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            Mostrar una lista que contiene las partidas ganadas por jugadores que sean boots.
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            Mostrar las rondas que la banca ha ganado en cada partida.
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            Mostrar el número de usuarios que han sido la banca en cada partida.
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            Mostrar apuesta promedio por cada partida.
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            Mostrar apuesta promedio de la primera ronda de cada partida.
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            Mostrar apuesta promedio de la última ronda de cada partida.
+                        </li>
+                    </ul>
+                    <ul>
+                        <li>
+                            Volver al menú principal.
+                        </li>
+                    </ul>
+                </div>
+                <div class="menu5_img">
+                    <img src="menu_5.PNG" class="menu_5">
+                </div>
+            </div>
+            <div class="boxes">
+                <div class="box_a">
+                    <h2>Initial card more repeated by each user, only users who have played a minimum of 3 games</h2>
+                    <div>
+                        <p>Al acceder a la primera opción, nos aparecerán un mensaje indicándonos que la opción está en construcción y que deberemos presionar la tecla Enter para poder continuar.</p>
+                    </div>
+                    <div class="menu_show_player_img">
+                        <img src="menu_5.1.PNG" class="menu_51">
+                    </div>
+                </div>
+                <div class="box_b">
+                    <h2>Player who makes the highest bet per game, find the round with the highest bet</h2>
+                    <div>
+                        <p>Al acceder a la segunda opción, el programa nos mostrará:</p>
+                        <ul>
+                            <li>El id de la partida.</li>
+                            <li>El NIF de los jugadores.</li>
+                            <li>La apuesta más alta que han hecho.</li>
+                        </ul>
+                    </div>
+                    <div class="menu_show_player_img">
+                        <img src="menu_5.2.PNG" style="width:100%; margin-top:1%">
+                    </div>
+                </div>
+            </div>
+            <div class="boxes">
+                <div class="box_a">
+                    <h2>Player who makes the lowest bet per game</h2>
+                    <div>
+                        <p>Al acceder a la tercera opción, el programa nos mostrará:</p>
+                        <ul>
+                            <li>El id de la partida.</li>
+                            <li>El NIF de los jugadores.</li>
+                            <li>La apuesta más alta que han hecho.</li>
+                        </ul>
+                    </div>
+                    <div class="menu_show_player_img">
+                        <img src="menu_5.3.PNG" class="menu_53">
+                    </div>
+                </div>
+                <div class="box_b">
+                    <h2>Percentage of rounds won per player in each game (%), as well as their average bet for the game</h2>
+                    <div>
+                        <p>Al acceder a la cuarta opción, el programa nos mostrará:</p>
+                        <ul>
+                            <li>El id de la partida.</li>
+                            <li>El NIF de los jugadores.</li>
+                            <li>La cantidad de rondas que han jugado.</li>
+                            <li>La cantidad promedio apostada en cada partida.</li>
+                            <li>La cantidad de rondas que han ganado.</li>
+                            <li>El porcentaje de rondas ganadas.</li>
+                        </ul>    
+                    </div>
+                    <div class="menu_show_player_img">
+                        <img src="menu_5.4.PNG" style="width:100%; margin-top:1%; margin-right:2%">
+                    </div>
+                </div>
+            </div>
+            <div class="boxes">
+                <div class="box_a">
+                    <h2>List of games won by Bots</h2>
+                    <div>
+                        <p>Al acceder a la quinta opción, el programa nos mostrará:</p>
+                        <ul>
+                            <li>El id de las partidas ganadas por bots.</li>
+                            <li>La puntuación que consiguieron los ganadores de cada partida.</li>
+                        </ul>
+                    </div>
+                    <div class="menu_show_player_img">
+                        <img src="menu_5.5.PNG" style="width:100%; margin-top:1%; margin-right:2%">
+                    </div>
+                </div>
+                <div class="box_b">
+                    <h2>Rounds won by the bank in each game</h2>
+                    <div>
+                        <p>Al acceder a la sexta opción, el programa nos dará a elegir entre:</p>
+                        <ul>
+                            <li>Mostrar las rondas ganadas por la banca distinguiendo al usuario.</li>
+                            <li>Mostrar las rondas ganadas por la banca sin distinguir al usuario.</li>
+                            <li>Volver al menú anterior.</li>
+                        </ul>
+                    </div>
+                    <div class="menu_show_player_img">
+                        <img src="menu_5.6.1.PNG" style="width:47.5%; margin-top:1%; margin-right:5%;">
+                        <img src="menu_5.6.1.PNG" style="width:47.5%; margin-top:1%;">
+                    </div>
+                </div>
+            </div>
+            <div class="boxes">
+                <div class="box_a">
+                    <h2>Number of users have been the bank in each game</h2>
+                    <div>
+                        <p>Al acceder a la séptima opción, el programa nos mostrará:</p>
+                        <ul>
+                            <li>El id de la partida.</li>
+                            <li>El número de jugadores que han tomado el rol de la banca en cada partida.</li>
+                        </ul>
+                    </div>
+                    <div class="menu_show_player_img">
+                        <img src="menu_5.7.PNG" style="width:100%; margin-top:1%; margin-right:2%">
+                    </div>
+                </div>
+                <div class="box_b">
+                    <h2>Average bet per game</h2>
+                    <div>
+                        <p>Al acceder a la octava opción, el programa nos mostrará:</p>
+                        <ul>
+                            <li>El id de la partida.</li>
+                            <li>La cantidad promedio apostada en cada partida.</li>
+                        </ul>
+                    </div>
+                    <div class="menu_show_player_img">
+                        <img src="menu_5.8.PNG" style="width:100%; margin-top:1%; margin-right:2%">
+                    </div>
+                </div>
+            </div>
+            <div class="boxes">
+                <div class="box_a">
+                    <h2>Average bet of the first round of each game</h2>
+                    <div>
+                        <p>Al acceder a la séptima opción, el programa nos mostrará:</p>
+                        <ul>
+                            <li>El id de la partida.</li>
+                            <li>El número de jugadores que han tomado el rol de la banca en cada partida.</li>
+                        </ul>
+                    </div>
+                    <div class="menu_show_player_img">
+                        <img src="menu_5.9.PNG" style="width:100%; margin-top:1%; margin-right:2%">
+                    </div>
+                </div>
+                <div class="box_b">
+                    <h2>Average bet of the last round of each game</h2>
+                    <div>
+                        <p>Al acceder a la octava opción, el programa nos mostrará:</p>
+                        <ul>
+                            <li>El id de la partida.</li>
+                            <li>La cantidad promedio apostada en cada partida.</li>
+                        </ul>
+                    </div>
+                    <div class="menu_show_player_img">
+                        <img src="menu_5.10.PNG" style="width:100%; margin-top:1%; margin-right:2%">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <shadow-partial data-html="footer.html" data-css="footer.css"></shadow-partial>
+    </div>
+</body>
+</html>

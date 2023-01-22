@@ -1,0 +1,142 @@
+body{
+    display: contents;
+}
+h2{
+    font-family: 'Kdam Thmor Pro', sans-serif;
+    margin-top: 0;
+}
+
+p{
+    font-family: 'Kdam Thmor Pro', sans-serif;
+}
+
+li{
+    font-family: 'Kdam Thmor Pro', sans-serif;
+}
+.index{
+    background-image: url(https://noticiassalamanca.com/wp-content/uploads/2022/12/juego-de-naipes-cartas-baraja-espanola.png);
+    background-attachment: fixed;
+    background-size: 70%;
+    padding-top: 10%;
+}
+.box{
+    background-color: white;
+    text-align: justify;
+    border-radius: 20px;
+    padding: 30px;
+    margin: 60px;
+}
+.riesgo{
+    background-color: gainsboro;
+    border-radius: 10px;
+    flex-direction: row;
+    margin-bottom: 3%;
+    margin-top: 3%;
+    display: flex;
+    width: 35%;
+}
+.lista_riesgo{
+    width: 75%;
+}
+.lootie_riesgo{
+    width: 18%;
+}
+.ases{
+    display: flex;
+    flex-direction: row;   
+}
+.as{
+    background-color: gainsboro;
+    border-radius: 10px;
+    text-align: center;
+    margin-right: 5%;
+    margin-left: 5%;
+    margin-bottom: 2%;
+    margin-top: 2%;
+    padding: 2%;
+    transform:scale(100%);
+    transition: 0.5s ease;
+}
+.as:hover{
+    -webkit-transform: scale(111%);
+    transition: 0.5s ease;
+}
+.cartas{
+    display: flex;
+    flex-direction: row;   
+}
+.lista_cartas{
+    width: 100%;
+    margin-right: 2.5%;
+}
+.lootie_cartas{
+    width: 30%;
+    margin-top: 0.5%;
+    margin-right: 1.5%;
+}
+.banca{
+    display: flex;
+    flex-direction: row;   
+}
+.lootie_banca{
+    width: 27.5%;
+}
+.puntos{
+    display: flex;
+    flex-direction: row;
+}
+.lootie_puntos{
+    width: 18%;
+    margin-left: 5%;
+}
+.lógica{
+    display: flex;
+    flex-direction: row;
+}
+.lootie_lógica{
+    width: 36%;
+}
+
+@media screen and (max-width: 800px){
+    h2{
+        text-align: center;
+    }
+    .index{
+        background-image: url(https://previews.123rf.com/images/underworld/underworld1803/underworld180302115/97966686-textura-de-cartas-de-p%C3%B3ker-cartas-de-casino-como-fondo.jpg);
+        background-size: 100%;
+        padding-top: 18%;
+    }
+    .box_11{
+        padding-left: 20%;
+    }
+    .riesgo{
+        margin-bottom: 6%;
+        margin-top: 6%;
+        width: 95%;
+    }
+    .as{
+        background-color: gainsboro;
+        border-radius: 10px;
+        text-align: center;
+        margin-right: 2.2%;
+        margin-left: 2.2%;
+        margin-bottom: 2.5%;
+        margin-top: 2.5%;
+        padding: 2.5%;
+    }
+    .lootie_cartas{
+        width: 30%;
+        margin-top: 25%;
+        margin-left: 3%;
+    }
+    .lootie_banca{
+        width: 80%;
+    }
+    .lista_puntos{
+        width: 75%;
+        margin-left: 0%;
+    }
+    .lootie_lógica{
+        width: 100%;
+    }
+}

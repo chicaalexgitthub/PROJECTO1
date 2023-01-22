@@ -1,0 +1,205 @@
+body{
+    display: contents;
+}
+h2{
+    margin-top: 0;
+}
+img{
+    border-radius: 10px;
+    margin-top: 15px;
+}
+.equip{
+    background-image: url(https://png.pngtree.com/background/20210711/original/pngtree-enterprise-company-culture-unity-and-cooperation-endeavour-banner-board-picture-image_1084667.jpg);
+    background-attachment: fixed;
+    background-size: 106%;
+    padding-top: 2%;
+}
+.box{
+    font-family: 'Kdam Thmor Pro', sans-serif;
+    background-color: white;
+    text-align: justify;
+    flex-direction: row;
+    border-radius: 20px;
+    display: flex;
+    padding: 30px;
+    margin: 60px;
+}
+.xbox{
+    font-family: 'Kdam Thmor Pro', sans-serif;
+    background-color: white;
+    text-align: justify;
+    flex-direction: row;
+    border-radius: 20px;
+    display: flex;
+    padding: 30px;
+    margin: 60px;
+    margin-top: 12%;
+}
+.alumno{
+    margin-right: 4%;
+    width: 100%;
+}
+.alex{
+    transform: rotate3d(0deg);
+    transition: 0.5s ease;
+    margin-left: 3.5%;
+    width: 55%;
+}
+.alex:hover{
+    -webkit-transform: rotate3d(0, 1, 0, 3.142rad);
+    transition: 0.5s ease;
+}
+.info_alex{
+    background-color: gainsboro;
+    border-radius: 10px;
+    margin-top: 5%;
+    padding: 5px;
+    width: 60%;
+}
+.joel{
+    transform: rotate3d(0deg);
+    transition: 0.5s ease;
+    width: 71%;
+}
+.joel:hover{
+    -webkit-transform: rotate3d(0, 1, 0, 3.142rad);
+    transition: 0.5s ease;
+}
+.info_joel{
+    background-color: gainsboro;
+    border-radius: 10px;
+    margin-top: 5%;
+    padding: 5px;
+    width: 68%;
+}
+.patrick{
+    transform: rotate3d(0deg);
+    transition: 0.5s ease;
+    width: 91%;
+}
+.patrick:hover{
+    -webkit-transform: rotate3d(0, 1, 0, 3.142rad);
+    transition: 0.5s ease;
+}
+.info_patrick{
+    background-color: gainsboro;
+    border-radius: 10px;
+    margin-top: 5%;
+    padding: 5px;
+    width: 89%;
+}
+.box_módulos{
+    flex-direction: row;
+    display: flex;
+}
+.módulos{
+    flex-direction: row;
+    margin-bottom: 30px;
+    margin-top: 30px;
+    display: flex;
+    width: 100%;
+}
+.módulos_patrick{
+    flex-direction: row;
+    margin-bottom: 30px;
+    margin-top: 15px;
+    display: flex;
+    width: 100%;
+}
+.módulo{
+    background-color: gainsboro;
+    padding-bottom: 30px;
+    padding-right: 30px;
+    border-radius: 20px;
+    margin-right: 30px;
+    padding-left: 30px;
+    padding-top: 15px;
+    width: 25%;
+}
+.módulo_patrick{
+    background-color: gainsboro;
+    padding-bottom: 30px;
+    padding-right: 30px;
+    border-radius: 20px;
+    margin-right: 41px;
+    padding-left: 30px;
+    padding-top: 15px;
+    width: 100%;
+}
+
+@media screen and (max-width: 800px){
+    h2{
+        text-align: center;
+        margin-top: 5%;
+    }
+    .equip{
+        background-image: url(https://png.pngtree.com/background/20210710/original/pngtree-team-fight-poster-background-material-picture-image_1056998.jpg);
+        background-size: 100%;
+    }
+    .box{
+        flex-direction: column;
+    }
+    .xbox{
+        flex-direction: column;
+        margin-top: 24%;
+    }
+    .alumno{
+        text-align: center;
+        margin-bottom: 6%;
+        margin-right: 0;
+    }
+    .alex{
+        margin-left: 0;
+        margin-top: 0;
+        width: 41%;
+    }
+    .info_alex{
+        text-align: justify;
+        margin-left: 29%;
+        margin-top: 4%;
+        height: 10%;
+        width: 40%;
+    }
+    .joel{
+        width: 41%;
+    }
+    .info_joel{
+        text-align: justify;
+        margin-left: 29%;
+        margin-top: 4%;
+        height: 10%;
+        width: 40%;
+    }
+    .patrick{
+        width: 41%;
+    }
+    .info_patrick{
+        text-align: justify;
+        margin-left: 29%;
+        margin-top: 4%;
+        height: 10%;
+        width: 40%;
+    }
+    .box_módulos{
+        flex-direction: column;
+    }
+    .módulos{
+        justify-content: center;
+    }
+    .módulos_patrick{
+        justify-content: center;
+        margin-bottom: 0;
+        margin-top: 4%;
+    }
+    .módulo{
+        margin-right: 2%;
+        margin-left: 2%;
+    }
+    .módulo_patrick{
+        margin-right: 2%;
+        margin-left: 2%;
+    }
+    .tareas{
+        margin-top: 10%;
+    }
+}

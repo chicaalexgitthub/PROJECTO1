@@ -1,0 +1,11 @@
+.footer {
+    margin: auto;
+    width:fit-content;
+    background-color: red;
+    width: 100%;
+    padding-top: 1em;
+    padding-bottom: 1em;
+    color: white;
+    text-align: center;
+    font-family: 'Kdam Thmor Pro', sans-serif;
+}

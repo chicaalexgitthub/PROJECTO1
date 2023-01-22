@@ -1,0 +1,248 @@
+body{
+    display: contents;
+}
+h2{
+    font-family: 'Kdam Thmor Pro', sans-serif;
+    margin-top: 0;
+}
+
+p{
+    font-family: 'Kdam Thmor Pro', sans-serif;
+}
+li{
+    font-family: 'Kdam Thmor Pro', sans-serif;
+}
+.tutorial{
+    background-image: url(https://www.hp.com/us-en/shop/app/assets/images/uploads/prod/5%20Best%20Coding%20Programs%20for%20Aspiring%20Programmers1650304687858345.jpg);
+    background-attachment: fixed;
+    padding-top: 10%;
+    background-size: 111%;
+}
+.box{
+    background-color: white;
+    text-align: justify;
+    border-radius: 20px;
+    padding: 30px;
+    margin: 60px;
+}
+.boxes{
+    flex-direction: row;
+    display: flex;
+}
+.box_1{
+    background-color: gainsboro;
+    text-align: justify;
+    border-radius: 20px;
+    margin-top: 30px;
+    padding: 30px;
+}
+.box_a{
+    background-color: gainsboro;
+    text-align: justify;
+    border-radius: 20px;
+    margin-top: 30px;
+    padding: 30px;
+    width: 45%;
+}
+.box_b{
+    background-color: gainsboro;
+    text-align: justify;
+    border-radius: 20px;
+    margin-top: 30px;
+    margin-left: 2%;
+    padding: 30px;
+    width: 45%;
+}
+.box_c{
+    background-color: gainsboro;
+    text-align: justify;
+    border-radius: 20px;
+    margin-top: 30px;
+    margin-left: 25%;
+    padding: 30px;
+    width: 45%;
+}
+.menu{
+    flex-direction: row;
+    display: flex;
+}
+.menu0_list{
+    margin-right: 3%;
+    width: 67.5%;
+}
+.menu0_img{
+    width: 24%;
+}
+.menu_0{
+    margin-top: 10%;
+    width:120%;
+}
+.menu1_list{
+    width: 80%;
+}
+.menu1_img{
+    margin-top: 2%;
+    width: 17.5%;
+}
+.menu_1{
+    width:110%;
+}
+.menu_new_player_list{
+    width: 86%;
+}
+.menu_new_player_img{
+    width: 12%;
+}
+.menu_show_player_img{
+    flex-direction: row;
+    display: flex;
+}
+.menu2_list{
+    width: 66%;
+}
+.menu2_img{
+    margin-top: 1.5%;
+    width: 25%;
+}
+.menu_2{
+    width:130%;
+}
+.menu3_list{
+    margin-right: 3%;
+    width: 81%;
+}
+.menu3_img{
+    width: 15%;
+}
+.menu_3{
+    margin-right: 0;
+    margin-top: 8%;
+    width:100%;
+}
+.menu4_list{
+    margin-right: 3%;
+    width: 72%;
+}
+.menu_4{
+    margin-top: 8%;
+    width: 100%;
+}
+.menu5_list{
+    margin-right: 3%;
+    width: 62%;
+}
+.menu_5{
+    margin-top: 5%;
+    width: 96%
+}
+.menu_51{
+    margin-right:2%;
+    margin-top:8%;
+    width:100%;
+}
+.menu_53{
+    margin-right:2%;
+    margin-top:19%;
+    width:100%;
+}
+@media screen and (max-width: 800px){
+    .tutorial{
+        background-image: url(https://w0.peakpx.com/wallpaper/77/470/HD-wallpaper-programmer-code-coding-numeric-numetric.jpg);
+        background-size: 100%;
+        padding-top: 18%;
+    }
+    .boxes{
+        flex-direction: column;
+        display: flex;
+    }
+    .box_a{
+        width: 90%;
+    }
+    .box_b{
+        margin-left: 0;
+        width: 90%;
+    }
+    .box_c{
+        margin-left: 0;
+        width: 90%;
+    }
+    .menu{
+        flex-direction: column;
+    }
+    .menu_new_player_img{
+        width: 91%;
+    }
+    .menu0_list{
+        margin-right: 0;
+        width: 100%;
+    }
+    .menu0_img{
+        width: 86%;
+    }
+    .menu_0{
+        margin-left: 8%;
+        margin-top: 3%;
+        width:100%;
+    }
+    .menu1_img{
+        width: 86%;
+    }
+    .menu_1{
+        margin-left: 8%;
+        margin-top: 3%;
+        width: 100%;
+    }
+    .menu2_list{
+        width: 100%;
+    }
+    .menu2_img{
+        width: 86%;
+    }
+    .menu_2{
+        margin-left: 8%;
+        margin-top: 3%;
+        width:100%;
+    }
+    .menu3_list{
+        margin-right: 0;
+        width: 100%;
+    }
+    .menu3_img{
+        width: 86%;
+    }
+    .menu_3{
+        margin-left: 8%;
+        margin-top: 3%;
+        width:100%;
+    }
+    .menu4_list{
+        margin-right: 0;
+        width: 100%;
+    }
+    .menu4_img{
+        width: 86%;
+    }
+    .menu_4{
+        margin-left: 8%;
+        margin-top: 3%;
+        width:100%;
+    }
+    .menu5_list{
+        margin-right: 0;
+        width: 100%;
+    }
+    .menu5_img{
+        width: 86%;
+    }
+    .menu_5{
+        margin-left: 8%;
+        margin-top: 3%;
+        width:100%
+    }
+    .menu_51{
+        margin-top: 1%;
+    }
+    .menu_53{
+        margin-top: 1%;
+    }
+}

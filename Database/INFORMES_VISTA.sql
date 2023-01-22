@@ -17,7 +17,43 @@ where bet_points = (select min(bet_points) from player_game_round
 conseguido más puntos al finalizar la partida, los puntos
 conseguidos son la diferencia entre los puntos que tenía al iniciar
 la partida y los puntos al acabar.**/
-
+select pg.cardgame_id, pgr2.ending_round_points-pgr1.starting_round_points 
+from player_game pg
+join player p on p.player_id = pg.player_id
+join player_game_round pgr1 on pgr1.cardgame_id = pg.cardgame_id 
+	and pgr1.player_id = p.player_id 
+    and pgr1.round_num = (
+						select round_num
+						from player_game_round pgr
+						where pgr.cardgame_id = pg.cardgame_id and pgr.player_id = p.player_id
+						order by round_num asc
+                        limit 1
+					)
+join player_game_round pgr2 on pgr2.cardgame_id = pg.cardgame_id 
+	and pgr2.player_id = p.player_id 
+    and pgr2.round_num = (
+						select round_num
+						from player_game_round pgr
+						where pgr.cardgame_id = pg.cardgame_id and pgr.player_id = p.player_id
+						order by round_num desc
+                        limit 1
+					)
+where pgr2.ending_round_points >= ALL (
+									select pgr3.ending_round_points
+									from player_game pg3
+									join player p3 on p3.player_id = pg3.player_id
+									join player_game_round pgr3 on pgr3.cardgame_id = pg3.cardgame_id 
+										and pgr3.player_id = p3.player_id 
+										and pgr3.round_num = (
+															select round_num
+															from player_game_round pgr
+															where pgr.cardgame_id = pg3.cardgame_id and pgr.player_id = p3.player_id
+															order by round_num desc
+															limit 1
+														)
+									where p3.player_id != p.player_id and pg3.cardgame_id = pg.cardgame_id
+)
+and human = 0;
 
 /**7) Cuántos usuarios han sido la banca en cada partida.**/
 /**DONE**/

@@ -24,6 +24,9 @@ create table cardgame (
     end_hour datetime,
     deck_id int,
     foreign key (deck_id) references deck(deck_id)
+    
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
 );
 
 create table card (
@@ -50,9 +53,12 @@ create table player_game (
     
     foreign key (cardgame_id) references cardgame(cardgame_id),
     foreign key (player_id) references player(player_id)
+    
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
 );
 
-create table playe_game_round (
+create table player_game_round (
 	round_num tinyint,
 	cardgame_id int,
     player_id varchar(25),
@@ -67,4 +73,7 @@ create table playe_game_round (
     
     foreign key (cardgame_id) references cardgame(cardgame_id),
     foreign key (player_id) references player(player_id)
+    
+    ON UPDATE CASCADE
+    ON DELETE CASCADE
 );

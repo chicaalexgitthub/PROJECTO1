@@ -1132,3 +1132,4 @@ def generateXML(column_name,query, filename):
 
     tree.write("./InformesXML/{}".format(filename))
 
+#;)

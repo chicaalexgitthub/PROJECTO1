@@ -19,5 +19,6 @@ La pagina web esta subida dentro de la carpeta Portal, sin la carpeta node_modul
 
 # Contacto:
 
-alex.chivaq@gmail.com
-patricio.rojas1881@gmail.com
+alex.chivaq@gmail.com, 
+patricio.rojas1881@gmail.com,
+jberzalalamo.cf@iesesteveterradas.cat

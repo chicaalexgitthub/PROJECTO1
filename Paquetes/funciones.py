@@ -3,12 +3,12 @@ import os
 import random
 from Paquetes.datos import *
 from math import *
+from datetime import datetime
 
 # Conectamos con la base de datos
 database = connect(user="gameadmin", password="sieteymedio123$", host="sevenandhalf.mysql.database.azure.com",
                    database="seven_half")
 cursorObject = database.cursor(buffered=True)
-
 
 # Aqui guardamos las funciones.
 
@@ -36,6 +36,9 @@ def menu(menu_, options, exceptions=""):
         input("Press enter to continue".rjust(79))
         return menu(menu_, options, exceptions)
 
+def first_round(passwordss):
+    if passwordss:
+        return context_game["game"]
 
 def barajar_mazo(mazo):
     # Se recorre cada posicion del mazo asignandole una nueva posicion a su valor,
@@ -52,6 +55,10 @@ def set_game_priority(deck):
     for i in context_game["game"]:
         players[i]["initialCard"] = deck[random.randint(0, len(deck) - 1)]
         given_cards.append(players[i]["initialCard"])
+
+    # Primera funcion para
+    if current_round["round"] == 0:
+        player_gameDB1()
     # Ordenamos la lista de jugadores segun la prioridad de sus cartas
     for i in context_game["game"]:
         for j in context_game["game"]:
@@ -132,7 +139,9 @@ def check_conditions():
         if len(context_game["game"]) < 2:
             raise ValueError("Set the players that compose the game first".rjust(97))
         if len(mazo) == 0:
-            get_deck(1)
+            get_deck(deck_on_game["deck"])
+        pase = True
+        first_players["players"] = first_round(pase)
         return True
     except ValueError as error:
         print(error)
@@ -265,7 +274,7 @@ def insert_players():
 
 
 def get_deck(deck):
-    deck_on_game = deck
+    deck_on_game["deck"] = deck
     query = ("SELECT * FROM card WHERE deck_id = {}".format(deck))
     cursorObject.execute(query)
     database.commit()
@@ -472,10 +481,13 @@ def turn(deck, round):
                 # Guardamos el NIF del actual banco en una variable
                 if not opt == '3':
                     opt = menu(head, menu_ingame_opt)
+
+            player_game_roundInsert1(current_round["round"], "start")
+
     # Repartimos puntos
     return_cards(given_cards, deck)
     bank = give_points(bank)
-
+    player_game_roundInsert1(current_round["round"], "end")
 
 def card_phase(deck, given_cards, x="", y=""):
     if players[x]["human"] is True and y == "":
@@ -547,6 +559,13 @@ def start_game():
     print_stats()
     input("Press enter to continue".rjust(78))
     for i in range(0, context_game["rounds"]):
+        current_round["round"] = i
+        # Primera insercion al diccionario destinado a DB de cardgame
+        if i == 0:
+
+            cardgameDB1()
+            create_player_game_round()
+
         turn(context_game["mazo"], i)
         # Si no hay almenos 2 jugadores con puntos, termina la partida
         s_players = check_minimum_2_player_with_points()
@@ -559,6 +578,10 @@ def start_game():
         print_stats()
         opt = input("Press enter start another round, exit to go back: ".rjust(97))
         if opt == "exit":
+            cardgame = {'cardgame_id': 0, 'players': 0, 'start_hour': 0,
+                        'rounds': 0, 'end_hour': 0, 'deck_id': 0}
+            player_game_toDB = {}
+            player_game_round = {}
             break
         if i == context_game["rounds"] - 1:
             print_stats()
@@ -595,6 +618,7 @@ def give_points(bank):
             players[x]["points"] -= players[x]["bet"]
             players[bank]["points"] += players[x]["bet"]
             if players[x]["points"] == 0:
+                player_gameEndingPoints([x], True)
                 print(players[x]["name"], "lost")
         else:
             if x in contenders:
@@ -617,6 +641,7 @@ def give_points(bank):
                         players[x]["points"] -= players[x]["bet"]
                         players[bank]["points"] += players[x]["bet"]
                         if players[x]["points"] == 0:
+                            player_gameEndingPoints([x], True)
                             print(players[x]["name"], "lost")
                 else:
                     players[x]["points"] += players[x]["bet"]
@@ -627,6 +652,7 @@ def give_points(bank):
                     players[bank]["points"] += players[x]["bet"]
                     if players[x]["points"] == 0:
                         print(players[x]["name"], "lost")
+                        player_gameEndingPoints([x], True)
     # En caso de haber un o varios 7.5 que no sean el banco, el que tiene mas prioridad se convierte en el banco
     if len(contenders) == 1 and bank not in contenders:
         players[contenders[0]]["bank"] = True
@@ -835,10 +861,8 @@ def cardgameDB1():
 
     cardgame["start_hour"] = mysql_date
     cardgame["rounds"] = context_game["rounds"]
-    if deck_on_game == 0:
-        cardgame["deck_id"] = 1
-    else:
-        cardgame["deck_id"] = deck_on_game
+
+    cardgame["deck_id"] = deck_on_game["deck"]
 
 
 def cardgameDB2(id):
@@ -864,6 +888,7 @@ def player_gameDB1():
         player_game_toDB[player_nif] = {}
         player_game_toDB[player_nif]["initial_card_id"] = players[player_nif]["initialCard"]
         player_game_toDB[player_nif]["starting_points"] = 20
+        player_game_toDB[player_nif]["ending_points"] = 0
 
 
 # nif es una lista de DNI
@@ -885,24 +910,79 @@ def send_player_game_toDB(id):
 
 
 #Funcion para añadir por primera vez player_game_round
-# def create_player_game_round():
-#     for nif in context_game
+def create_player_game_round():
+     for nif in context_game["game"]:
+         player_game_round[nif] = {}
+         for i in range(0, context_game["rounds"]):
+             player_game_round[nif][i] = {}
+            # CARDGAME_ID SE METERA POR LA FUNCION
+             player_game_round[nif][i]["round_num"] = 0
+             player_game_round[nif][i]["player_id"] = 1
+             player_game_round[nif][i]["is_bank"] = 0
+             player_game_round[nif][i]["bet_points"] = 0
+             player_game_round[nif][i]["cards_value"] = 0
+             player_game_round[nif][i]["starting_round_points"] = 0
+             player_game_round[nif][i]["ending_round_points"] = 0
+
+
+def player_game_roundInsert1(rounds, order):
+    if order == "start":
+        for nif in context_game["game"]:
+
+            player_game_round[nif][rounds]["round_num"] = rounds
+            player_game_round[nif][rounds]["player_id"] = nif
+            player_game_round[nif][rounds]["is_bank"] = players[nif]["bank"]
+            player_game_round[nif][rounds]["starting_round_points"] = players[nif]["points"]
+
+            player_game_round[nif][rounds]["bet_points"] = players[nif]["bet"]
+    elif order == "end":
+        for nif in context_game["game"]:
+            player_game_round[nif][rounds]["ending_round_points"] = players[nif]["points"]
+
+            card_value = 0
+            for card in players[nif]["cards"]:
+                card_value += mazo[card]["realValue"]
+            player_game_round[nif][rounds]["cards_value"] = card_value
 
 def sendplayer_game_roundDB(id):
     query = ("INSERT INTO player_game_round VALUES (%s, %s, %s, %s, %s, %s, %s, %s)")
 
+    for nif in first_players["players"]:
+
+        for ronda in range(0, current_round["round"]):
+            if player_game_round[nif][ronda]["player_id"] != 1:
+                values = (ronda, id, player_game_round[nif][ronda]["player_id"],player_game_round[nif][ronda]["is_bank"],
+                         player_game_round[nif][ronda]["bet_points"],
+                         player_game_round[nif][ronda]["cards_value"], player_game_round[nif][ronda]["starting_round_points"],
+                         player_game_round[nif][ronda]["ending_round_points"])
+
+                cursorObject.executemany(query, (values,))
+                database.commit()
 
 def winner(rounds):
     os.system("clear")
     print(game_over)
     max = context_game["game"][0]
+
+    # Lista para añadir los ultimos puntos de la ronda final a los players en player_game
+    lista_gente_sin_eliminar = []
+    for dni in context_game["game"]:
+        lista_gente_sin_eliminar.append(dni)
+    player_gameEndingPoints(lista_gente_sin_eliminar, False)
+
     for x in context_game["game"]:
         if players[x]["points"] > players[max]["points"]:
             max = x
     print("".ljust(25) + "The winner is", max, "-", players[max]["name"], "in", rounds + 1, "rounds")
     input("Enter to continue".rjust(42))
-
-
+    game_id = getGameId()
+    cardgameDB2(game_id)
+    send_player_game_toDB(game_id)
+    sendplayer_game_roundDB(game_id)
+    # CLEAR al DB TABLES
+    cardgame = {}
+    player_game_toDB = {}
+    player_game_round = {}
 def deleteplayer():
     for x in delete_players:
         player_id = [x]

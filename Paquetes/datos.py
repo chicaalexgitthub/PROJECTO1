@@ -5,21 +5,20 @@ letras = {0: "T", 1: "R", 2: "W", 3: "A", 4: "G", 5: "M", 6: "Y", 7: "F", 8: "P"
 mazo = {}
 
 players = {}
-
+first_players = {"players":[]}
 delete_players = {}
 
 cardgame = {'cardgame_id': 0, 'players': 0, 'start_hour': 0,
             'rounds': 0, 'end_hour': 0, 'deck_id': 0}
 
-# player_game = {"id_game": {"id_player_1": {"initial_card_id": 0, "starting_points": 0, "ending_points": 0}}}
-
 player_game_toDB = {}
-
+current_round = {"round":0}
 player_game_round = {}
+
 
 context_game = {"game": [], "mazo": [], "rounds": 5}
 
-deck_on_game = 0
+deck_on_game = {"deck":1}
 
 menu_principal = ("*" * 140) + "\n" + (" " * 37) + \
                  "_____                         ___              __   __  __      ______" + (" " * 33) + "\n" + \

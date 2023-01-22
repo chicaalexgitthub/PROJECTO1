@@ -54,13 +54,13 @@ menu_02 = ("*" * 140) + "\n" + "".ljust(40) + ".d8888b.          888    888    d
         "2)Set Card's Deck\n".rjust(72) + "3)Set Max Rounds(Default 5 Rounds)\n".rjust(89) + "4)Go back".rjust(63)
 menu_02_opt = ('1', '2', '3', '4')
 
-menu_04 = ("*" * 140) + "\n" + ("*" * 140) + "\n\n" + "1)Players with more earnings\n".rjust(83) + \
+menu_04 = ("*" * 140)+ "\n" + "R A N K I N G".center(140) + "\n" + ("*" * 140) + "\n\n" + "1)Players with more earnings\n".rjust(83) + \
           "2)Players with more games played\n".rjust(87) + \
           "3)Players with more minuts played\n".rjust(88) + \
           "4)Go back\n".rjust(64)
 menu_04_opt = ('1', '2', '3', '4')
 
-menu_05 = ("*" * 140) + "\n" + \
+menu_05 = ("*" * 140) + "\n" + "REPORTS".center(140) +"\n"+\
           ("*" * 140) + "\n\n" + "1)  Initial card more repeated by each user,\n".rjust(94) + \
           "only users who have played a minimum of 3 games.\n".rjust(102) + \
           "2)  Player who makes the highest bet per game,\n".rjust(96) + \

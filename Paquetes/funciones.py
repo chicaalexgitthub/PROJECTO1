@@ -4,7 +4,7 @@ import random
 from Paquetes.datos import *
 from math import *
 from datetime import datetime
-
+import xml.etree.cElementTree as ET
 # Conectamos con la base de datos
 database = connect(user="gameadmin", password="sieteymedio123$", host="sevenandhalf.mysql.database.azure.com",
                    database="seven_half")
@@ -180,10 +180,24 @@ def create_human_player_nif(name):
         print(players_banner)
         print("Name:        ".rjust(52), name)
         print("NIF:         ".rjust(52), nif)
+
+        query = ("SELECT player_id FROM PLAYER")
+        cursorObject.execute(query)
+        database.commit()
+        result_raw = cursorObject.fetchall()
+        people = []
+        for person in result_raw:
+            people.append(person[0])
+        if nif in people:
+            raise IntegrityError("DNI ya existente")
+
         return nif
+
     except ValueError as error:
         print(error)
     except TypeError as error:
+        print(error)
+    except IntegrityError as error:
         print(error)
     input("Enter to continue")
     os.system("clear")
@@ -884,7 +898,7 @@ def cardgameDB2(id):
 # Para añadir la informacion a player_game, primer funcion hace lo general, la segunda pone los puntes finles y la ultima
 # los id de cardgame_id
 def player_gameDB1():
-    for player_nif in context_game["game"]:
+    for player_nif in first_players["players"]:
         player_game_toDB[player_nif] = {}
         player_game_toDB[player_nif]["initial_card_id"] = players[player_nif]["initialCard"]
         player_game_toDB[player_nif]["starting_points"] = 20
@@ -893,12 +907,15 @@ def player_gameDB1():
 
 # nif es una lista de DNI
 def player_gameEndingPoints(nif, lost):
-    for dni in nif:
-        if lost:
-            player_game_toDB[dni]["ending_points"] = 0
-        else:
-            player_game_toDB[dni]["ending_points"] = players[dni]["points"]
+    try:
+        for dni in nif:
+            if lost:
+                print()
+            else:
+                player_game_toDB[dni]["ending_points"] = players[dni]["points"]
 
+    except KeyError:
+        print()
 
 def send_player_game_toDB(id):
     query = ("INSERT INTO player_game VALUES (%s, %s, %s, %s, %s)")
@@ -969,9 +986,9 @@ def winner(rounds):
     for dni in context_game["game"]:
         lista_gente_sin_eliminar.append(dni)
     player_gameEndingPoints(lista_gente_sin_eliminar, False)
-
     for x in context_game["game"]:
         if players[x]["points"] > players[max]["points"]:
+
             max = x
     print("".ljust(25) + "The winner is", max, "-", players[max]["name"], "in", rounds + 1, "rounds")
     input("Enter to continue".rjust(42))
@@ -989,3 +1006,129 @@ def deleteplayer():
         query = ("delete from player where player_id = %s ;")
         cursorObject.execute(query, (player_id))
         database.commit()
+
+
+# FUNCIONES DE LOS RANKINGS, INFORMES
+def getranking(attribute):
+    query = ""
+    if attribute == "earnings":
+        query = "SELECT * from ranking order by `Earnings` desc;"
+    elif attribute == "games":
+        query = "SELECT * from ranking order by `Games Played` desc;"
+    elif attribute == "minutes":
+        query = "SELECT * from ranking order by `Minutes Played` desc;"
+
+    cursorObject.execute(query)
+    database.commit()
+    result = cursorObject.fetchall()
+
+    all_players = []
+
+    for i in range(len(result)):
+        single_data = ""
+        for j in range(len(result[i])):
+
+            if j == 0:
+                single_data += str(result[i][j]).ljust(12)
+            elif j == 1:
+                single_data += str(result[i][j]).ljust(22)
+            elif j == 2:
+                single_data += str(result[i][j]).rjust(8)
+            elif j == 3:
+                single_data += str(result[i][j]).rjust(14)
+            elif j == 4:
+                single_data += str(result[i][j]).rjust(16)
+        all_players.append(single_data)
+
+    return all_players
+
+
+# REQUIERE DE LA LISTA DE FILAS DE INFO
+def print_ranking(info, textheader):
+    os.system("clear")
+    while True:
+        error = ("=" * 61) + "Invalid Option" + ("=" * 66)
+        print(140*"*" + "\n" + textheader.center(140)+"\n"+ 140*"*")
+        print(("*"*72).center(140))
+        print(("Player ID".ljust(12) + "Name".ljust(22) + "Earnings".rjust(8) + "Games Played".rjust(14)+\
+                    "Minutes Played".rjust(16)).center(140))
+        print(("*"*72).center(140))
+
+        for row in info:
+            print(row.center(140))
+        print("Escribe 'exit' para salir: ".center(140))
+        opt = input(" "*70)
+
+        if opt != "exit":
+            print(error.center(140))
+            print("Presione cualquier tecla: ".center(140))
+            opt = input(" " * 70)
+            os.system("clear")
+        else:
+            break
+
+# Print informes. requiere cuantas columnas de info tiene, el header, la query
+def print_informes(columns, header, query):
+    while True:
+        error = ("=" * 61) + "Invalid Option" + ("=" * 66)
+        os.system("clear")
+        print("*"*140)
+        print("R E P O R T S".center(140))
+        print("*" * 140)
+
+        print(("*" * len(header)).center(140) , header.center(140)  , ("*"*len(header)).center(140), sep="\n")
+
+        cursorObject.execute(query)
+        database.commit()
+        result = cursorObject.fetchall()
+
+        all_players = []
+
+        if columns == 2:
+
+            for i in range(len(result)):
+                single_data = ""
+                for j in result[i]:
+                    single_data += (str(j)).rjust(len(header)//2)
+
+                all_players.append(single_data)
+
+            for row in all_players:
+                print(row.center(140))
+
+        elif columns == 3:
+            for i in range(len(result)):
+                single_data = ""
+                for j in result[i]:
+                    single_data += str(j).rjust(len(header)//3)
+                all_players.append(single_data)
+
+            for row in all_players:
+                print(row.center(140))
+        print("Escribe 'exit' para salir: ".center(140))
+        opt = input(" " * 70)
+
+        if opt != "exit":
+            print(error.center(140))
+            print("Presione cualquier tecla: ".center(140))
+            opt = input(" " * 70)
+            os.system("clear")
+        else:
+            break
+
+
+#Funcion para generar XML, necesita una lista con el nombre de los valores en orden, y la query en cuestion
+def generateXML(column_name,query, filename):
+    root = ET.Element("root")
+    doc = ET.SubElement(root, "row")
+    cursorObject.execute(query)
+    database.commit()
+    result = cursorObject.fetchall()
+    print(result)
+    for row in result:
+        for i in range(len(row)):
+            ET.SubElement(doc, column_name[i]).text = str(row[i])
+    tree = ET.ElementTree(root)
+
+    tree.write("./InformesXML/{}".format(filename))
+

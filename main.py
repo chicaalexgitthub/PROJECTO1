@@ -1,6 +1,6 @@
 # Programa principal
 import os
-
+import xml.etree.cElementTree as ET
 from Paquetes import datos as d
 from Paquetes import funciones as f
 
@@ -69,11 +69,14 @@ while not flg_end:
     while flg_04:
         opt = f.menu(d.menu_04, d.menu_04_opt)
         if opt == '1':
-            print()
+            lista_players = f.getranking("earnings")
+            f.print_ranking(lista_players, "E A R N I N G S")
         if opt == '2':
-            print()
+            lista_players = f.getranking("games")
+            f.print_ranking(lista_players, "G A M E S")
         if opt == '3':
-            print()
+            lista_players = f.getranking("minutes")
+            f.print_ranking(lista_players, "M I N U T E S")
         if opt == '4':
             flg_04 = False
             flg_0 = True
@@ -82,9 +85,31 @@ while not flg_end:
         if opt == '1':
             print()
         if opt == '2':
-            print()
+            f.generateXML(["idgame", "idplayer", "maxbet"], "select DISTINCT cardgame_id, player_id, "
+                                                                           "bet_points from player_game_round pgr "
+                                                                           "where bet_points = (select max(bet_points) "
+                                                                           "from player_game_round where cardgame_id = "
+                                                                           "pgr.cardgame_id) order by bet_points desc;","highestbet.xml")
+
+            f.print_informes(3, "    ID Game     ID Player        Max Bet ", "select DISTINCT cardgame_id, player_id, "
+                                                                           "bet_points from player_game_round pgr "
+                                                                           "where bet_points = (select max(bet_points) "
+                                                                           "from player_game_round where cardgame_id = "
+                                                                           "pgr.cardgame_id) order by bet_points desc;")
         if opt == '3':
-            print()
+            f.generateXML(["cardgame_id", "idplayer", "bet_points"], "select DISTINCT cardgame_id, "
+                                                                             "player_id, bet_points from "
+                                                                             "player_game_round pgr where bet_points = "
+                                                                             "(select min(bet_points) from "
+                                                                             "player_game_round where cardgame_id = "
+                                                                             "pgr.cardgame_id) order by bet_points asc;",
+                          "lowestbet.xml")
+            f.print_informes(3, "    ID Game     ID Player        Min Bet ", "select DISTINCT cardgame_id, "
+                                                                             "player_id, bet_points from "
+                                                                             "player_game_round pgr where bet_points = "
+                                                                             "(select min(bet_points) from "
+                                                                             "player_game_round where cardgame_id = "
+                                                                             "pgr.cardgame_id) order by bet_points asc;")
         if opt == '4':
             print()
         if opt == '5':
@@ -92,13 +117,29 @@ while not flg_end:
         if opt == '6':
             print()
         if opt == '7':
-            print()
+            f.generateXML(["idgame", "banks"], "select cr.cardgame_id, count(distinct player_id) from cardgame cr join player_game_round"
+                             " pgr on cr.cardgame_id = pgr.cardgame_id where is_bank = True group by pgr.cardgame_id;", "bankpergame.xml")
+            f.print_informes(2, "ID Game     Different bank",
+                             "select cr.cardgame_id, count(distinct player_id) from cardgame cr join player_game_round"
+                             " pgr on cr.cardgame_id = pgr.cardgame_id where is_bank = True group by pgr.cardgame_id;")
         if opt == '8':
-            print()
+            f.generateXML(["idgame", "averagebet"], "select card.cardgame_id, sum(bet_points)/count(*) from cardgame card join "
+                             "player_game_round pgr on pgr.cardgame_id = card.cardgame_id group by card.cardgame_id;", "averagebetpergame.xml")
+            f.print_informes(2, "ID Game     Average Bet",
+                             "select card.cardgame_id, sum(bet_points)/count(*) from cardgame card join "
+                             "player_game_round pgr on pgr.cardgame_id = card.cardgame_id group by card.cardgame_id;")
         if opt == '9':
-            print()
+            f.generateXML(["idgame","averagebet" ],"select cardgame_id, avg(bet_points) from player_game_round where round_num = 0 group by cardgame_id;","avgfirstround.xml")
+            f.print_informes(2, "ID Game     Num Round",
+                             "select cardgame_id, avg(bet_points) from player_game_round where round_num = 0 group by cardgame_id;")
         if opt == '10':
-            print()
+            f.generateXML(["idgame", "averagebet"], "select pgr.cardgame_id, avg(bet_points) from player_game_round pgr where round_num = "
+                             "(select max(round_num) from player_game_round where cardgame_id = pgr.cardgame_id) "
+                             "group by pgr.cardgame_id;", "avglastround.xml")
+            f.print_informes(2, "ID Game     Num Round",
+                             "select pgr.cardgame_id, avg(bet_points) from player_game_round pgr where round_num = "
+                             "(select max(round_num) from player_game_round where cardgame_id = pgr.cardgame_id) "
+                             "group by pgr.cardgame_id;")
         if opt == '11':
             flg_05 = False
             flg_0 = True

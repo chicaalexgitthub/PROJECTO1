@@ -1124,7 +1124,6 @@ def generateXML(column_name,query, filename):
     cursorObject.execute(query)
     database.commit()
     result = cursorObject.fetchall()
-    print(result)
     for row in result:
         for i in range(len(row)):
             ET.SubElement(doc, column_name[i]).text = str(row[i])

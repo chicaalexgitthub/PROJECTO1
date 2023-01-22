@@ -14,4 +14,4 @@ python3
 # Contacto:
 
 alex.chivaq@gmail.com
-patricio.rojas1881
+patricio.rojas1881@gmail.com

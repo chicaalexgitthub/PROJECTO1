@@ -11,6 +11,9 @@ mysql-connector-python
 Sistema operativo Linux,
 python3
 
+# Conexion a BD:
+Es posible que la conexion no sea possible fuera del instituto debido a las reglas de Firewall de Azure Database for MySQL. Por este motivo dejo dentro de la carpeta Database una copia del servidor. 
+
 # Contacto:
 
 alex.chivaq@gmail.com
